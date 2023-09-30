@@ -40,7 +40,7 @@ namespace :instagram do
     rescue StandardError => e
       puts e.message
       profile.update_profile
-      nextaa
+      next
     end
   end
 end
