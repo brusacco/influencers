@@ -1,0 +1,16 @@
+rails g model Profile username:string data:text 
+rails generate active_admin:resource Profile
+
+rails g migration AddDataToProfile followers:integer following:integer avatar:text
+
+
+rails g migration AddData2ToProfile is_business_account:boolean is_professional_account:boolean business_category_name:string category_enum:string category_name:string is_private:boolean is_verified:boolean full_name:string biography:text is_joined_recently:boolean is_embeds_disabled:boolean 
+
+https://github.com/rails/rails/issues/38560
+ruby issues
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+
+
+rails g model InstagramPost data:text profile:reference image:text
+rails g migration AddDataToInstagramPost likes_count:integer comments_count:integer video_view_count:integer media:string:index caption:text url:string posted_at:datetime 
+rails generate active_admin:resource InstagramPost
