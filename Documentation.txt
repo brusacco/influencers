@@ -15,5 +15,12 @@ rails g model InstagramPost data:text profile:reference image:text
 rails g migration AddDataToInstagramPost likes_count:integer comments_count:integer video_view_count:integer media:string:index caption:text url:string posted_at:datetime 
 rails generate active_admin:resource InstagramPost
 
+git checkout -- Gemfile.lock
+
+ou can load and execute a specific seed file using the load method in Rails. 
+For example, to run the users.rb seed file, you can use the Rails runner:
+rails runner "load('./db/seeds/profiles.rb')"
+
+
 RAILS_ENV=production rails db:migrate
 RAILS_ENV=production rails db:seed
