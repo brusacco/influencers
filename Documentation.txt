@@ -10,6 +10,12 @@ https://github.com/rails/rails/issues/38560
 ruby issues
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
+ALTER TABLE instagram_profiles CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+ALTER TABLE instagram_posts MODIFY caption VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+ALTER TABLE instagram_posts CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 
 rails g model InstagramPost data:text profile:reference image:text
 rails g migration AddDataToInstagramPost likes_count:integer comments_count:integer video_view_count:integer media:string:index caption:text url:string posted_at:datetime 
@@ -20,6 +26,8 @@ git checkout -- Gemfile.lock
 ou can load and execute a specific seed file using the load method in Rails. 
 For example, to run the users.rb seed file, you can use the Rails runner:
 rails runner "load('./db/seeds/profiles.rb')"
+
+RAILS_ENV=production rake instagram:crawler
 
 
 RAILS_ENV=production rails db:migrate

@@ -5,7 +5,7 @@ class Profile < ApplicationRecord
   has_many :instagram_posts, dependent: :destroy
   validates :username, uniqueness: true
 
-  # after_create :update_profile
+  after_create :update_profile
 
   scope :paraguayos, -> { where(country_string: 'Paraguay') }
   scope :no_country, -> { where(country_string: nil) }
