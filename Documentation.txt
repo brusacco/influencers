@@ -16,3 +16,4 @@ rails g migration AddDataToInstagramPost likes_count:integer comments_count:inte
 rails generate active_admin:resource InstagramPost
 
 RAILS_ENV=production rails db:migrate
+RAILS_ENV=production rails db:seed

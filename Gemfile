@@ -85,3 +85,5 @@ gem 'devise', '~> 4.9'
 gem 'httparty', '~> 0.21.0'
 
 gem 'parallel', '~> 1.23'
+
+gem "seed_dump", "~> 3.3"
