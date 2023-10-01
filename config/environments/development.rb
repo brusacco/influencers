@@ -69,4 +69,6 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
   config.hosts << /.*\.ngrok\.io/
   config.hosts << /.*\.ngrok-free\.app/
+  config.hosts << 'admin.moopio.com'
+  config.hosts << 'www.influencers.com.py'
 end

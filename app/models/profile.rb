@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Profile < ApplicationRecord
+  serialize :data, Hash
   has_many :instagram_posts, dependent: :destroy
   validates :username, uniqueness: true
 
@@ -15,6 +16,23 @@ class Profile < ApplicationRecord
 
   def self.ransackable_associations(_auth_object = nil)
     []
+  end
+
+  def weekly_posts
+    instagram_posts.where(posted_at: 1.week.ago..)
+  end
+
+  def collaborations
+    collabs = []
+    weekly_posts.each do |post|
+      next unless post.data['node']['coauthor_producers']
+
+      post.data['node']['coauthor_producers'].each do |coauthor|
+        collabs << coauthor['username']
+      end
+    end
+    Profile.where(username: collabs)
+    collabs
   end
 
   def save_avatar

@@ -4,8 +4,9 @@ namespace :instagram do
   desc 'Main crawler'
   task test: :environment do
     # Parallel.each(Profile.where(avatar: nil), in_threads: 5) do |profile|
-    # Parallel.each(Profile.order(followers: :desc), in_threads: 5) do |profile|
-    Profile.order(followers: :desc).each do |profile|
+    # Parallel.each(Profile.order(followers: :desc), in_threads: 2) do |profile|
+    Profile.order(followers: :desc).limit(100).each do |profile|
+      # Profile.where(id: 4).each do |profile|
       puts profile.username
       puts '----------------------------------'
 
@@ -13,7 +14,7 @@ namespace :instagram do
       next unless response.success?
 
       profile.update!(response.data)
-      data = JSON.parse(profile.data)
+      data = profile.data
 
       postings = []
 
@@ -38,10 +39,15 @@ namespace :instagram do
           puts post['node']['shortcode']
           db_post = profile.instagram_posts.find_or_create_by!(shortcode: post['node']['shortcode'])
           response = InstagramServices::UpdatePostData.call(post)
-          db_post.update!(response.data) if response.success?
-          db_post.save_image(post['node']['display_url']) if db_post.image.nil?
+          if response.success?
+            db_post.update!(response.data)
+            db_post.save_image(post['node']['display_url']) if db_post.image.nil?
+          end
         end
       end
+    rescue StandardError => e
+      puts e.message
+      retry
     end
   end
 end

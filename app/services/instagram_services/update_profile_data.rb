@@ -9,8 +9,7 @@ module InstagramServices
     def call
       return handle_error('Null data') if @data.nil?
 
-      data = JSON.parse(@data)
-      user = data['graphql']['user']
+      user = @data['graphql']['user']
       response = {
         followers: user['edge_followed_by']['count'],
         following: user['edge_follow']['count'],

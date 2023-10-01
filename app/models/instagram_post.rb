@@ -1,4 +1,5 @@
 class InstagramPost < ApplicationRecord
+  serialize :data, Hash
   belongs_to :profile
 
   def self.ransackable_attributes(_auth_object = nil)
