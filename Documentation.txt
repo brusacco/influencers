@@ -14,3 +14,5 @@ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 rails g model InstagramPost data:text profile:reference image:text
 rails g migration AddDataToInstagramPost likes_count:integer comments_count:integer video_view_count:integer media:string:index caption:text url:string posted_at:datetime 
 rails generate active_admin:resource InstagramPost
+
+RAILS_ENV=production rails db:migrate
