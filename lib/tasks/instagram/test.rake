@@ -15,7 +15,7 @@ namespace :instagram do
 
       profile.update!(response.data)
       profile.save_avatar if profile.avatar.nil?
-      
+
       data = profile.data
 
       postings = []
