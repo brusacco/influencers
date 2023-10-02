@@ -18,20 +18,34 @@ class Profile < ApplicationRecord
     []
   end
 
-  def weekly_posts
-    instagram_posts.where(posted_at: 1.week.ago..)
+  def related_brands
+    related = []
+    related << mentions
+  end
+
+  def mentions
+    mentions = []
+    instagram_posts.a_month_ago.each do |post|
+      mentions << post.caption.scan(/(?:@(\w+{3,}))/).to_a if post.caption
+    end
+    mentions.flatten!
+    mentions.map!(&:downcase)
+    mentions.uniq!
+    mentions.delete(username)
+    mentions
   end
 
   def collaborations
     collabs = []
-    weekly_posts.each do |post|
+    instagram_posts.a_month_ago.each do |post|
       next unless post.data['node']['coauthor_producers']
 
       post.data['node']['coauthor_producers'].each do |coauthor|
         collabs << coauthor['username']
       end
     end
-    Profile.where(username: collabs)
+    collabs.uniq!
+    collabs.delete(username)
     collabs
   end
 

@@ -12,6 +12,8 @@ class ProfileController < ApplicationController
     @posts = @profile.instagram_posts.order(posted_at: :desc).limit(12)
     @stats_posts = @profile.instagram_posts.a_week_ago
 
+    @related_brands = Profile.where(username: @profile.related_brands)
+
     @engagement_rate = (@stats_posts.sum(:total_count) / Float(@profile.followers) * 100).round
     @engagement_median = @stats_posts.sum(:total_count) / (@stats_posts.count + 1)
 
