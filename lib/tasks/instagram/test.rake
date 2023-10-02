@@ -20,7 +20,7 @@ namespace :instagram do
 
       profile.update!(response.data)
 
-      profile.save_avatar if profile.avatar.length < 500 || profile.avatar.nil?
+      profile.save_avatar if profile.avatar.length < 256 || profile.avatar.nil?
 
       data = profile.data
 
