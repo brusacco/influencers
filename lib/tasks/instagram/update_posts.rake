@@ -5,7 +5,7 @@ namespace :instagram do
   task update_posts: :environment do
     InstagramPost.all.each do |post|
       puts post.shortcode
-      data = JSON.parse(post.data)
+      post.touch
     end
   end
 end

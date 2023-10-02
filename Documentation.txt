@@ -27,7 +27,7 @@ ou can load and execute a specific seed file using the load method in Rails.
 For example, to run the users.rb seed file, you can use the Rails runner:
 rails runner "load('./db/seeds/profiles.rb')"
 
-RAILS_ENV=production rake instagram:crawler
+RAILS_ENV=production rake instagram:test
 
 
 RAILS_ENV=production rails db:migrate

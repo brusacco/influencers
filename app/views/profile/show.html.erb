@@ -51,28 +51,18 @@
           </div>
           <div class="mt-6">
             <h3 class="sr-only">Description</h3>
-            <div class="space-y-6 text-base text-gray-700">
+            <div class="space-y-6 text-xl text-gray-700">
               <p><%=@profile.biography%></p>
             </div>
-          </div>
-          <section aria-labelledby="details-heading" class="mt-12">
-            <h2 id="details-heading" class="sr-only">Additional details</h2>
-            <div class="divide-y divide-gray-200 border-t">
-              <div>
-                <div class="prose prose-sm pb-6" id="disclosure-1">
-                  <ul role="list">
-                    <li>Lorem ipsum norem loren</li>
-                    <li>Lorem ipsum norem loren</li>
-                    <li>Lorem ipsum norem loren</li>
-                    <li>Lorem ipsum norem loren</li>
-                    <li>Lorem ipsum norem loren</li>
-                    <li>Lorem ipsum norem loren</li>
-                    <li>Lorem ipsum norem loren</li>
-                  </ul>
-                </div>
-              </div>
+            <div class="space-y-6 text-xl text-gray-700">
+              <p>En la última semana ha a creado <b><%=number_with_delimiter(@stats_posts.size, delimiter: '.')%></b> publicaciones, generando un total de <b><%=number_with_delimiter(@stats_posts.sum(:total_count), delimiter: '.')%></b> interacciones, en promedio se generan <b><%=number_with_delimiter(@engagement_median , delimiter: '.')%></b> interacciones por post. Su engagement rate es del <b><%=@engagement_rate%>%</b></p>
+              <%if @stats_posts.sum(:video_view_count) == 0%>
+                <p>La cuenta no ha publicado videos en la útima semana.</p>
+              <%else%>
+                <p>Sus <b><%=number_with_delimiter(@video_total, delimiter: '.')%></b> videos han sido vistos <b><%=number_with_delimiter(@video_total_views, delimiter: '.')%></b> veces en la última semana, en promedio cada video fue visto <b><%=number_with_delimiter(@video_total_median, delimiter: '.')%></b> veces.</p>
+              <%end%>
             </div>
-          </section>
+          </div>
         </div>
       </div>
       <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">

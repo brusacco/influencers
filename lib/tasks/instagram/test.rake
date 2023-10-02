@@ -5,8 +5,8 @@ namespace :instagram do
   task test: :environment do
     # Parallel.each(Profile.where(avatar: nil), in_threads: 5) do |profile|
     # Parallel.each(Profile.order(followers: :desc), in_threads: 2) do |profile|
-    Profile.order(followers: :desc).limit(100).each do |profile|
-      # Profile.where(id: 4).each do |profile|
+    Profile.order(followers: :desc).limit(50).each do |profile|
+      # Profile.where(id: 2).each do |profile|
       puts profile.username
       puts '----------------------------------'
 
@@ -31,20 +31,73 @@ namespace :instagram do
       # Posts
       #----------------------------------------------------------------
       if data['graphql']['user']['edge_owner_to_timeline_media']
-        postings << data['graphql']['user']['edge_felix_video_timeline']['edges']
+        postings << data['graphql']['user']['edge_owner_to_timeline_media']['edges']
       end
 
       postings.each do |posts|
         posts.each do |post|
           next if post.nil? || post['node'].nil?
 
-          puts post['node']['shortcode']
+          puts "#{post['node']['shortcode']} - #{post['node']['taken_at_timestamp']} - #{Time.at(Integer(post['node']['taken_at_timestamp']))} - #{post['node']['__typename']}"
           db_post = profile.instagram_posts.find_or_create_by!(shortcode: post['node']['shortcode'])
           response = InstagramServices::UpdatePostData.call(post)
-          if response.success?
-            db_post.update!(response.data)
-            db_post.save_image(post['node']['display_url']) if db_post.image.nil?
-          end
+          next unless response.success?
+
+          db_post.update!(response.data)
+          db_post.save_image(post['node']['display_url']) if db_post.image.nil?
+          db_post.update_total_count
+        end
+      end
+
+      #----------------------------------------------------------------
+      # Pagination Feed
+      #----------------------------------------------------------------
+      user_id = data['graphql']['user']['id']
+      cursor = data['graphql']['user']['edge_owner_to_timeline_media']['page_info']['end_cursor']
+      response = InstagramServices::GetProfileCursor.call(user_id, cursor)
+      next unless response.success?
+
+      data_cursor = response.data
+      posts = data_cursor['data']['user']['edge_owner_to_timeline_media']['edges']
+
+      posts.each do |post|
+        next if post.nil? || post['node'].nil?
+
+        puts "#{post['node']['shortcode']} - #{post['node']['taken_at_timestamp']} - #{Time.at(Integer(post['node']['taken_at_timestamp']))} - #{post['node']['__typename']}"
+        db_post = profile.instagram_posts.find_or_create_by!(shortcode: post['node']['shortcode'])
+        response = InstagramServices::UpdatePostData.call(post, true)
+        if response.success?
+          db_post.update!(response.data)
+          db_post.save_image(post['node']['display_url']) if db_post.image.nil?
+          db_post.update_total_count
+        else
+          puts response.error
+        end
+      end
+
+      #----------------------------------------------------------------
+      # Pagination Videos
+      #----------------------------------------------------------------
+      user_id = data['graphql']['user']['id']
+      cursor = data['graphql']['user']['edge_felix_video_timeline']['page_info']['end_cursor']
+      response = InstagramServices::GetProfileCursor.call(user_id, cursor)
+      next unless response.success?
+
+      data_cursor = response.data
+      posts = data_cursor['data']['user']['edge_owner_to_timeline_media']['edges']
+
+      posts.each do |post|
+        next if post.nil? || post['node'].nil?
+
+        puts "#{post['node']['shortcode']} - #{post['node']['taken_at_timestamp']} - #{Time.at(Integer(post['node']['taken_at_timestamp']))} - #{post['node']['__typename']}"
+        db_post = profile.instagram_posts.find_or_create_by!(shortcode: post['node']['shortcode'])
+        response = InstagramServices::UpdatePostData.call(post, true)
+        if response.success?
+          db_post.update!(response.data)
+          db_post.save_image(post['node']['display_url']) if db_post.image.nil?
+          db_post.update_total_count
+        else
+          puts response.error
         end
       end
     rescue StandardError => e

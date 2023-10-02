@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ActiveAdmin.register InstagramPost do
   permit_params :data,
                 :profile_id,

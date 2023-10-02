@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_30_114252) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_01_214355) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -52,6 +52,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_30_114252) do
     t.text "caption"
     t.string "url"
     t.datetime "posted_at"
+    t.integer "total_count", default: 0
     t.index ["media"], name: "index_instagram_posts_on_media"
     t.index ["product_type"], name: "index_instagram_posts_on_product_type"
     t.index ["profile_id"], name: "index_instagram_posts_on_profile_id"
