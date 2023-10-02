@@ -87,3 +87,5 @@ gem 'httparty', '~> 0.21.0'
 gem 'parallel', '~> 1.23'
 
 gem 'seed_dump', '~> 3.3'
+
+gem "puma-daemon", "~> 0.3.2"
