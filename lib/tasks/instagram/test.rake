@@ -15,7 +15,7 @@ namespace :instagram do
 
       profile.update!(response.data)
 
-      response = InstagramServices::UpdateProfileData.call(data)
+      response = InstagramServices::UpdateProfileData.call(profile.data)
       next unless response.success?
 
       update!(response.data)
