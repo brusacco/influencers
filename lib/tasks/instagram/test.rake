@@ -14,6 +14,12 @@ namespace :instagram do
       next unless response.success?
 
       profile.update!(response.data)
+
+      response = InstagramServices::UpdateProfileData.call(data)
+      next unless response.success?
+
+      update!(response.data)
+
       profile.save_avatar if profile.avatar.nil?
 
       data = profile.data
