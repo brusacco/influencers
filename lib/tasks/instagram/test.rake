@@ -3,7 +3,7 @@
 namespace :instagram do
   desc 'Main crawler'
   task test: :environment do
-    Parallel.each(Profile.where('CHAR_LENGTH(avatar) < 256'), in_threads: 5) do |profile|
+    Parallel.each(Profile.where(avatar: nil), in_threads: 5) do |profile|
       # Parallel.each(Profile.where(followers: 10_000..).order(followers: :desc), in_threads: 2) do |profile|
       # Profile.order(followers: :desc).limit(50).each do |profile|
       # Profile.where(id: 2).each do |profile|
@@ -20,7 +20,7 @@ namespace :instagram do
 
       profile.update!(response.data)
 
-      profile.save_avatar if profile.avatar.length < 256 || profile.avatar.nil?
+      profile.save_avatar # if profile.avatar.nil?
 
       data = profile.data
 
