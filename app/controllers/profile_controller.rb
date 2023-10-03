@@ -13,7 +13,8 @@ class ProfileController < ApplicationController
 
     @related_brands = Profile.where(username: @profile.related_brands)
 
-    @engagement_rate = (@profile.total_interactions_count / Float(@profile.followers) * 100).round
+    @median_interactions = @profile.total_interactions_count / @profile.total_posts
+    @median_video_views = @profile.total_video_view_count / @profile.total_posts
   end
 
   private
