@@ -54,14 +54,16 @@
             <div class="space-y-6 text-xl text-gray-700">
               <p><%=@profile.biography%></p>
             </div>
-            <div class="space-y-6 text-xl text-gray-700">
-              <p>En la última semana ha a creado <b><%=number_with_delimiter(@stats_posts.size, delimiter: '.')%></b> publicaciones, generando un total de <b><%=number_with_delimiter(@stats_posts.sum(:total_count), delimiter: '.')%></b> interacciones, en promedio se generan <b><%=number_with_delimiter(@engagement_median , delimiter: '.')%></b> interacciones por post. Su engagement rate es del <b><%=@engagement_rate%>%</b></p>
-              <%if @stats_posts.sum(:video_view_count) == 0%>
-                <p>La cuenta no ha publicado videos en la útima semana.</p>
-              <%else%>
-                <p>Sus <b><%=number_with_delimiter(@video_total, delimiter: '.')%></b> videos han sido vistos <b><%=number_with_delimiter(@video_total_views, delimiter: '.')%></b> veces en la última semana, en promedio cada video fue visto <b><%=number_with_delimiter(@video_total_median, delimiter: '.')%></b> veces.</p>
-              <%end%>
-            </div>
+            <%if @posts.any?%>
+              <div class="space-y-6 text-xl text-gray-700">
+                <p>En la última semana ha a creado <b><%=number_with_delimiter(@stats_posts.size, delimiter: '.')%></b> publicaciones, generando un total de <b><%=number_with_delimiter(@stats_posts.sum(:total_count), delimiter: '.')%></b> interacciones, en promedio se generan <b><%=number_with_delimiter(@engagement_median , delimiter: '.')%></b> interacciones por post. Su engagement rate es del <b><%=@engagement_rate%>%</b></p>
+                <%if @stats_posts.sum(:video_view_count) == 0%>
+                  <p>La cuenta no ha publicado videos en la útima semana.</p>
+                <%else%>
+                  <p>Sus <b><%=number_with_delimiter(@video_total, delimiter: '.')%></b> videos han sido vistos <b><%=number_with_delimiter(@video_total_views, delimiter: '.')%></b> veces en la última semana, en promedio cada video fue visto <b><%=number_with_delimiter(@video_total_median, delimiter: '.')%></b> veces.</p>
+                <%end%>
+              </div>
+            <%end%>
           </div>
         </div>
       </div>
@@ -73,12 +75,14 @@
           </div>
         </section>
       <%end%>
-      <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
-        <h2 id="related-heading" class="text-xl font-bold text-gray-900">Posteos Recientes</h2>
-        <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          <%=render partial: "instagram_post/post", collection: @posts, cache: true%>
-        </div>
-      </section>
+      <%if @posts.any?%>
+        <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
+          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Posteos Recientes</h2>
+          <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+            <%=render partial: "instagram_post/post", collection: @posts, cache: true%>
+          </div>
+        </section>
+      <%end%>
       <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
         <h2 id="related-heading" class="text-xl font-bold text-gray-900">Influencers Relacionados</h2>
         <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
