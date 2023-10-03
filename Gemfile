@@ -88,4 +88,10 @@ gem 'parallel', '~> 1.23'
 
 gem 'seed_dump', '~> 3.3'
 
-gem "puma-daemon", "~> 0.3.2"
+gem 'puma-daemon', '~> 0.3.2'
+
+gem 'activeadmin_addons', '~> 1.10'
+
+gem 'active_admin_scoped_collection_actions', '~> 0.3.5'
+
+gem "coffee-rails", "~> 5.0"

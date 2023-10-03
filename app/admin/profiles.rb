@@ -3,6 +3,48 @@
 ActiveAdmin.register Profile do
   permit_params :username, :data, :country, :country_string
 
+  #------------------------------------------------------------------
+  config.batch_actions = true
+  scoped_collection_action :scoped_collection_destroy
+
+  scoped_collection_action :scoped_collection_update,
+                           form: lambda {
+                                   {
+                                     country: 'text'
+                                   }
+                                 }
+  #------------------------------------------------------------------
+
+  #------------------------------------------------------------------
+  # UPDATE_PROFILE
+  #------------------------------------------------------------------
+  action_item :update_profile, only: :show do
+    link_to 'Update Profile',
+            update_profile_admin_profile_path(profile.id),
+            method: :put,
+            data: { confirm: 'Are you sure?' }
+  end
+
+  member_action :update_profile, method: :put do
+    profile = Profile.find(params[:id])
+    #----------------------------------------------------------------
+    # Update JSON Data
+    #----------------------------------------------------------------
+    response = InstagramServices::GetProfileData.call(profile.username)
+    profile.update!(response.data)
+
+    #----------------------------------------------------------------
+    # Update DB Data
+    #----------------------------------------------------------------
+    response = InstagramServices::UpdateProfileData.call(profile.data)
+    profile.update!(response.data)
+    profile.save_avatar # if profile.avatar.nil?
+
+    flash[:notice] = 'Profile Updated successfully'
+    redirect_to admin_profile_path, notice: 'Profile Updated successfully'
+  end
+  #------------------------------------------------------------------
+
   filter :username
   filter :category_name
   filter :is_private
@@ -37,9 +79,10 @@ ActiveAdmin.register Profile do
   form do |f|
     f.inputs 'Profile Details' do
       f.input :username
+      f.input :data, as: :text if f.object.persisted?
       f.input :followers
       f.input :following
-      f.input :avatar
+      f.input :avatar if f.object.persisted?
       f.input :profile_pic_url
       f.input :is_business_account, as: :boolean
       f.input :is_professional_account, as: :boolean
