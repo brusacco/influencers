@@ -10,22 +10,7 @@ namespace :instagram do
       puts profile.username
       puts '----------------------------------'
 
-      #----------------------------------------------------------------
-      # Update JSON Data
-      #----------------------------------------------------------------
-      response = InstagramServices::GetProfileData.call(profile.username)
-      next unless response.success?
-
-      profile.update!(response.data)
-
-      #----------------------------------------------------------------
-      # Update DB Data
-      #----------------------------------------------------------------
-      response = InstagramServices::UpdateProfileData.call(profile.data)
-      next unless response.success?
-
-      profile.update!(response.data)
-      profile.save_avatar # if profile.avatar.nil?
+      profile.update_profile
 
       data = profile.data
       postings = []
