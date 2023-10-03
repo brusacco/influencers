@@ -69,6 +69,7 @@ ActiveAdmin.register Profile do
     column :biography
     column :followers
     column :engagement_rate
+    column :total_interactions_count
     column :country_string
     column :is_business_account
     column :category_enum
