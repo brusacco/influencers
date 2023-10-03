@@ -27,18 +27,7 @@ ActiveAdmin.register Profile do
 
   member_action :update_profile, method: :put do
     profile = Profile.find(params[:id])
-    #----------------------------------------------------------------
-    # Update JSON Data
-    #----------------------------------------------------------------
-    response = InstagramServices::GetProfileData.call(profile.username)
-    profile.update!(response.data)
-
-    #----------------------------------------------------------------
-    # Update DB Data
-    #----------------------------------------------------------------
-    response = InstagramServices::UpdateProfileData.call(profile.data)
-    profile.update!(response.data)
-    profile.save_avatar # if profile.avatar.nil?
+    profile.update_profile
 
     flash[:notice] = 'Profile Updated successfully'
     redirect_to admin_profile_path, notice: 'Profile Updated successfully'

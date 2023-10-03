@@ -79,6 +79,6 @@ class Profile < ApplicationRecord
     return unless response.success?
 
     update!(response.data)
-    save_avatar if avatar.nil?
+    save_avatar
   end
 end
