@@ -3,7 +3,7 @@
 namespace :instagram do
   desc 'Get users collabs'
   task collabs: :environment do
-    Profile.where(followers: 500_000..).order(followers: :desc).each do |profile|
+    Profile.where(followers: 250_000..).order(followers: :desc).each do |profile|
       puts profile.username
       puts '----------------------------------'
       puts profile.collaborations
