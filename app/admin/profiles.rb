@@ -10,7 +10,7 @@ ActiveAdmin.register Profile do
   scoped_collection_action :scoped_collection_update,
                            form: lambda {
                                    {
-                                     country: 'text'
+                                     country_string: 'text'
                                    }
                                  }
   #------------------------------------------------------------------
