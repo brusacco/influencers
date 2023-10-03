@@ -15,8 +15,8 @@ class ProfileController < ApplicationController
 
     @related_brands = Profile.where(username: @profile.related_brands)
 
-    @median_interactions = @profile.total_interactions_count / @profile.total_posts
-    @median_video_views = @profile.total_video_view_count / @profile.total_posts
+    @median_interactions = @profile.total_interactions_count / (@profile.total_posts + 1)
+    @median_video_views = @profile.total_video_view_count / (@profile.total_posts + 1)
   end
 
   private

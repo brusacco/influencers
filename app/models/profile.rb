@@ -56,6 +56,19 @@ class Profile < ApplicationRecord
     update!(avatar: Base64.strict_encode64(data))
   end
 
+  def update_profile_stats
+    stats_posts = profile.instagram_posts.a_week_ago
+
+    profile.total_likes_count = stats_posts.sum(:likes_count)
+    profile.total_comments_count = stats_posts.sum(:comments_count)
+    profile.total_video_view_count = stats_posts.sum(:video_view_count)
+    profile.total_interactions_count = stats_posts.sum(:total_count)
+    profile.total_posts = stats_posts.count
+    profile.total_videos = stats_posts.where(media: 'GraphVideo').count
+    profile.engagement_rate = (stats_posts.sum(:total_count) / Float(profile.followers) * 100).round
+    profile.save!
+  end
+
   def update_profile
     response = InstagramServices::GetProfileData.call(username)
     return unless response.success?
