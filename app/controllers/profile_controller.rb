@@ -4,7 +4,7 @@ class ProfileController < ApplicationController
   before_action :set_profile, only: %i[show]
 
   def index
-    @profiles = Profile.order(followers: :desc).limit(40)
+    @profiles = Profile.order(followers: :desc).limit(80)
   end
 
   def show
