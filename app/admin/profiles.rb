@@ -33,4 +33,28 @@ ActiveAdmin.register Profile do
 
     actions
   end
+
+  form do |f|
+    f.inputs 'Profile Details' do
+      f.input :username
+      f.input :followers
+      f.input :following
+      f.input :avatar
+      f.input :profile_pic_url
+      f.input :is_business_account, as: :boolean
+      f.input :is_professional_account, as: :boolean
+      f.input :business_category_name
+      f.input :category_enum
+      f.input :category_name
+      f.input :is_private, as: :boolean
+      f.input :is_verified, as: :boolean
+      f.input :full_name
+      f.input :biography
+      f.input :is_joined_recently, as: :boolean
+      f.input :is_embeds_disabled, as: :boolean
+      f.input :country_string
+      f.input :profile_pic_url_hd
+    end
+    f.actions
+  end
 end
