@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_01_214355) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_03_173311) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -81,6 +81,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_01_214355) do
     t.boolean "is_embeds_disabled", default: false
     t.string "country_string"
     t.text "profile_pic_url_hd"
+    t.integer "total_likes_count", default: 0
+    t.integer "total_comments_count", default: 0
+    t.integer "total_video_view_count", default: 0
+    t.integer "total_interactions_count", default: 0
+    t.integer "total_posts", default: 0
+    t.integer "total_videos", default: 0
+    t.integer "engagement_rate", default: 0
     t.index ["country_string"], name: "index_profiles_on_country_string"
     t.index ["username"], name: "index_profiles_on_username", unique: true
   end

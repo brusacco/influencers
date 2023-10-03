@@ -10,16 +10,10 @@ class ProfileController < ApplicationController
   def show
     @profiles = Profile.where.not(id: @profile.id).order(followers: :desc).limit(12)
     @posts = @profile.instagram_posts.order(posted_at: :desc).limit(12)
-    @stats_posts = @profile.instagram_posts.a_week_ago
 
     @related_brands = Profile.where(username: @profile.related_brands)
 
-    @engagement_rate = (@stats_posts.sum(:total_count) / Float(@profile.followers) * 100).round
-    @engagement_median = @stats_posts.sum(:total_count) / (@stats_posts.count + 1)
-
-    @video_total = @stats_posts.count
-    @video_total_views = @stats_posts.sum(:video_view_count)
-    @video_total_median = @video_total_views / (@video_total + 1)
+    @engagement_rate = (@profile.total_interactions_count / Float(@profile.followers) * 100).round
   end
 
   private

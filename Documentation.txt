@@ -2,9 +2,9 @@ rails g model Profile username:string data:text
 rails generate active_admin:resource Profile
 
 rails g migration AddDataToProfile followers:integer following:integer avatar:text
-
-
 rails g migration AddData2ToProfile is_business_account:boolean is_professional_account:boolean business_category_name:string category_enum:string category_name:string is_private:boolean is_verified:boolean full_name:string biography:text is_joined_recently:boolean is_embeds_disabled:boolean 
+
+rails g migration AddStatsToProfile total_likes_count:integer total_comments_count:integer total_video_view_count:integer total_interactions_count:integer total_posts:integer total_videos:integer engagement_rate:integer
 
 https://github.com/rails/rails/issues/38560
 ruby issues
