@@ -70,10 +70,8 @@ ActiveAdmin.register Profile do
   form do |f|
     f.inputs 'Profile Details' do
       f.input :username
-      f.input :data, as: :text if f.object.persisted?
       f.input :followers
-      f.input :following
-      f.input :avatar if f.object.persisted?
+      f.input :following  
       f.input :profile_pic_url
       f.input :is_business_account, as: :boolean
       f.input :is_professional_account, as: :boolean
