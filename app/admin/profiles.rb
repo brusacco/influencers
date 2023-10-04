@@ -44,6 +44,7 @@ ActiveAdmin.register Profile do
 
   scope :all
   scope :paraguayos
+  scope :otros
   scope :no_country
 
   index do

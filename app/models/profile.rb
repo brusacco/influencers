@@ -8,6 +8,7 @@ class Profile < ApplicationRecord
   after_create :update_profile
 
   scope :paraguayos, -> { where(country_string: 'Paraguay') }
+  scope :otros, -> { where(country_string: 'Otros') }
   scope :no_country, -> { where(country_string: nil) }
 
   def self.ransackable_attributes(_auth_object = nil)
