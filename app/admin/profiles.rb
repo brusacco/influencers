@@ -71,7 +71,7 @@ ActiveAdmin.register Profile do
     f.inputs 'Profile Details' do
       f.input :username
       f.input :followers
-      f.input :following  
+      f.input :following
       f.input :profile_pic_url
       f.input :is_business_account, as: :boolean
       f.input :is_professional_account, as: :boolean
