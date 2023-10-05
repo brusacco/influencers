@@ -4,7 +4,7 @@ namespace :instagram do
   desc 'Main crawler'
   task test: :environment do
     # Parallel.each(Profile.where(avatar: nil), in_threads: 5) do |profile|
-    Parallel.each(Profile.where(followers: 10_000..).order(updated_at: :asc), in_threads: 5) do |profile|
+    Parallel.each(Profile.where(followers: 10_000..).order(followers: :asc), in_threads: 5) do |profile|
       # Profile.order(followers: :desc).limit(50).each do |profile|
       # Profile.where(id: 2).each do |profile|
       puts profile.username
