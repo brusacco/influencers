@@ -94,4 +94,6 @@ gem 'activeadmin_addons', '~> 1.10'
 
 gem 'active_admin_scoped_collection_actions', '~> 0.3.5'
 
-gem "coffee-rails", "~> 5.0"
+gem 'coffee-rails', '~> 5.0'
+
+gem 'whenever', '~> 1.0', require: false
