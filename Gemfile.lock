@@ -199,6 +199,7 @@ GEM
     nio4r (2.5.9)
     nokogiri (1.15.4-x86_64-darwin)
       racc (~> 1.4)
+    oj (3.16.1)
     orm_adapter (0.5.0)
     parallel (1.23.0)
     psych (5.1.0)
@@ -336,6 +337,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   mysql2
+  oj (~> 3.16)
   parallel (~> 1.23)
   puma (= 5.6.6)
   puma-daemon (~> 0.3.2)
