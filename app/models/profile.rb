@@ -3,7 +3,8 @@
 class Profile < ApplicationRecord
   serialize :data, Hash
   has_many :instagram_posts, dependent: :destroy
-  has_many :Instagrams, class_name: 'InstagramCollaboration', foreign_key: 'collaborator_id'
+  has_many :collaborations, class_name: 'InstagramCollaboration', foreign_key: 'collaborator_id'
+  has_many :collaborateds, class_name: 'InstagramCollaboration', foreign_key: 'collaborated_id'
 
   validates :username, uniqueness: true
 
@@ -24,6 +25,10 @@ class Profile < ApplicationRecord
   def related_brands
     related = []
     related << mentions
+    related << collaborations_hash
+    related.flatten!
+    related.uniq!
+    related
   end
 
   def mentions
@@ -38,7 +43,7 @@ class Profile < ApplicationRecord
     mentions
   end
 
-  def collaborations
+  def collaborations_hash
     collabs = []
     instagram_posts.a_month_ago.each do |post|
       next unless post.data['node']['coauthor_producers']
