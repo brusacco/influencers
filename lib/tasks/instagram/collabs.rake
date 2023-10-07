@@ -14,9 +14,10 @@ namespace :instagram do
         puts "#{post.shortcode} - #{collaborated.username} - #{post.profile.username}"
         InstagramCollaboration.find_or_create_by!(
           instagram_post_id: post.id,
-          collaborator_id: collaborator.id
+          collaborator_id: collaborator.id,
+          collaborated_id: collaborated.id
         ) do |collab|
-          collab.update!(collaborated_id: collaborated.id, posted_at: post.posted_at)
+          collab.update!(posted_at: post.posted_at)
         end
       end
     end
