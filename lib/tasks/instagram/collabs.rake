@@ -3,7 +3,7 @@
 namespace :instagram do
   desc 'Get users collabs'
   task collabs: :environment do
-    InstagramPost.all.each do |post|
+    InstagramPost.find_each do |post|
       next unless post.data['node']['coauthor_producers']
 
       post.data['node']['coauthor_producers'].each do |coauthor|
