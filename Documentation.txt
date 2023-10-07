@@ -11,15 +11,20 @@ ruby issues
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
 ALTER TABLE instagram_profiles CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
 ALTER TABLE instagram_posts MODIFY caption VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
 ALTER TABLE instagram_posts CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 
 rails g model InstagramPost data:text profile:reference image:text
 rails g migration AddDataToInstagramPost likes_count:integer comments_count:integer video_view_count:integer media:string:index caption:text url:string posted_at:datetime 
 rails generate active_admin:resource InstagramPost
+
+rails g model InstagramCollaboration instagram_post_id:integer collaborator_id:integer:index collaborated_id:integer:index posted_at:datetime
+
+Una colaboracion esta relacionada con un Post
+Asi relacionamos las colaboraciones con los colaboradores a travez del post
+tambien tomamos la fecha del post y la usamos en la colaboracion 
+las colaboraciones no son unicas y pueden suceder varias veces
 
 git checkout -- Gemfile.lock
 

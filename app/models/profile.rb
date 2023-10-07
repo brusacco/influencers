@@ -3,6 +3,8 @@
 class Profile < ApplicationRecord
   serialize :data, Hash
   has_many :instagram_posts, dependent: :destroy
+  has_many :Instagrams, class_name: 'InstagramCollaboration', foreign_key: 'collaborator_id'
+
   validates :username, uniqueness: true
 
   after_create :update_profile

@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  instagram_post_id: 1
+  collaborator_id: 1
+  collaborated_id: 1
+  posted_at: 2023-10-07 17:05:26
+
+two:
+  instagram_post_id: 1
+  collaborator_id: 1
+  collaborated_id: 1
+  posted_at: 2023-10-07 17:05:26
