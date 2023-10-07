@@ -3,7 +3,7 @@
 namespace :instagram do
   desc 'Get users collabs'
   task collabs: :environment do
-    InstagramPost.a_month_ago.each do |post|
+    InstagramPost.a_month_ago.find_each(batch_size: 50) do |post|
       puts post.shortcode
       next unless post.data['node']['coauthor_producers']
 
