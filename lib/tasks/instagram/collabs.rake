@@ -5,7 +5,7 @@ namespace :instagram do
   task collabs: :environment do
     InstagramPost.a_month_ago.find_each(batch_size: 50) do |post|
       puts post.shortcode
-      next unless post.data['node']['coauthor_producers']
+      next if post.data['node']['coauthor_producers'].nil?
 
       post.data['node']['coauthor_producers'].each do |coauthor|
         collaborated = Profile.find_by(username: coauthor['username'])
