@@ -10,7 +10,8 @@ namespace :instagram do
       post.data['node']['coauthor_producers'].each do |coauthor|
         collaborated = Profile.find_by(username: coauthor['username'])
         collaborator = post.profile
-        next unless collaborated || collaborated.id != collaborator.id
+        next unless collaborated
+        next if collaborated.id == collaborator.id
 
         puts "#{post.shortcode} - #{collaborated.username} - #{post.profile.username}"
         InstagramCollaboration.find_or_create_by!(
