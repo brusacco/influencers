@@ -13,7 +13,7 @@ class ProfileController < ApplicationController
     @profiles = Profile.where.not(id: @profile.id).order(followers: :desc).limit(12)
     @posts = @profile.instagram_posts.order(posted_at: :desc).limit(12)
 
-    @related_brands = Profile.where(username: @profile.related_brands)
+    @related_brands = Profile.where(username: 'brusacco')
 
     @median_interactions = @profile.total_interactions_count / (@profile.total_posts + 1)
     @median_video_views = @profile.total_video_view_count / (@profile.total_posts + 1)
