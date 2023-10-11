@@ -104,6 +104,7 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
+    chartkick (5.0.4)
     chronic (0.10.2)
     coffee-rails (5.0.0)
       coffee-script (>= 2.2.0)
@@ -131,6 +132,8 @@ GEM
       actionpack (>= 5.2.0)
     formtastic_i18n (0.7.0)
     globalid (1.2.1)
+      activesupport (>= 6.1)
+    groupdate (6.4.0)
       activesupport (>= 6.1)
     has_scope (0.8.1)
       actionpack (>= 5.2)
@@ -250,6 +253,7 @@ GEM
     rdoc (6.5.0)
       psych (>= 4.0.0)
     redcarpet (3.6.0)
+    redis (4.8.1)
     regexp_parser (2.8.1)
     reline (0.3.8)
       io-console (~> 0.5)
@@ -330,9 +334,11 @@ DEPENDENCIES
   activeadmin_addons (~> 1.10)
   bootsnap
   capybara
+  chartkick (~> 5.0)
   coffee-rails (~> 5.0)
   debug
   devise (~> 4.9)
+  groupdate (~> 6.4)
   httparty (~> 0.21.0)
   importmap-rails
   jbuilder
@@ -342,6 +348,7 @@ DEPENDENCIES
   puma (= 5.6.6)
   puma-daemon (~> 0.3.2)
   rails (~> 7.0.4)
+  redis (~> 4.0)
   sassc-rails
   seed_dump (~> 3.3)
   selenium-webdriver

@@ -35,7 +35,7 @@ gem 'tailwindcss-rails'
 gem 'jbuilder'
 
 # Use Redis adapter to run Action Cable in production
-# gem "redis", "~> 4.0"
+gem "redis", "~> 4.0"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -99,3 +99,7 @@ gem 'coffee-rails', '~> 5.0'
 gem 'whenever', '~> 1.0', require: false
 
 gem 'oj', '~> 3.16'
+
+gem "chartkick", "~> 5.0"
+
+gem "groupdate", "~> 6.4"

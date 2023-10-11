@@ -55,3 +55,10 @@ Fix by adding more headers in Nginx (X-Forwarded-Ssl on, X-Forwarded-Port 443 an
 RequestHeader set X-Forwarded-Proto "https"
 RequestHeader set X-Forwarded-Port "443"
 RequestHeader set X-Forwarded-Host "www.influencers.com.py"
+
+FINISH TURBO INSTALL!!!! IMPORTANT !!!!
+https://forum.devtalk.com/t/agile-web-development-with-rails-7-solved/58647
+
+rails importmap:install
+rails turbo:install stimulus:install
+rails tailwindcss:install
