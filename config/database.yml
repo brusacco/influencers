@@ -25,7 +25,7 @@ production:
   database: influencers
   pool: 10
   username: root
-  password:
+  password: admin
   host: localhost
   encoding: utf8mb4
   collation: utf8mb4_unicode_ci
