@@ -77,7 +77,7 @@ class Profile < ApplicationRecord
   end
 
   def update_profile_stats
-    stats_posts = profile.instagram_posts.a_week_ago
+    stats_posts = instagram_posts.a_week_ago
 
     profile.total_likes_count = stats_posts.sum(:likes_count)
     profile.total_comments_count = stats_posts.sum(:comments_count)
