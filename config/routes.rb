@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root 'home#index'
+  post 'deploy', to: 'home#deploy'
 
   resources :profile, only: %i[index show]
 end
