@@ -7,7 +7,7 @@
 default: &default
   adapter: sqlite3
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
+  timeout: 3000
 
 development:
   <<: *default
@@ -24,6 +24,7 @@ production:
   adapter: mysql2
   database: influencers
   pool: 10
+  timeout: 5000
   username: root
   password: admin
   host: localhost
