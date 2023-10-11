@@ -4,7 +4,7 @@ class HomeController < ApplicationController
   def index; end
 
   def deploy
-    Dir.chdir('/home/morfeo') do
+    Dir.chdir('/home/rails/influencers') do
       system('export RAILS_ENV=production')
 
       # Check out the latest code from the Git repository

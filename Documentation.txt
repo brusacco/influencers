@@ -10,8 +10,8 @@ https://github.com/rails/rails/issues/38560
 ruby issues
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
-ALTER TABLE instagram_profiles CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-ALTER TABLE instagram_posts MODIFY caption VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE profiles CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE instagram_posts MODIFY caption TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE instagram_posts CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 
