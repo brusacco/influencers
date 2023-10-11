@@ -112,9 +112,9 @@ namespace :instagram do
       #     puts response.error
       #   end
       # end
-    rescue StandardError => e
-      puts e.message
-      next
+    # rescue StandardError => e
+    #   puts e.message
+    #   next
     end
   end
 end
