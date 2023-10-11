@@ -10,7 +10,10 @@ https://github.com/rails/rails/issues/38560
 ruby issues
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
+ALTER DATABASE influencers CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
 ALTER TABLE profiles CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE profiles MODIFY biography TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE instagram_posts MODIFY caption TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE instagram_posts CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -28,16 +31,22 @@ las colaboraciones no son unicas y pueden suceder varias veces
 
 git checkout -- Gemfile.lock
 
-ou can load and execute a specific seed file using the load method in Rails. 
+you can load and execute a specific seed file using the load method in Rails. 
 For example, to run the users.rb seed file, you can use the Rails runner:
 rails runner "load('./db/seeds/profiles.rb')"
 
 RAILS_ENV=production rake instagram:test
 
-
 RAILS_ENV=production rails db:migrate
 RAILS_ENV=production rails db:seed
 
+----------------------------------------------------------------
+Dump the database and mantain the character set
+mysqldump --default-character-set=utf8mb4 
+----------------------------------------------------------------
+
+Clear RAILS CACHE
+rake tmp:cache:clear
 
 fix SSL issue
 Fix by adding more headers in Nginx (X-Forwarded-Ssl on, X-Forwarded-Port 443 and X-Forwarded-Host hostname)
