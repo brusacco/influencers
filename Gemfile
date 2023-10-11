@@ -98,4 +98,4 @@ gem 'coffee-rails', '~> 5.0'
 
 gem 'whenever', '~> 1.0', require: false
 
-gem "oj", "~> 3.16"
+gem 'oj', '~> 3.16'

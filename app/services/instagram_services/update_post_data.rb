@@ -20,7 +20,7 @@ module InstagramServices
         data: @data,
         media: @data['node']['__typename'],
         url: "https://www.instagram.com/p/#{@data['node']['shortcode']}",
-        posted_at: Time.at(Integer(@data['node']['taken_at_timestamp'])),
+        posted_at: Time.zone.at(Integer(@data['node']['taken_at_timestamp'])),
         comments_count: @data['node']['edge_media_to_comment']['count'],
         likes_count: likes,
         video_view_count: @data['node']['video_view_count'],

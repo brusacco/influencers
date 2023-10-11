@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class InstagramCollaboration < ApplicationRecord
   belongs_to :instagram_post
   belongs_to :collaborator, class_name: 'Profile'
