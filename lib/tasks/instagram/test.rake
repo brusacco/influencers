@@ -85,7 +85,7 @@ namespace :instagram do
       #   end
       # end
 
-      profile.update_profile_stats
+      # profile.update_profile_stats
 
       #----------------------------------------------------------------
       # Pagination Videos
