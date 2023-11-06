@@ -3,7 +3,6 @@
 ActiveAdmin.register InstagramPost do
   permit_params :data,
                 :profile_id,
-                :image,
                 :shortcode,
                 :likes_count,
                 :comments_count,
@@ -14,12 +13,11 @@ ActiveAdmin.register InstagramPost do
                 :url,
                 :posted_at
 
+  filter :shortcode
+
   index do
     selectable_column
     column :id
-    column 'Image' do |post|
-      image_tag "data:image/jpeg;base64,#{post.image}", size: 50
-    end
     column :shortcode
     column :posted_at
     column :caption

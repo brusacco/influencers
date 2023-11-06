@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class InstagramPost < ApplicationRecord
+  has_one_attached :image
   serialize :data, Hash
   belongs_to :profile
   has_many :instagram_collaborations, dependent: :destroy
@@ -9,6 +10,10 @@ class InstagramPost < ApplicationRecord
   scope :a_week_ago, -> { where(posted_at: 1.week.ago..) }
   scope :a_month_ago, -> { where(posted_at: 1.month.ago..) }
 
+  def self.ransackable_associations(auth_object = nil)
+    ["image_attachment", "image_blob", "instagram_collaborations", "profile"]
+  end
+
   def self.ransackable_attributes(_auth_object = nil)
     %w[
       caption
@@ -16,9 +21,9 @@ class InstagramPost < ApplicationRecord
       created_at
       data
       id
-      image
       likes_count
       media
+      blob_id
       posted_at
       product_type
       profile_id
@@ -32,7 +37,8 @@ class InstagramPost < ApplicationRecord
   def save_image(url)
     response = HTTParty.get(url)
     data = response.body
-    update!(image: Base64.strict_encode64(data))
+    filename = "#{shortcode}.jpg"
+    image.attach(io: StringIO.new(data), filename: filename)
   end
 
   def update_total_count

@@ -4,4 +4,8 @@ class InstagramCollaboration < ApplicationRecord
   belongs_to :instagram_post
   belongs_to :collaborator, class_name: 'Profile'
   belongs_to :collaborated, class_name: 'Profile'
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["collaborated_id", "collaborator_id", "created_at", "id", "instagram_post_id", "posted_at", "updated_at"]
+  end
 end

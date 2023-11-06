@@ -62,3 +62,7 @@ https://forum.devtalk.com/t/agile-web-development-with-rails-7-solved/58647
 rails importmap:install
 rails turbo:install stimulus:install
 rails tailwindcss:install
+
+
+ActiveStorage Ransak issue
+https://www.reddit.com/r/rails/comments/tyhk1m/adding_methods_to_activestorageattachment/
