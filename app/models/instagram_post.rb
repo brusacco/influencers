@@ -10,8 +10,8 @@ class InstagramPost < ApplicationRecord
   scope :a_week_ago, -> { where(posted_at: 1.week.ago..) }
   scope :a_month_ago, -> { where(posted_at: 1.month.ago..) }
 
-  def self.ransackable_associations(auth_object = nil)
-    ["image_attachment", "image_blob", "instagram_collaborations", "profile"]
+  def self.ransackable_associations(_auth_object = nil)
+    %w[image_attachment image_blob instagram_collaborations profile]
   end
 
   def self.ransackable_attributes(_auth_object = nil)

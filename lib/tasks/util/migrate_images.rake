@@ -4,7 +4,7 @@ namespace :util do
   desc 'Migrate old Base64 encoded images to new format'
   task migrate_images: :environment do
     profile = Profile.find(3082)
-    #InstagramPost.find_each do |post|
+    # InstagramPost.find_each do |post|
     profile.instagram_posts.find_each do |post|
       if post.temp_image.present?
         puts post.shortcode
