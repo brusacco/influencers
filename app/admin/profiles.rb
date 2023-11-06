@@ -51,7 +51,7 @@ ActiveAdmin.register Profile do
     selectable_column
     column :id
     column 'Avatar' do |profile|
-      image_tag "data:image/jpeg;base64,#{profile.avatar}", size: 100
+      image_tag profile.avatar, size: 100 if profile.avatar.attached?
     end
     column 'Username' do |profile|
       link_to profile.username, "https://www.instagram.com/#{profile.username}", target: '_blank', rel: 'noopener'

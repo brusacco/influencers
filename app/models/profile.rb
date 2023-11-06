@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Profile < ApplicationRecord
+  has_one_attached :avatar
   serialize :data, Hash
   has_many :instagram_posts, dependent: :destroy
 
@@ -73,7 +74,9 @@ class Profile < ApplicationRecord
     url = profile_pic_url_hd || profile_pic_url
     response = HTTParty.get(url)
     data = response.body
-    update!(avatar: Base64.strict_encode64(data))
+
+    filename = "#{username}.jpg"
+    avatar.attach(io: StringIO.new(data), filename: filename)
   end
 
   def update_profile_stats

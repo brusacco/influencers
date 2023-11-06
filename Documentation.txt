@@ -38,7 +38,7 @@ rails runner "load('./db/seeds/profiles.rb')"
 RAILS_ENV=production rake instagram:test
 
 RAILS_ENV=production rake instagram:crawler
-RAILS_ENV=production rake instagram:crawler
+RAILS_ENV=production rake instagram:crawler_top
 
 RAILS_ENV=production rails db:migrate
 RAILS_ENV=production rails db:seed

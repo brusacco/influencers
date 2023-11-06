@@ -13,4 +13,20 @@ namespace :util do
       end
     end
   end
+
+  task migrate_avatars: :environment do
+    Profile.find_each do |profile|
+      next if profile.avatar.attached?
+
+      if profile.temp_image.present?
+        puts profile.username
+        decoded_image = Base64.strict_decode64(profile.temp_image)
+        profile.avatar.attach(io: StringIO.new(decoded_image), filename: "#{profile.username}.jpg")
+      end
+    rescue Exception => e
+      profile.update!(data: nil)
+      puts e.message
+      next
+    end
+  end
 end

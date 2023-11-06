@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_06_164753) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_06_210229) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -111,7 +111,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_06_164753) do
     t.datetime "updated_at", null: false
     t.integer "followers", default: 0
     t.integer "following", default: 0
-    t.text "avatar"
+    t.text "temp_image"
     t.text "profile_pic_url"
     t.boolean "is_business_account", default: false
     t.boolean "is_professional_account", default: false
