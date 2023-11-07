@@ -27,6 +27,12 @@ Rails.application.configure do
   # config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
   config.public_file_server.enabled = false
 
+  # Set expiration headers for static files (modify or add these lines)
+  config.public_file_server.headers = {
+    'Cache-Control' => "public, max-age=#{1.day.to_i}",
+    'Expires' => 1.day.from_now.httpdate
+  }
+
   # Compress CSS using a preprocessor.
   config.assets.css_compressor = :sassc
 
