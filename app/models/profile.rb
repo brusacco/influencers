@@ -34,7 +34,7 @@ class Profile < ApplicationRecord
       # For other environments (not in development)
       if avatar.attached?
         storage_path = avatar.service.send(:path_for, avatar.key)
-        host = 'http://your-production-host.com' # Replace with your actual production host
+        host = 'https://www.influencers.com.py' # Replace with your actual production host
         "#{host}/#{storage_path}"
       else
         nil
