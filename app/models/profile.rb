@@ -27,6 +27,22 @@ class Profile < ApplicationRecord
   scope :otros, -> { where(country_string: 'Otros') }
   scope :no_country, -> { where(country_string: nil) }
 
+  def avatar_url
+    if Rails.env.development?
+      avatar if avatar.attached?
+    else
+      # For other environments (not in development)
+      if avatar.attached?
+        storage_path = avatar.service.send(:path_for, avatar.key)
+        host = 'http://your-production-host.com' # Replace with your actual production host
+        "#{host}/#{storage_path}"
+      else
+        nil
+      end
+    end
+  end
+
+
   def self.ransackable_attributes(_auth_object = nil)
     %w[created_at data id updated_at username category_name is_private is_business_account followers biography country]
   end
