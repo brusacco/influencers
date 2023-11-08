@@ -103,7 +103,7 @@
         <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
           <h2 id="related-heading" class="text-xl font-bold text-gray-900">Interacciones por día</h2>
           <div class="mt-6">
-            <%= column_chart @last_week_posts.group_by_day(:posted_at).sum(:total_count), colors: ['lightgreen'], label: "Interacciones", xtitle: "Fecha", ytitle: "Cant. Interacciones" %>
+            <%= column_chart @last_week_posts.group_by_day(:posted_at).sum(:total_count), colors: ['lightgreen'], label: "Interacciones", xtitle: "Fecha", ytitle: "Cant. Interacciones", thousands: "." %>
           </div>  
         </section>
         <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0"> 
@@ -113,7 +113,7 @@
               <%= pie_chart @last_week_posts.group(:product_type).count, donut: true, label: "Posteos" %>
             </div>  
             <div class="w-1/2">
-              <%= pie_chart @last_week_posts.group(:product_type).sum(:total_count), donut: true, label: "Interacciones" %>
+              <%= pie_chart @last_week_posts.group(:product_type).sum(:total_count), donut: true, label: "Interacciones", thousands: "." %>
             </div>  
           </div>
         </section>
@@ -124,7 +124,7 @@
               <%= pie_chart @last_week_posts.group(:media).count, donut: true, label: "Posteos" %>
             </div>  
             <div class="w-1/2">
-              <%= pie_chart @last_week_posts.group(:media).sum(:total_count), donut: true, label: "Interacciones" %>
+              <%= pie_chart @last_week_posts.group(:media).sum(:total_count), donut: true, label: "Interacciones", thousands: "." %>
             </div>  
           </div>
         </section>
