@@ -83,6 +83,17 @@
             <%= column_chart @last_week_posts.group_by_day(:posted_at).sum(:total_count), colors: ['lightgreen'], label: "Interacciones", xtitle: "Fecha", ytitle: "Cant. Interacciones" %>
           </div>  
         </section>
+        <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0"> 
+          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Interacciones y Posteos por tipo de post</h2>
+          <div class="flex">
+            <div class="w-1/2">
+              <%= pie_chart @last_week_posts.group(:product_type).count, donut: true, label: "Posteos" %>
+            </div>  
+            <div class="w-1/2">
+              <%= pie_chart @last_week_posts.group(:product_type).sum(:total_count), donut: true, label: "Interacciones" %>
+            </div>  
+          </div>
+        </section>
       <%end%>
       <%if @profile.collaborators.any?%>
         <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
