@@ -72,6 +72,29 @@
       </div>
       <%if @last_week_posts.any?%>
         <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
+          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Stats de la Semana</h2>
+          <div class="mt-6">
+            <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-4">
+              <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+                <dt class="truncate text-sm font-medium text-gray-500">Total Posts</dt>
+                <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900"><%=@last_week_posts.size%></dd>
+              </div>
+              <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+                <dt class="truncate text-sm font-medium text-gray-500">Total Videos</dt>
+                <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900"><%=@last_week_posts.where(media: 'GraphVideo').count%></dd>
+              </div>
+              <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+                <dt class="truncate text-sm font-medium text-gray-500">Total Sidecar</dt>
+                <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900"><%=@last_week_posts.where(media: 'GraphSidecar').count%></dd>
+              </div>
+              <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+                <dt class="truncate text-sm font-medium text-gray-500">Total Imagenes</dt>
+                <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900"><%=@last_week_posts.where(media: 'GraphImage').count%></dd>
+              </div>
+            </dl>
+          </div>
+        </section>
+        <section aria-labelledby="related-heading" class="mt-2 border-t border-gray-200 px-4 py-16 sm:px-0">
           <h2 id="related-heading" class="text-xl font-bold text-gray-900">Posteos por día</h2>
           <div class="mt-6">
             <%= column_chart @last_week_posts.group_by_day(:posted_at).count, label: "Posteos", xtitle: "Fecha", ytitle: "Cant. Posteos" %>
