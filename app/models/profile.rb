@@ -88,7 +88,7 @@ class Profile < ApplicationRecord
     self.total_interactions_count = stats_posts.sum(:total_count)
     self.total_posts = stats_posts.count
     self.total_videos = stats_posts.where(media: 'GraphVideo').count
-    self.engagement_rate = (stats_posts.sum(:total_count) / Float(profile.followers) * 100).round
+    self.engagement_rate = (stats_posts.sum(:total_count) / Float(followers) * 100).round
     save!
   end
 
