@@ -349,6 +349,7 @@ DEPENDENCIES
   image_processing (~> 1.2)
   importmap-rails
   jbuilder
+  mini_magick (~> 4.12)
   mysql2
   oj (~> 3.16)
   parallel (~> 1.23)
