@@ -6,9 +6,6 @@ namespace :instagram do
     Profile.all.order(followers: :desc).each do |profile|
       puts "Updating stats for #{profile.username}"
       profile.update_profile_stats
-    rescue StandardError => e
-      puts e.message
-      next
     end
   end
 end
