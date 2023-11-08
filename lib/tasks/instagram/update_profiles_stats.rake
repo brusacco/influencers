@@ -5,7 +5,7 @@ namespace :instagram do
   task update_profiles_stats: :environment do
     Profile.all.order(followers: :desc).each do |profile|
       puts "Updating stats for #{profile.username}"
-      profile.update_profiles_stats
+      profile.update_profile_stats
     rescue StandardError => e
       puts e.message
       next
