@@ -75,7 +75,7 @@ namespace :instagram do
         response = InstagramServices::UpdatePostData.call(post, true)
         if response.success?
           db_post.update!(response.data)
-          db_post.save_image(post['node']['display_url']) if db_post.image.nil?
+          db_post.save_image(post['node']['display_url']) if db_post.image.attached?
           db_post.update_total_count
         else
           puts response.error
