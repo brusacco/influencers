@@ -70,18 +70,20 @@
           </div>
         </div>
       </div>
-      <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
-        <h2 id="related-heading" class="text-xl font-bold text-gray-900">Posteos por día</h2>
-        <div class="mt-6">
-          <%= column_chart @profile.instagram_posts.a_week_ago.group_by_day(:posted_at).count, label: "Posteos", xtitle: "Fecha", ytitle: "Cant. Posteos" %>
-        </div>
-      </section>
-      <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
-        <h2 id="related-heading" class="text-xl font-bold text-gray-900">Interacciones por día</h2>
-        <div class="mt-6">
-          <%= column_chart @profile.instagram_posts.a_week_ago.group_by_day(:posted_at).sum(:total_count), colors: ['lightgreen'], label: "Interacciones", xtitle: "Fecha", ytitle: "Cant. Interacciones" %>
-        </div>  
-      </section>
+      <%if @last_week_posts.any?%>
+        <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
+          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Posteos por día</h2>
+          <div class="mt-6">
+            <%= column_chart @last_week_posts.group_by_day(:posted_at).count, label: "Posteos", xtitle: "Fecha", ytitle: "Cant. Posteos" %>
+          </div>
+        </section>
+        <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
+          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Interacciones por día</h2>
+          <div class="mt-6">
+            <%= column_chart @last_week_posts.group_by_day(:posted_at).sum(:total_count), colors: ['lightgreen'], label: "Interacciones", xtitle: "Fecha", ytitle: "Cant. Interacciones" %>
+          </div>  
+        </section>
+      <%end%>
       <%if @profile.collaborators.any?%>
         <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
           <h2 id="related-heading" class="text-xl font-bold text-gray-900">Colaboradores</h2>
