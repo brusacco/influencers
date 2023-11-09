@@ -3,7 +3,7 @@
 namespace :instagram do
   desc 'Top accounts crawler'
   task crawler_top: :environment do
-    Parallel.each(Profile.where(followers: 50_000.., country_string: 'Paraguay').order(followers: :desc).limit(12), in_threads: 5) do |profile|
+    Parallel.each(Profile.where(followers: 50_000.., country_string: 'Paraguay').order(followers: :desc), in_threads: 5) do |profile|
       puts profile.username
       puts '----------------------------------'
 
