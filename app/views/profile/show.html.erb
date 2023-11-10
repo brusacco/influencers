@@ -73,6 +73,7 @@
       <%if @last_week_posts.any?%>
         <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
           <h2 id="related-heading" class="text-xl font-bold text-gray-900">Stats últimos días</h2>
+          <h3 class="text-xs font-bold text-gray-900">Obs: Likes y Comentarios cuentan como interacciones, visualizaciones de videos es una métrica aparte.</h3>
           <div class="mt-6">
             <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-4">
               <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
@@ -102,6 +103,7 @@
         </section>
         <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
           <h2 id="related-heading" class="text-xl font-bold text-gray-900">Interacciones por día</h2>
+          <h3 class="text-xs font-bold text-gray-900">Obs: Likes y Comentarios cuentan como interacciones, visualizaciones de videos es una métrica aparte.</h3>
           <div class="mt-6">
             <%= column_chart @last_week_posts.group_by_day(:posted_at).sum(:total_count), colors: ['lightgreen'], label: "Interacciones", xtitle: "Fecha", ytitle: "Cant. Interacciones", thousands: "." %>
           </div>  
@@ -116,6 +118,7 @@
         <%end%>
         <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0"> 
           <h2 id="related-heading" class="text-xl font-bold text-gray-900">Interacciones y Posteos por seccion</h2>
+          <h3 class="text-xs font-bold text-gray-900">Obs: Likes y Comentarios cuentan como interacciones, visualizaciones de videos es una métrica aparte.</h3>
           <div class="flex">
             <div class="w-1/2">
               <%= pie_chart @last_week_posts.group(:product_type).count, donut: true, label: "Posteos" %>
@@ -127,6 +130,7 @@
         </section>
         <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0"> 
           <h2 id="related-heading" class="text-xl font-bold text-gray-900">Interacciones y Posteos por tipo</h2>
+          <h3 class="text-xs font-bold text-gray-900">Obs: Likes y Comentarios cuentan como interacciones, visualizaciones de videos es una métrica aparte.</h3>
           <div class="flex">
             <div class="w-1/2">
               <%= pie_chart @last_week_posts.group(:media).count, donut: true, label: "Posteos" %>
