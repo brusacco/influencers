@@ -90,6 +90,7 @@ GEM
     arbre (1.6.0)
       activesupport (>= 3.0.0, < 7.1)
       ruby2_keywords (>= 0.0.2, < 1.0)
+    base64 (0.2.0)
     bcrypt (3.1.19)
     bindex (0.8.1)
     bootsnap (1.16.0)
@@ -126,7 +127,15 @@ GEM
       responders
       warden (~> 1.2.3)
     erubi (1.12.0)
+    event_stream_parser (0.3.0)
     execjs (2.9.1)
+    faraday (2.7.11)
+      base64
+      faraday-net_http (>= 2.0, < 3.1)
+      ruby2_keywords (>= 0.0.4)
+    faraday-multipart (1.0.4)
+      multipart-post (~> 2)
+    faraday-net_http (3.0.2)
     ffi (1.16.2)
     formtastic (4.0.0)
       actionpack (>= 5.2.0)
@@ -193,6 +202,7 @@ GEM
     minitest (5.20.0)
     msgpack (1.7.2)
     multi_xml (0.6.0)
+    multipart-post (2.3.0)
     mysql2 (0.5.5)
     net-imap (0.3.7)
       date
@@ -266,6 +276,10 @@ GEM
       actionpack (>= 5.2)
       railties (>= 5.2)
     rexml (3.2.6)
+    ruby-openai (6.0.1)
+      event_stream_parser (>= 0.3.0, < 1.0.0)
+      faraday (>= 1)
+      faraday-multipart (>= 1)
     ruby-vips (2.1.4)
       ffi (~> 1.12)
     ruby2_keywords (0.0.5)
@@ -357,6 +371,7 @@ DEPENDENCIES
   puma-daemon (~> 0.3.2)
   rails (~> 7.0.4)
   redis (~> 4.0)
+  ruby-openai (~> 6.0)
   sassc-rails
   seed_dump (~> 3.3)
   selenium-webdriver
