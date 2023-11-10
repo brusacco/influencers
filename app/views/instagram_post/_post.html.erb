@@ -5,6 +5,6 @@
      class: 'h-full w-full object-cover object-center lg:h-full lg:w-full'
 ) %>
   </div>
-  <%=post.product_type%> - <%=post.media%>
+  <%=post.product_type%> - <%=post.media%> - <%=post.posted_at.strftime("%d/%m/%Y")%>
 </div>
 <%end%>
