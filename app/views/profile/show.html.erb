@@ -72,7 +72,7 @@
       </div>
       <%if @last_week_posts.any?%>
         <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
-          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Stats de la Semana</h2>
+          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Stats últimos días</h2>
           <div class="mt-6">
             <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-4">
               <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
@@ -84,7 +84,7 @@
                 <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900"><%=number_with_delimiter(@profile.total_interactions_count, delimiter: '.')%></dd>
               </div>
               <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
-                <dt class="truncate text-sm font-medium text-gray-500">Videos Vistos</dt>
+                <dt class="truncate text-sm font-medium text-gray-500">Visualizaciones Videos</dt>
                 <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900"><%=number_with_delimiter(@profile.total_video_view_count, delimiter: '.')%></dd>
               </div>
               <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
@@ -106,6 +106,14 @@
             <%= column_chart @last_week_posts.group_by_day(:posted_at).sum(:total_count), colors: ['lightgreen'], label: "Interacciones", xtitle: "Fecha", ytitle: "Cant. Interacciones", thousands: "." %>
           </div>  
         </section>
+        <%if @profile.total_video_view_count.positive?%>
+        <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
+          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Visualizaciones videos por día</h2>
+          <div class="mt-6">
+            <%= column_chart @last_week_posts.group_by_day(:posted_at).sum(:video_view_count), colors: ['lightblue'], label: "Visualizaciones", xtitle: "Fecha", ytitle: "Cant. Visualizaciones", thousands: "." %>
+          </div>  
+        </section>
+        <%end%>
         <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0"> 
           <h2 id="related-heading" class="text-xl font-bold text-gray-900">Interacciones y Posteos por seccion</h2>
           <div class="flex">

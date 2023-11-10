@@ -70,3 +70,6 @@ https://www.reddit.com/r/rails/comments/tyhk1m/adding_methods_to_activestorageat
 
 Expiting Rails 7 ActiveStorage URLS
 https://blog.saeloun.com/2021/09/14/rails-7-adds-expiring-urls-to-active-storage/
+
+POSIBLES PROBLEMAS DE PUMA
+https://stackoverflow.com/questions/34141011/unresponsive-socket-after-x-time-puma-ruby
