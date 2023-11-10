@@ -8,7 +8,7 @@ class ProfileController < ApplicationController
     @profiles_interactions = Profile.order(total_interactions_count: :desc).limit(20)
     @profiles_video_views = Profile.order(total_video_view_count: :desc).limit(20)
     @profiles_engagement = Profile.order(engagement_rate: :desc).limit(20)
-    @profiles_disaster = Profile.where(total_posts: 0).order(followers: :desc).limit(20)
+    @profiles_disaster = Profile.where(total_posts: 0).order(followers: :desc).limit(40)
   end
 
   def show
