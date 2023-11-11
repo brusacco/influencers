@@ -22,7 +22,7 @@ namespace :instagram do
       next unless response.success?
 
       profile.update!(response.data)
-      profile.save_avatar # unless profile.avatar.attached?
+      profile.save_avatar
 
       data = profile.data
       postings = []
