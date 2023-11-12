@@ -36,6 +36,7 @@ ActiveAdmin.register Profile do
   #------------------------------------------------------------------
 
   filter :username
+  filter :profile_type
   filter :category_name
   filter :is_private
   filter :is_business_account
