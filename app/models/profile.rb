@@ -5,6 +5,8 @@ class Profile < ApplicationRecord
   serialize :data, Hash
   has_many :instagram_posts, dependent: :destroy
 
+  enum :profile_type, [ :hombre, :mujer, :marca, :medio, :estatal ]
+
   # As collaborator
   has_many :collaborated_collaborations,
            foreign_key: :collaborator_id,

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Profile do
-  permit_params :username, :data, :country, :country_string
+  permit_params :username, :data, :country, :country_string, :profile_type
 
   #------------------------------------------------------------------
   config.batch_actions = true
@@ -10,7 +10,8 @@ ActiveAdmin.register Profile do
   scoped_collection_action :scoped_collection_update,
                            form: lambda {
                                    {
-                                     country_string: 'text'
+                                     country_string: 'text',
+                                     profile_type: Profile.profile_types.map
                                    }
                                  }
   #------------------------------------------------------------------
@@ -71,6 +72,7 @@ ActiveAdmin.register Profile do
   form do |f|
     f.inputs 'Profile Details' do
       f.input :username
+      f.input :profile_type, as: :select, collection: Profile.profile_types
       f.input :followers
       f.input :following
       f.input :profile_pic_url

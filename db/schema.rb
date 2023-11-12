@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_06_224300) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_12_174728) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -133,6 +133,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_06_224300) do
     t.integer "total_posts", default: 0
     t.integer "total_videos", default: 0
     t.integer "engagement_rate", default: 0
+    t.integer "profile_type"
     t.index ["country_string"], name: "index_profiles_on_country_string"
     t.index ["username"], name: "index_profiles_on_username", unique: true
   end
