@@ -11,7 +11,7 @@ ActiveAdmin.register Profile do
                            form: lambda {
                                    {
                                      country_string: 'text',
-                                     profile_type: Profile.profile_types.map
+                                     profile_type: Profile.profile_types.map { |role| [role[0].titleize, role[0]] }
                                    }
                                  }
   #------------------------------------------------------------------
@@ -57,6 +57,7 @@ ActiveAdmin.register Profile do
     column 'Username' do |profile|
       link_to profile.username, "https://www.instagram.com/#{profile.username}", target: '_blank', rel: 'noopener'
     end
+    column :profile_type
     column :biography
     column :followers
     column :engagement_rate
@@ -72,7 +73,7 @@ ActiveAdmin.register Profile do
   form do |f|
     f.inputs 'Profile Details' do
       f.input :username
-      f.input :profile_type, as: :select, collection: Profile.profile_types
+      f.input :profile_type
       f.input :followers
       f.input :following
       f.input :profile_pic_url
