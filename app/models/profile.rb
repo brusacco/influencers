@@ -30,7 +30,7 @@ class Profile < ApplicationRecord
   scope :no_country, -> { where(country_string: nil) }
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[created_at data id updated_at username category_name is_private is_business_account followers biography country]
+    %w[created_at data id updated_at username category_name is_private is_business_account followers biography country profile_type]
   end
 
   def self.ransackable_associations(_auth_object = nil)
