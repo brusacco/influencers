@@ -36,7 +36,7 @@ ActiveAdmin.register Profile do
   #------------------------------------------------------------------
 
   filter :username
-  filter :profile_type
+  filter :profile_type, as: :select, collection: Profile.profile_types.map
   filter :category_name
   filter :is_private
   filter :is_business_account
@@ -44,10 +44,12 @@ ActiveAdmin.register Profile do
   filter :biography
   filter :data
 
-  scope :all
-  scope :paraguayos
-  scope :otros
-  scope :no_country
+  scope :all, group: :country
+  scope :paraguayos, group: :country
+  scope :otros, group: :country
+  scope :no_country, group: :country
+
+  scope :no_profile_type
 
   index do
     selectable_column

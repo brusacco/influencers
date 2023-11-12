@@ -28,6 +28,7 @@ class Profile < ApplicationRecord
   scope :paraguayos, -> { where(country_string: 'Paraguay') }
   scope :otros, -> { where(country_string: 'Otros') }
   scope :no_country, -> { where(country_string: nil) }
+  scope :no_profile_type, -> { where(profile_type: nil) }
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[created_at data id updated_at username category_name is_private is_business_account followers biography country profile_type]
