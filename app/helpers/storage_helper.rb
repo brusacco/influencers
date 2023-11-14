@@ -7,7 +7,7 @@ module StorageHelper
     # Adjust the slicing as per your storage structure
     dir1 = key[0..1]
     dir2 = key[2..3]
-    filename = key[4..]
+    filename = key
 
     # Construct the URL
     "https://www.influencers.com.py/storage/#{dir1}/#{dir2}/#{filename}"
