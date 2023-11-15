@@ -51,7 +51,7 @@ namespace :instagram do
           next unless response.success?
 
           db_post.update!(response.data)
-          db_post.save_image(post['node']['display_url']) # unless db_post.image.attached?
+          db_post.save_image(post['node']['display_url']) unless db_post.image.attached?
           db_post.update_total_count
         end
       end
