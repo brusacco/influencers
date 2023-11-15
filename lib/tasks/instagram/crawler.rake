@@ -25,7 +25,7 @@ namespace :instagram do
       next unless response.success?
 
       profile.update!(response.data)
-      profile.save_avatar # if profile.avatar.nil?
+      profile.save_avatar
 
       data = profile.data
       postings = []
@@ -78,7 +78,7 @@ namespace :instagram do
         response = InstagramServices::UpdatePostData.call(post, true)
         if response.success?
           db_post.update!(response.data)
-          db_post.save_image(post['node']['display_url']) if db_post.image.nil?
+          db_post.save_image(post['node']['display_url']) unless db_post.image.attached?
           db_post.update_total_count
         else
           puts response.error
