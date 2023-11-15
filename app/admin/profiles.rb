@@ -55,7 +55,7 @@ ActiveAdmin.register Profile do
     selectable_column
     column :id
     column 'Avatar' do |profile|
-      image_tag profile.avatar, size: 100 if profile.avatar.attached?
+      image_tag rails_blob_url(profile.avatar), size: 100 if profile.avatar.attached?
     end
     column 'Username' do |profile|
       link_to profile.username, "https://www.instagram.com/#{profile.username}", target: '_blank', rel: 'noopener'
