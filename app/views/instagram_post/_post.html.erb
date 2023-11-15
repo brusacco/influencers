@@ -1,7 +1,7 @@
 <%if post.image.attached?%>
 <div class="group relative">
   <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-    <%= image_tag(direct_storage_url(post.image.key), 
+    <%= image_tag(url_for(post.image.variant(resize_to_limit: [300, 300])), 
      class: 'h-full w-full object-cover object-center lg:h-full lg:w-full'
 ) %>
   </div>
