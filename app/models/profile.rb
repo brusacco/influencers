@@ -25,6 +25,7 @@ class Profile < ApplicationRecord
 
   after_create :update_profile
   after_update :clear_cache
+  after_touch :clear_cache
 
   scope :paraguayos, -> { where(country_string: 'Paraguay') }
   scope :otros, -> { where(country_string: 'Otros') }

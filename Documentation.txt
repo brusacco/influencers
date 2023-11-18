@@ -45,6 +45,8 @@ RAILS_ENV=production rake instagram:crawler_top
 RAILS_ENV=production rails db:migrate
 RAILS_ENV=production rails db:seed
 
+RAILS_ENV=production rails c
+
 ----------------------------------------------------------------
 Dump the database and mantain the character set
 mysqldump --default-character-set=utf8mb4 
