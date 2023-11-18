@@ -10,6 +10,9 @@ class HomeController < ApplicationController
     Dir.chdir('/home/rails/influencers') do
       system('export RAILS_ENV=production')
 
+      # Fix this issue
+      system('git checkout -- Gemfile.lock')
+
       # Check out the latest code from the Git repository
       system('git pull')
 
