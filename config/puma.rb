@@ -46,4 +46,4 @@ preload_app!
 # Allow puma to be restarted by `bin/rails restart` command.
 plugin :tmp_restart
 
-daemonize Rails.env.production?
+daemonize ENV.fetch('RAILS_ENV', 'production') == 'production'
