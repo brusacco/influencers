@@ -24,6 +24,7 @@ class Profile < ApplicationRecord
   validates :username, uniqueness: true
 
   after_create :update_profile
+  after_update :clear_cache
 
   scope :paraguayos, -> { where(country_string: 'Paraguay') }
   scope :otros, -> { where(country_string: 'Otros') }
@@ -106,5 +107,9 @@ class Profile < ApplicationRecord
 
     update!(response.data)
     save_avatar
+  end
+
+  def clear_cache
+    expire_page(controller: 'profile', action: 'show', id: profile.id)
   end
 end

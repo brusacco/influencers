@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ProfileController < ApplicationController
+  caches_page :show
   before_action :set_profile, only: %i[show]
 
   def index
