@@ -111,6 +111,6 @@ class Profile < ApplicationRecord
   end
 
   def clear_cache
-    expire_page(controller: 'profile', action: 'show', id: id)
+    ActionController::Base.new.expire_page(controller: 'profile', action: 'show', id: id)
   end
 end
