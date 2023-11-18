@@ -111,6 +111,7 @@ class Profile < ApplicationRecord
   end
 
   def clear_cache
-    ActionController::Base.new.expire_page(controller: 'profile', action: 'show', id: id)
+    file_path = Rails.root.join("public/profiles/#{id}.html")
+    File.delete(file_path) if File.exist?(file_path)
   end
 end
