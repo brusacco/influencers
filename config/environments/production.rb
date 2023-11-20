@@ -96,5 +96,4 @@ Rails.application.configure do
 
   # Esto es para servid directo desde el apache
   config.active_storage.service_urls_expire_in = nil
-
 end

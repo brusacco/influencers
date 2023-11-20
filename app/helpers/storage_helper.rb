@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # app/helpers/storage_helper.rb
 
 module StorageHelper

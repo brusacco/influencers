@@ -5,7 +5,7 @@ class Profile < ApplicationRecord
   serialize :data, Hash
   has_many :instagram_posts, dependent: :destroy
 
-  enum :profile_type, [ :hombre, :mujer, :marca, :medio, :estatal, :memes, :programa ]
+  enum :profile_type, %i[hombre mujer marca medio estatal memes programa]
 
   # As collaborator
   has_many :collaborated_collaborations,
@@ -33,7 +33,20 @@ class Profile < ApplicationRecord
   scope :no_profile_type, -> { where(profile_type: nil) }
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[created_at data id updated_at username category_name is_private is_business_account followers biography country profile_type]
+    %w[
+      created_at
+      data
+      id
+      updated_at
+      username
+      category_name
+      is_private
+      is_business_account
+      followers
+      biography
+      country
+      profile_type
+    ]
   end
 
   def self.ransackable_associations(_auth_object = nil)
@@ -112,6 +125,6 @@ class Profile < ApplicationRecord
 
   def clear_cache
     file_path = Rails.root.join("public/profile/#{id}.html")
-    File.delete(file_path) if File.exist?(file_path)
+    FileUtils.rm_f(file_path)
   end
 end

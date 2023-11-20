@@ -106,8 +106,8 @@ gem 'chartkick', '~> 5.0'
 
 gem 'groupdate', '~> 6.4'
 
-gem "mini_magick", "~> 4.12"
+gem 'mini_magick', '~> 4.12'
 
-gem "ruby-openai", "~> 6.0"
+gem 'ruby-openai', '~> 6.0'
 
-gem "actionpack-page_caching", "~> 1.2"
+gem 'actionpack-page_caching', '~> 1.2'
