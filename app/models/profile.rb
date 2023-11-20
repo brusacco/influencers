@@ -112,6 +112,6 @@ class Profile < ApplicationRecord
 
   def clear_cache
     file_path = Rails.root.join("public/profile/#{id}.html")
-    File.delete(file_path)
+    File.delete(file_path) if File.exist?(file_path)
   end
 end
