@@ -14,9 +14,9 @@ class ProfileController < ApplicationController
 
   def show
     if @profile.profile_type
-      @profiles = Profile.where(profile_type: @profile.profile_type).where.not(id: @profile.id).order(followers: :desc).limit(12)
+      @profiles = Profile.where(profile_type: @profile.profile_type).where.not(id: @profile.id).order(total_interactions_count: :desc).limit(12)
     else
-      @profiles = Profile.where.not(id: @profile.id).order(followers: :desc).limit(12)
+      @profiles = Profile.where.not(id: @profile.id).order(total_interactions_count: :desc).limit(12)
     end
 
     @posts = @profile.instagram_posts.order(posted_at: :desc).limit(12)
