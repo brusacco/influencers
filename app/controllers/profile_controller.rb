@@ -10,6 +10,10 @@ class ProfileController < ApplicationController
     @profiles_video_views = Profile.order(total_video_view_count: :desc).limit(20)
     @profiles_engagement = Profile.order(engagement_rate: :desc).limit(20)
     @profiles_disaster = Profile.where(total_posts: 0).order(followers: :desc).limit(40)
+
+    set_meta_tags title: 'Perfiles de Influencers | Influencers.com.py',
+                  description: DESCRIPTION,
+                  keywords: KEYWORDS
   end
 
   def show
@@ -27,6 +31,18 @@ class ProfileController < ApplicationController
 
     @median_interactions = @profile.total_interactions_count / (@profile.total_posts + 1)
     @median_video_views = @profile.total_video_view_count / (@profile.total_posts + 1)
+
+    set_meta_tags title: "#{@profile.username} | Influencers.com.py",
+                  description: DESCRIPTION,
+                  keywords: KEYWORDS,
+                  og: {
+                    title: :title,
+                    site_name: 'Influencers.com.py',
+                    description: :description,
+                    image: url_for(@profile.avatar),
+                    url: url_for(action: :show, id: @profile.id)
+                  },
+                  twitter: { card: 'summary' }
   end
 
   private

@@ -111,3 +111,5 @@ gem 'mini_magick', '~> 4.12'
 gem 'ruby-openai', '~> 6.0'
 
 gem 'actionpack-page_caching', '~> 1.2'
+
+gem "meta-tags", "~> 2.19"
