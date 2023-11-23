@@ -5,7 +5,7 @@ namespace :instagram do
   task crawler_profile: :environment do
     profile_id = ENV.fetch('profile_id')
 
-    if site_id.blank?
+    if profile_id.blank?
       puts 'No profile_id provided. Please provide a site_id.'
       exit
     end
