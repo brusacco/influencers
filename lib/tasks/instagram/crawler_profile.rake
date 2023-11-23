@@ -3,7 +3,14 @@
 namespace :instagram do
   desc 'Top accounts crawler'
   task crawler_profile: :environment do
-    Parallel.each(Profile.where(profile_type: :marca).order(followers: :desc), in_threads: 5) do |profile|
+    profile_id = ENV.fetch('profile_id')
+
+    if site_id.blank?
+      puts 'No profile_id provided. Please provide a site_id.'
+      exit
+    end
+
+    Profile.where(id: profile_id).each do |profile|
       puts profile.username
       puts '----------------------------------'
 
