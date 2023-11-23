@@ -8,5 +8,9 @@ class CategoryController < ApplicationController
     @profiles_video_views = Profile.where(profile_type: @category).order(total_video_view_count: :desc).limit(20)
     @profiles_engagement = Profile.where(profile_type: @category).order(engagement_rate: :desc).limit(20)
     @profiles_disaster = Profile.where(profile_type: @category).where(total_posts: 0).order(followers: :desc).limit(20)
+
+    set_meta_tags title: "Top Influencers categoría #{@category.capitalize} | Influencers.com.py",
+                  description: DESCRIPTION,
+                  keywords: KEYWORDS
   end
 end
