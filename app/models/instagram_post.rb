@@ -75,7 +75,7 @@ class InstagramPost < ApplicationRecord
         next if bigram.split.first.length <= 2 || bigram.split.last.length <= 2
         next if STOP_WORDS.include?(bigram.split.first) || STOP_WORDS.include?(bigram.split.last)
 
-        next if bigram.split.first.start_with?('http', 'https', 'www', 'whatsapp:')
+        next if bigram.split.first.start_with?('http', 'https', 'www', 'whatsapp:', 'wame', 'wa.me')
         next if bigram.split.first.match?(/\A\d+\z/) # Checks if the word is a number
         next if bigram.split.first.match?(/\A\d+\W+\d+\z/) # Checks if the word is a number
         next if bigram.split.first.match?(/\(.*?\)/) # (xxxxxx)
