@@ -63,6 +63,28 @@ class InstagramPost < ApplicationRecord
                     .take(limit)
   end
 
+  def self.bigram_occurrences(limit = 100)
+    word_occurrences = Hash.new(0)
+
+    all.find_each do |post|
+      next if post.caption.nil?
+
+      words = post.caption.gsub(/[[:punct:]]/, '').split
+      bigrams = words.each_cons(2).map { |word1, word2| "#{word1.downcase} #{word2.downcase}" }
+      bigrams.each do |bigram|
+        next if bigram.split.first.length <= 2 || bigram.split.last.length <= 2
+        next if STOP_WORDS.include?(bigram.split.first) || STOP_WORDS.include?(bigram.split.last)
+
+        word_occurrences[bigram] += 1
+      end
+    end
+
+    word_occurrences.select { |_bigram, count| count > 1 }
+                    .sort_by { |_k, v| v }
+                    .reverse
+                    .take(limit)
+  end
+
   def save_image(url)
     response = HTTParty.get(url)
     data = response.body
