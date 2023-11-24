@@ -2,17 +2,16 @@
 
 namespace :instagram do
   desc 'Top accounts crawler'
-  task crawler_categiry: :environment do
-
-    category_id = ENV.fetch('category_id')
+  task crawler_profile_type: :environment do
+    profile_type = ENV.fetch('profile_type')
 
     if category_id.blank?
-      puts 'No category_id provided. Please provide a site_id.'
+      puts 'No profile_type provided. Please provide a site_id.'
       exit
     end
 
     Parallel.each(
-      Profile.where(category_id: category_id, country_string: 'Paraguay').order(followers: :desc),
+      Profile.where(category_id: profile_type, country_string: 'Paraguay').order(followers: :desc),
       in_threads: 5
     ) do |profile|
       puts profile.username
