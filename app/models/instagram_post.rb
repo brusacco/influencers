@@ -3,7 +3,7 @@
 class InstagramPost < ApplicationRecord
   has_one_attached :image
   serialize :data, Hash
-  belongs_to :profile
+  belongs_to :profile, touch: true
   has_many :instagram_collaborations, dependent: :destroy
 
   scope :a_day_ago, -> { where(posted_at: 1.day.ago..) }
