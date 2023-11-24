@@ -53,7 +53,7 @@ class InstagramPost < ApplicationRecord
         next if cleaned_word.match?(/\A\d+\W+\d+\z/) # Checks if the word is a number
         next if cleaned_word.match?(/\(.*?\)/) # (xxxxxx)
 
-        word_occurrences[cleaned_word] += 1 * post.total_count
+        word_occurrences[cleaned_word] += post.total_count
       end
     end
 
@@ -85,7 +85,7 @@ class InstagramPost < ApplicationRecord
         next if bigram.split.last.match?(/\A\d+\W+\d+\z/) # Checks if the word is a number
         next if bigram.split.last.match?(/\(.*?\)/) # (xxxxxx)
 
-        word_occurrences[bigram] += 1
+        word_occurrences[bigram] += post.total_count
       end
     end
 
