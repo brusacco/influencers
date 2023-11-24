@@ -91,6 +91,12 @@
             </dl>
           </div>
         </section>
+        <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
+          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Nube de Palabras</h2>
+          <div class="mt-6">
+            <%= render 'instagram_post/word_cloud', word_array: @last_week_posts.word_occurrences %>
+          </div>  
+        </section>
         <section aria-labelledby="related-heading" class="mt-2 border-t border-gray-200 px-4 py-16 sm:px-0">
           <h2 id="related-heading" class="text-xl font-bold text-gray-900">Posteos por día</h2>
           <div class="mt-6">

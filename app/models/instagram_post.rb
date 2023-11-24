@@ -34,6 +34,27 @@ class InstagramPost < ApplicationRecord
     ]
   end
 
+  def self.word_occurrences(limit = 100)
+    word_occurrences = Hash.new(0)
+
+    all.find_each do |post|
+      words = post.caption.split
+      words.each do |word|
+        cleaned_word = word.downcase
+        next if STOP_WORDS.include?(cleaned_word)
+        next if cleaned_word.length <= 2
+        next if ['https'].include?(cleaned_word)
+
+        word_occurrences[cleaned_word] += 1
+      end
+    end
+
+    word_occurrences.select { |_word, count| count > 1 }
+                    .sort_by { |_k, v| v }
+                    .reverse
+                    .take(limit)
+  end
+
   def save_image(url)
     response = HTTParty.get(url)
     data = response.body
