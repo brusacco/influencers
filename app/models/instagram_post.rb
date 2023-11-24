@@ -40,7 +40,9 @@ class InstagramPost < ApplicationRecord
     bads = %w[vos]
 
     all.find_each do |post|
-      words = post.caption.split if post.caption.present?
+      next if post.caption.nil?
+
+      words = post.caption.split
       words.each do |word|
         cleaned_word = word.downcase
         next if STOP_WORDS.include?(cleaned_word)
