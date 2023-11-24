@@ -37,13 +37,15 @@ class InstagramPost < ApplicationRecord
   def self.word_occurrences(limit = 100)
     word_occurrences = Hash.new(0)
 
+    bads = %w[vos]
+
     all.find_each do |post|
       words = post.caption.split
       words.each do |word|
         cleaned_word = word.downcase
         next if STOP_WORDS.include?(cleaned_word)
+        next if bads.include?(cleaned_word)
         next if cleaned_word.length <= 2
-        next if ['https'].include?(cleaned_word)
 
         word_occurrences[cleaned_word] += 1
       end

@@ -1,7 +1,6 @@
 <ul class="cloud">
   <%word_array.shuffle { |a, b| a[1] <=> b[1] }.each do |word, frequency|%>
     <li>
-      <%= content_tag :span, word, class: "word-frequency-#{frequency}" %>
       <li data-weight="<%=normalize_to_scale(frequency, word_array.map { |item| item[1] }.max, word_array.map { |item| item[1] }.min)%>"><%=word%></li>
     </li>
   <% end %>
