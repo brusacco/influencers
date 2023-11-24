@@ -11,7 +11,7 @@ namespace :instagram do
     end
 
     Parallel.each(
-      Profile.where(profile_type: profile_type, country_string: 'Paraguay').order(followers: :desc),
+      Profile.where(profile_type: profile_type, country_string: 'Paraguay').order(updated_at: :asc),
       in_threads: 5
     ) do |profile|
       puts profile.username
