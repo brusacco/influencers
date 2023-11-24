@@ -42,7 +42,7 @@ class InstagramPost < ApplicationRecord
     all.find_each do |post|
       next if post.caption.nil?
 
-      words = post.caption.split
+      words = post.caption.gsub('.', '').split
       words.each do |word|
         cleaned_word = word.downcase
         next if STOP_WORDS.include?(cleaned_word)
@@ -53,7 +53,7 @@ class InstagramPost < ApplicationRecord
         next if cleaned_word.match?(/\A\d+\W+\d+\z/) # Checks if the word is a number
         next if cleaned_word.match?(/\(.*?\)/) # (xxxxxx)
 
-        word_occurrences[cleaned_word] += 1
+        word_occurrences[cleaned_word] += 1 * post.total_count
       end
     end
 
