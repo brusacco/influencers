@@ -48,7 +48,7 @@ class InstagramPost < ApplicationRecord
         next if STOP_WORDS.include?(cleaned_word)
         next if bads.include?(cleaned_word)
         next if cleaned_word.length <= 2
-        next if cleaned_word.start_with?('http', 'https', 'www', 'whatsapp:')
+        next if cleaned_word.start_with?('http', 'https', 'www', 'whatsapp:', 'wa.me')
         next if cleaned_word.match?(/\A\d+\z/) # Checks if the word is a number
         next if cleaned_word.match?(/\A\d+\W+\d+\z/) # Checks if the word is a number
         next if cleaned_word.match?(/\(.*?\)/) # (xxxxxx)
