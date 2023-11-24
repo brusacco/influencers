@@ -48,6 +48,7 @@ class InstagramPost < ApplicationRecord
         next if STOP_WORDS.include?(cleaned_word)
         next if bads.include?(cleaned_word)
         next if cleaned_word.length <= 2
+        next if cleaned_word.start_with?('http', 'https', 'www')
 
         word_occurrences[cleaned_word] += 1
       end
