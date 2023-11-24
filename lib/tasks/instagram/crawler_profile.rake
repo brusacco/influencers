@@ -92,28 +92,28 @@ namespace :instagram do
       #----------------------------------------------------------------
       # Pagination Videos
       #----------------------------------------------------------------
-      # user_id = data['graphql']['user']['id']
-      # cursor = data['graphql']['user']['edge_felix_video_timeline']['page_info']['end_cursor']
-      # response = InstagramServices::GetProfileCursor.call(user_id, cursor)
-      # next unless response.success?
+      user_id = data['graphql']['user']['id']
+      cursor = data['graphql']['user']['edge_felix_video_timeline']['page_info']['end_cursor']
+      response = InstagramServices::GetProfileCursor.call(user_id, cursor)
+      next unless response.success?
 
-      # data_cursor = response.data
-      # posts = data_cursor['data']['user']['edge_owner_to_timeline_media']['edges']
+      data_cursor = response.data
+      posts = data_cursor['data']['user']['edge_owner_to_timeline_media']['edges']
 
-      # posts.each do |post|
-      #   next if post.nil? || post['node'].nil?
+      posts.each do |post|
+        next if post.nil? || post['node'].nil?
 
-      #   puts "#{post['node']['shortcode']} - #{post['node']['taken_at_timestamp']} - #{Time.at(Integer(post['node']['taken_at_timestamp']))} - #{post['node']['__typename']}"
-      #   db_post = profile.instagram_posts.find_or_create_by!(shortcode: post['node']['shortcode'])
-      #   response = InstagramServices::UpdatePostData.call(post, true)
-      #   if response.success?
-      #     db_post.update!(response.data)
-      #     db_post.save_image(post['node']['display_url']) if db_post.image.nil?
-      #     db_post.update_total_count
-      #   else
-      #     puts response.error
-      #   end
-      # end
+        puts "#{post['node']['shortcode']} - #{post['node']['taken_at_timestamp']} - #{Time.at(Integer(post['node']['taken_at_timestamp']))} - #{post['node']['__typename']}"
+        db_post = profile.instagram_posts.find_or_create_by!(shortcode: post['node']['shortcode'])
+        response = InstagramServices::UpdatePostData.call(post, true)
+        if response.success?
+          db_post.update!(response.data)
+          db_post.save_image(post['node']['display_url']) if db_post.image.nil?
+          db_post.update_total_count
+        else
+          puts response.error
+        end
+      end
     rescue StandardError => e
       puts e.message
       next
