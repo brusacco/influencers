@@ -5,7 +5,7 @@ namespace :instagram do
   task crawler_profile_type: :environment do
     profile_type = ENV.fetch('profile_type')
 
-    if category_id.blank?
+    if profile_type.blank?
       puts 'No profile_type provided. Please provide a site_id.'
       exit
     end
