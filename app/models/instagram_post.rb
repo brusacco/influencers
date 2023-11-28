@@ -52,6 +52,7 @@ class InstagramPost < ApplicationRecord
         next if cleaned_word.match?(/\A\d+\z/) # Checks if the word is a number
         next if cleaned_word.match?(/\A\d+\W+\d+\z/) # Checks if the word is a number
         next if cleaned_word.match?(/\(.*?\)/) # (xxxxxx)
+        next if cleaned_word.include?('https://wame')
 
         word_occurrences[cleaned_word] += 1
       end
@@ -79,11 +80,13 @@ class InstagramPost < ApplicationRecord
         next if bigram.split.first.match?(/\A\d+\z/) # Checks if the word is a number
         next if bigram.split.first.match?(/\A\d+\W+\d+\z/) # Checks if the word is a number
         next if bigram.split.first.match?(/\(.*?\)/) # (xxxxxx)
+        next if bigram.split.first.include?('https://wame')
 
         next if bigram.split.last.start_with?('http', 'https', 'www', 'whatsapp:')
         next if bigram.split.last.match?(/\A\d+\z/) # Checks if the word is a number
         next if bigram.split.last.match?(/\A\d+\W+\d+\z/) # Checks if the word is a number
         next if bigram.split.last.match?(/\(.*?\)/) # (xxxxxx)
+        next if bigram.split.last.include?('https://wame')
 
         word_occurrences[bigram] += 1
       end
