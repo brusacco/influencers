@@ -7,6 +7,8 @@ rails g migration AddStatsToProfile total_likes_count:integer total_comments_cou
 
 rails g migration AddQueryToProfile query:text
 
+rails g migration AddIidToProfile uid:text
+
 rails g migration AddProfileTypeToProfile profile_type:integer
 
 

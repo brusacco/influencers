@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Profile do
-  permit_params :username, :data, :country, :country_string, :profile_type, :query
+  permit_params :username, :data, :country, :country_string, :profile_type, :query, :uid
 
   #------------------------------------------------------------------
   config.batch_actions = true
@@ -99,6 +99,7 @@ ActiveAdmin.register Profile do
       f.input :country_string
       f.input :profile_pic_url_hd
       f.input :query
+      f.input :uid
     end
     f.actions
   end

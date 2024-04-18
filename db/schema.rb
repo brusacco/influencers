@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_04_18_125625) do
+ActiveRecord::Schema[7.0].define(version: 2024_04_18_224317) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -135,6 +135,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_18_125625) do
     t.integer "engagement_rate", default: 0
     t.integer "profile_type"
     t.text "query"
+    t.string "uid"
     t.index ["country_string"], name: "index_profiles_on_country_string"
     t.index ["username"], name: "index_profiles_on_username", unique: true
   end
