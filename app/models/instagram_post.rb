@@ -39,7 +39,7 @@ class InstagramPost < ApplicationRecord
 
     bads = %w[vos]
 
-    all.find_each do |post|
+    find_each do |post|
       next if post.caption.nil?
 
       words = post.caption.gsub('.', '').split
@@ -67,7 +67,7 @@ class InstagramPost < ApplicationRecord
   def self.bigram_occurrences(limit = 100)
     word_occurrences = Hash.new(0)
 
-    all.find_each do |post|
+    find_each do |post|
       next if post.caption.nil?
 
       words = post.caption.gsub('.', '').split

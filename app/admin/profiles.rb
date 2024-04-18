@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Profile do
-  permit_params :username, :data, :country, :country_string, :profile_type
+  permit_params :username, :data, :country, :country_string, :profile_type, :query
 
   #------------------------------------------------------------------
   config.batch_actions = true
@@ -11,7 +11,9 @@ ActiveAdmin.register Profile do
                            form: lambda {
                                    {
                                      country_string: 'text',
-                                     profile_type: Profile.profile_types.map { |role| [role[0].titleize, role[0]] }
+                                     profile_type: Profile.profile_types.map do |role|
+                                                     [role.first.titleize, role.first]
+                                                   end
                                    }
                                  }
   #------------------------------------------------------------------
@@ -55,18 +57,21 @@ ActiveAdmin.register Profile do
     selectable_column
     column :id
     column 'Avatar' do |profile|
-      link_to image_tag(rails_blob_url(profile.avatar), size: 100), profile_path(profile), target: '_blank' if profile.avatar.attached?
+      if profile.avatar.attached?
+        link_to image_tag(rails_blob_url(profile.avatar), size: 100),
+                profile_path(profile),
+                target: '_blank',
+                rel: 'noopener'
+      end
     end
     column 'Username' do |profile|
       link_to profile.username, "https://www.instagram.com/#{profile.username}", target: '_blank', rel: 'noopener'
     end
     column :profile_type
-    column :biography
     column :followers
     column :engagement_rate
     column :total_interactions_count
     column :country_string
-    column :is_business_account
     column :category_enum
     column :category_name
 
@@ -93,6 +98,7 @@ ActiveAdmin.register Profile do
       f.input :is_embeds_disabled, as: :boolean
       f.input :country_string
       f.input :profile_pic_url_hd
+      f.input :query
     end
     f.actions
   end

@@ -10,7 +10,7 @@ namespace :instagram do
       exit
     end
 
-    Profile.where(id: profile_id).each do |profile|
+    Profile.where(id: profile_id).find_each do |profile|
       puts profile.username
       puts '----------------------------------'
 
@@ -103,7 +103,7 @@ namespace :instagram do
       posts.each do |post|
         next if post.nil? || post['node'].nil?
 
-        puts "#{post['node']['shortcode']} - #{post['node']['taken_at_timestamp']} - #{Time.at(Integer(post['node']['taken_at_timestamp']))} - #{post['node']['__typename']}"
+        puts "#{post['node']['shortcode']} - #{post['node']['taken_at_timestamp']} - #{Time.zone.at(Integer(post['node']['taken_at_timestamp']))} - #{post['node']['__typename']}"
         db_post = profile.instagram_posts.find_or_create_by!(shortcode: post['node']['shortcode'])
         response = InstagramServices::UpdatePostData.call(post, true)
         if response.success?

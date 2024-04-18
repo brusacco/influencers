@@ -11,9 +11,7 @@ class ProfileController < ApplicationController
     @profiles_engagement = Profile.order(engagement_rate: :desc).limit(20)
     @profiles_disaster = Profile.where(total_posts: 0).order(followers: :desc).limit(40)
 
-    set_meta_tags title: 'Perfiles de Influencers | Influencers.com.py',
-                  description: DESCRIPTION,
-                  keywords: KEYWORDS
+    set_meta_tags title: 'Perfiles de Influencers | Influencers.com.py', description: DESCRIPTION, keywords: KEYWORDS
   end
 
   def show

@@ -13,7 +13,7 @@ module InstagramServices
       result = { data: data }
       handle_success(result)
     rescue StandardError => e
-      handle_success(e.message)
+      handle_error(e.message)
     end
   end
 end

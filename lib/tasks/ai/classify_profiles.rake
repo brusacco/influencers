@@ -3,7 +3,7 @@
 namespace :ai do
   desc 'Classify profiles using OpenAI API'
   task classify_profiles: :environment do
-    Profile.all.order(followers: :desc).limit(1).each do |profile|
+    Profile.order(followers: :desc).limit(1).each do |profile|
       puts "Updating #{profile.username}"
 
       response = InstagramServices::UpdateProfileData.call(profile.data)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PostController < ApplicationController
   def index
     @posts = InstagramPost.a_week_ago.order(total_count: :desc).limit(20)

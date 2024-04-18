@@ -23,7 +23,7 @@ module InstagramServices
       data = JSON.parse(response.body)
       handle_success(data)
     rescue StandardError => e
-      handle_success(e.message)
+      handle_error(e.message)
     end
   end
 end

@@ -3,7 +3,7 @@
 namespace :instagram do
   desc 'Update profiles stats'
   task update_profiles_stats: :environment do
-    Profile.all.order(followers: :desc).each do |profile|
+    Profile.order(followers: :desc).each do |profile|
       puts "Updating stats for #{profile.username}"
       profile.update_profile_stats
     end
