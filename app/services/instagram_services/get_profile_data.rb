@@ -7,11 +7,17 @@ module InstagramServices
     end
 
     def call
-      url = "http://api.scrape.do?token=ed138ed418924138923ced2b81e04d53&url=https://www.instagram.com/#{@username}/?__a=1"
-      response = HTTParty.get(url)
+      proxy = 'http://api.scrape.do?token=ed138ed418924138923ced2b81e04d53&url='
+      url = "#{proxy}https://www.instagram.com/api/v1/users/web_profile_info/?username=#{@username}"
+
+      headers = {
+        'x-ig-app-id' => '936619743392459',
+        'x-requested-with' => 'XMLHttpRequest'
+      }
+
+      response = HTTParty.get(url, headers: headers)
       data = JSON.parse(response.body)
-      result = { data: data }
-      handle_success(result)
+      handle_success(data)
     rescue StandardError => e
       handle_error(e.message)
     end

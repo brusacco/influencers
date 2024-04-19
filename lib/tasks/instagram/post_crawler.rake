@@ -3,7 +3,7 @@
 namespace :instagram do
   desc 'Posts crawler'
   task post_crawler: :environment do
-    Profile.where.not(uid: nil).find_each do |profile|
+    Profile.where(updated_at: ..1.week.ago).where.not(uid: nil).find_each do |profile|
       puts profile.username
       response = InstagramServices::GetPostsData.call(profile)
       next unless response.success?
@@ -15,7 +15,11 @@ namespace :instagram do
 
         post = profile.instagram_posts.find_or_create_by!(shortcode: edge['node']['shortcode'])
         post.update!(post_response.data)
-        post.save_image(edge['node']['display_url']) unless post.image.attached?
+        begin
+          post.save_image(edge['node']['display_url']) unless post.image.attached?
+        rescue StandardError => e
+          puts e.message
+        end
         post.update_total_count
 
         puts '---------------------------------------'

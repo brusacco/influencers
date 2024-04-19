@@ -9,7 +9,7 @@ module InstagramServices
     def call
       return handle_error('Null data') if @data.nil?
 
-      user = @data['graphql']['user']
+      user = @data['data']['user']
       response = {
         followers: user['edge_followed_by']['count'],
         following: user['edge_follow']['count'],
@@ -25,7 +25,8 @@ module InstagramServices
         full_name: user['full_name'],
         biography: user['biography'],
         is_joined_recently: user['is_joined_recently'],
-        is_embeds_disabled: user['is_embeds_disabled']
+        is_embeds_disabled: user['is_embeds_disabled'],
+        uid: user['id']
       }
       handle_success(response)
     rescue StandardError => e
