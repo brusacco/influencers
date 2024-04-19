@@ -2,8 +2,8 @@
 
 namespace :instagram do
   desc 'Posts crawler'
-  task post_crawler: :environment do
-    Profile.where.not(uid: nil).find_each do |profile|
+  task update_posts: :environment do
+    Parallel.each(Profile.where.not(uid: nil), in_processes: 5) do |profile|
       puts profile.username
       response = InstagramServices::GetPostsData.call(profile)
       next unless response.success?
