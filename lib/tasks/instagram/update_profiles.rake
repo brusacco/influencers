@@ -3,7 +3,7 @@
 namespace :instagram do
   desc 'Update profiles'
   task update_profiles: :environment do
-    Profile.where(updated_at: ..1.week.ago).order(followers: :desc).limit(50).each do |profile|
+    Parallel.each(Profile.where(updated_at: ..1.week.ago).order(followers: :desc).limit(50), in_processes: 5) do |profile|
       next if profile.data.nil?
 
       puts "Updating profile #{profile.username}"
