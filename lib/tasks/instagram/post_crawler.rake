@@ -23,6 +23,9 @@ namespace :instagram do
         post.update_total_count
 
         puts '---------------------------------------'
+      rescue StandardError => e
+        puts e.message
+        next
       end
     end
   end
