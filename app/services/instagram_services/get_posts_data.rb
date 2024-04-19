@@ -7,7 +7,9 @@ module InstagramServices
     end
 
     def call
-      url = "https://www.instagram.com/graphql/query/?doc_id=17991233890457762&variables=%7B%22id%22:%22#{@profile.uid}%22,%22first%22:200%7D"
+      request = CGI.escape("https://www.instagram.com/graphql/query/?doc_id=17991233890457762&variables={\"id\":\"#{@profile.uid}\",\"first\":200}")
+      url = "http://api.scrape.do?token=ed138ed418924138923ced2b81e04d53&url=#{request}"
+
       response = HTTParty.get(url, format: :plain, timeout: 60)
       raise StandardError, 'Empty response body' if response.body.empty?
 
