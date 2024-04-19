@@ -12,7 +12,7 @@ namespace :instagram do
       response = InstagramServices::UpdateProfileData.call(data.data)
       if response.success?
         profile.update!(response.data)
-        profile.save_avatar if profile.avatar.nil?
+        profile.save_avatar #if profile.avatar.nil?
         sleep 1
       else
         puts "#{profile.username} #{response.error}"

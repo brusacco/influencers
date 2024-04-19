@@ -3,7 +3,7 @@
 namespace :instagram do
   desc 'Posts crawler'
   task post_crawler: :environment do
-    Profile.where(updated_at: ..1.week.ago).where.not(uid: nil).find_each do |profile|
+    Profile.where.not(uid: nil).find_each do |profile|
       puts profile.username
       response = InstagramServices::GetPostsData.call(profile)
       next unless response.success?

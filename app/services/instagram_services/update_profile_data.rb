@@ -11,6 +11,7 @@ module InstagramServices
 
       user = @data['data']['user']
       response = {
+        data: @data['data']
         followers: user['edge_followed_by']['count'],
         following: user['edge_follow']['count'],
         profile_pic_url: user['profile_pic_url'],
