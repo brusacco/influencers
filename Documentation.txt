@@ -43,7 +43,6 @@ rails runner "load('./db/seeds/profiles.rb')"
 
 RAILS_ENV=production rake instagram:update_profiles
 RAILS_ENV=production rake instagram:update_posts
-
 RAILS_ENV=production rake instagram:update_profiles_stats
 
 
