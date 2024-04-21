@@ -4,13 +4,13 @@ namespace :instagram do
   desc 'Posts crawler'
   task update_posts: :environment do
     Parallel.each(Profile.where.not(uid: nil).order(followers: :desc), in_processes: 5) do |profile|
-      puts profile.username
+      puts "#{profile.username} - #{profile.followers}"
       response = InstagramServices::GetPostsData.call(profile)
       next unless response.success?
 
       response.data.each do |edge|
         shortcode = edge['node']['shortcode']
-        puts shortcode
+        puts "#{shortcode} - #{profile.username} - #{profile.followers}"
 
         post_response = InstagramServices::UpdatePostData.call(edge, true)
         next unless post_response.success?
