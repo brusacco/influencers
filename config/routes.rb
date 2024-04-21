@@ -11,6 +11,11 @@ Rails.application.routes.draw do
   post 'deploy', to: 'home#deploy'
 
   resources :profile, only: %i[index show]
+
+  get 'post/liked', to: 'post#liked'
+  get 'post/view', to: 'post#viewed'
+  get 'post/commented', to: 'post#commented'
   resources :post, only: %i[index show]
+
   get 'category/:category_id', to: 'category#show', as: :category_show
 end

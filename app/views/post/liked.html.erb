@@ -1,0 +1,12 @@
+<div class="bg-white">
+  <main class="mx-auto max-w-7xl sm:px-6 sm:pt-16 lg:px-8">
+    <div class="mx-auto max-w-2xl lg:max-w-none">
+       <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
+          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Posteos con más Likes</h2>
+          <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+            <%=render partial: "instagram_post/post", collection: @posts, cache: true%>
+          </div>
+        </section>
+    </div>
+  </main>
+</div>
