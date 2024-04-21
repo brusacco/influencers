@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   resources :profile, only: %i[index show]
 
   get 'post/liked', to: 'post#liked'
-  get 'post/viewed', to: 'post#viewed'
+  get 'post/video_viewed', to: 'post#video_viewed'
   get 'post/commented', to: 'post#commented'
   resources :post, only: %i[index show]
 
