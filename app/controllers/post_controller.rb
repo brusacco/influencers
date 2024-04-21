@@ -9,14 +9,14 @@ class PostController < ApplicationController
   end
 
   def commented
-    @posts = InstagramPost.a_week_ago.order(comments_count: :desc).limit(61)
+    @posts = InstagramPost.a_week_ago.order(comments_count: :desc).limit(48)
   end
 
   def liked
-    @posts = InstagramPost.a_week_ago.order(likes_count: :desc).limit(61)
+    @posts = InstagramPost.a_week_ago.order(likes_count: :desc).limit(48)
   end
 
   def video_viewed
-    @posts = InstagramPost.a_week_ago.order(video_view_count: :desc).limit(61)
+    @posts = InstagramPost.a_week_ago.order(video_view_count: :desc).limit(48)
   end
 end
