@@ -77,7 +77,7 @@ class Profile < ApplicationRecord
   def collaborations_hash
     collabs = []
     instagram_posts.a_month_ago.each do |post|
-      next if post.data.nil?
+      next if post.data.empty?
       next unless post.data['node']['coauthor_producers']
 
       post.data['node']['coauthor_producers'].each do |coauthor|
