@@ -53,6 +53,8 @@ RAILS_ENV=production rails db:seed
 
 RAILS_ENV=production rails c
 
+nuhup puma &
+
 ----------------------------------------------------------------
 Dump the database and mantain the character set
 mysqldump --default-character-set=utf8mb4 
