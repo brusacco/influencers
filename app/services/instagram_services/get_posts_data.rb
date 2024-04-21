@@ -14,6 +14,7 @@ module InstagramServices
       raise StandardError, 'Empty response body' if response.body.empty?
 
       data = JSON.parse(response.body)
+      data = data['data']['user']['edge_owner_to_timeline_media']['edges']
       handle_success(data)
     rescue StandardError => e
       handle_error(e.message)
