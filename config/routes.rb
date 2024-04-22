@@ -12,6 +12,9 @@ Rails.application.routes.draw do
 
   resources :profiles, only: %i[index show]
 
+  # Redirect old singular route to new plural route
+  get '/post/:id', to: redirect('/posts/%{id}')
+
   get 'posts/liked', to: 'posts#liked'
   get 'posts/video_viewed', to: 'posts#video_viewed'
   get 'posts/commented', to: 'posts#commented'
