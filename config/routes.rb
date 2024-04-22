@@ -10,12 +10,12 @@ Rails.application.routes.draw do
   root 'home#index'
   post 'deploy', to: 'home#deploy'
 
-  resources :profile, only: %i[index show]
+  resources :profiles, only: %i[index show]
 
-  get 'post/liked', to: 'post#liked'
-  get 'post/video_viewed', to: 'post#video_viewed'
-  get 'post/commented', to: 'post#commented'
-  resources :post, only: %i[index show]
+  get 'posts/liked', to: 'posts#liked'
+  get 'posts/video_viewed', to: 'posts#video_viewed'
+  get 'posts/commented', to: 'posts#commented'
+  resources :posts, only: %i[index show]
 
   get 'category/:category_id', to: 'category#show', as: :category_show
 end

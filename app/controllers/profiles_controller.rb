@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ProfileController < ApplicationController
+class ProfilesController < ApplicationController
   caches_page :show
   before_action :set_profile, only: %i[show]
 
