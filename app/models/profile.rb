@@ -114,12 +114,10 @@ class Profile < ApplicationRecord
   end
 
   def update_profile
-    response = InstagramServices::GetProfileData.call(username)
+    data = InstagramServices::GetProfileData.call(username)
     return unless response.success?
 
-    update!(response.data) if response.success?
-
-    response = InstagramServices::UpdateProfileData.call(data)
+    response = InstagramServices::UpdateProfileData.call(data.data)
     return unless response.success?
 
     update!(response.data)
