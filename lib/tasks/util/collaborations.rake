@@ -11,9 +11,9 @@ namespace :util do
       post.data['node']['coauthor_producers'].each do |coauthor|
         next if coauthor['username'] == post.profile.username
 
-        Profile.create!(username: coauthor['username']) unless Profile.exists?(username: coauthor['username'])
-
-        collaborated_profile = Profile.find_by(username: coauthor['username'])
+        coauthor = coauthor['username']
+        collaborated_profile = Profile.create(username: coauthor) unless Profile.exists?(username: coauthor)
+        next unless collaborated_profile.persisted?
 
         InstagramCollaboration.create!(
           instagram_post: post,
