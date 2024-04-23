@@ -8,6 +8,8 @@ namespace :util do
 
       puts "Generating collaborations for #{post.shortcode} - #{post.profile.username}"
       post.data['node']['coauthor_producers'].each do |coauthor|
+        next if coauthor['username'] == post.profile.username
+
         Profile.create!(username: coauthor['username']) unless Profile.exists?(username: coauthor['username'])
 
         collaborated_profile = Profile.find_by(username: coauthor['username'])
