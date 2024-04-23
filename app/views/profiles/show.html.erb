@@ -16,7 +16,7 @@
         <div class="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
           <a href="https://www.instagram.com/<%=@profile.username%>" target="_blank" class="text-3xl font-bold tracking-tight text-gray-900"><%=@profile.username%></a>
           <%if current_admin_user%>
-          <%=link_to 'Edit', edit_admin_profile_path(@profile)%>
+          <%=link_to 'Edit', edit_admin_profile_path(@profile), target: '_blank'%>
           <%end%>
           <hr class="mb-2">
           <h2 class="text-xl font-bold tracking-tight text-gray-900"><%=@profile.full_name%></h2>
