@@ -69,7 +69,7 @@ ActiveAdmin.register Profile do
     end
     column :profile_type
     column :followers
-    column :engagement_rate
+    # column :engagement_rate
     column :total_interactions_count
     column :country_string
     column :category_enum
