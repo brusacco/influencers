@@ -2,6 +2,7 @@ namespace :util do
   desc 'Generate collaborations'
   task collaborations: :environment do
     InstagramPost.a_month_ago.each do |post|
+      next if InstagramCollaboration.exists?(instagram_post: post)
       next if post.data.empty?
       next if post.profile.followers < 50_000
       next unless post.data['node']['coauthor_producers']
@@ -13,7 +14,6 @@ namespace :util do
         Profile.create!(username: coauthor['username']) unless Profile.exists?(username: coauthor['username'])
 
         collaborated_profile = Profile.find_by(username: coauthor['username'])
-        next if InstagramCollaboration.exists?(instagram_post: post)
 
         InstagramCollaboration.create!(
           instagram_post: post,
