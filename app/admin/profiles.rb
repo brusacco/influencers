@@ -70,7 +70,9 @@ ActiveAdmin.register Profile do
     column :profile_type
     column :followers
     # column :engagement_rate
-    column :total_interactions_count
+    column 'Interactions' do |profile|
+      profile.total_interactions_count
+    end
     column :country_string
     column :category_enum
     column :category_name
