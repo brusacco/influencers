@@ -12,7 +12,6 @@ namespace :util do
       response.data.each do |related_profile|
         Profile.find_or_create_by(username: related_profile) do |p|
           puts "Adding #{p.username} to DB"
-          p.update!(country_string: 'Paraguay')
         end
       end
     end
