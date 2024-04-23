@@ -10,12 +10,7 @@ namespace :util do
         Profile.create!(username: coauthor['username']) unless Profile.exists?(username: coauthor['username'])
 
         collaborated_profile = Profile.find_by(username: coauthor['username'])
-        next if InstagramCollaboration.exists?(
-          instagram_post: post,
-          collaborator: post.profile,
-          collaborated: collaborated_profile,
-          created_at: post.posted_at
-        )
+        next if InstagramCollaboration.exists?(instagram_post: post)
 
         InstagramCollaboration.create!(
           instagram_post: post,
