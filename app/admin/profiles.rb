@@ -72,7 +72,7 @@ ActiveAdmin.register Profile do
     # column :engagement_rate
     column :total_interactions_count
     column :country_string
-    column :category_enum
+    # column :category_enum
     column :category_name
 
     actions
