@@ -165,7 +165,7 @@
         <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
           <h2 id="related-heading" class="text-xl font-bold text-gray-900">Menciones</h2>
           <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            <%=render partial: "profiles/profile", collection: @profile.mentions.uniq, cache: true%>
+            <%=render partial: "profiles/profile", collection: @profile.mentions, cache: true%>
           </div>
         </section>
       <%end%>
