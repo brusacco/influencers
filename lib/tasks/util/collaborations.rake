@@ -21,6 +21,8 @@ namespace :util do
           collaborated: collaborated_profile,
           created_at: post.posted_at
         )
+      rescue StandardError => e
+        handle_error(e.message)
       end
       puts '----------------------------------------------------'
     end
