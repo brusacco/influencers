@@ -21,6 +21,8 @@ class ProfilesController < ApplicationController
       @profiles = Profile.where.not(id: @profile.id).order(total_interactions_count: :desc).limit(12)
     end
 
+    @mentions = Profile.where(username: @profile.mentions)
+
     @posts = @profile.instagram_posts.order(posted_at: :desc).limit(12)
 
     @last_week_posts = @profile.instagram_posts.a_week_ago
