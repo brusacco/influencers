@@ -2,9 +2,9 @@
 
 require 'test_helper'
 
-class PostControllerTest < ActionDispatch::IntegrationTest
+class InstagramPostsControllerTest < ActionDispatch::IntegrationTest
   test 'should get index' do
-    get post_index_url
+    get posts_url
     assert_response :success
   end
 end

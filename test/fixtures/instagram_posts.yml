@@ -3,11 +3,9 @@
 one:
   data: MyText
   profile: one
-  image: MyText
   shortcode: MyString
 
 two:
   data: MyText
   profile: two
-  image: MyText
   shortcode: MyString
