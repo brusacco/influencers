@@ -3,6 +3,7 @@ namespace :util do
   task collaborations: :environment do
     InstagramPost.a_month_ago.each do |post|
       next if post.data.empty?
+      next if post.profile.followers_count < 10_000
       next unless post.data['node']['coauthor_producers']
 
       puts "Generating collaborations for #{post.shortcode} - #{post.profile.username}"
