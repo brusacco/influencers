@@ -22,7 +22,7 @@ namespace :util do
           created_at: post.posted_at
         )
       rescue StandardError => e
-        handle_error(e.message)
+        puts e.message
       end
       puts '----------------------------------------------------'
     end
