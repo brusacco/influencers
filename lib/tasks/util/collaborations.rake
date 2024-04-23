@@ -5,6 +5,7 @@ namespace :util do
       next if InstagramCollaboration.exists?(instagram_post: post)
       next if post.data.empty?
       next if post.profile.followers < 50_000
+      next unless post.profile.country_string == 'Paraguay'
       next unless post.data['node']['coauthor_producers']
 
       puts "Generating collaborations for #{post.shortcode} - #{post.profile.username}"
