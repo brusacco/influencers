@@ -8,7 +8,6 @@ class ProfilesController < ApplicationController
     @profiles = Profile.paraguayos.order(followers: :desc).limit(20)
     @profiles_interactions = Profile.paraguayos.order(total_interactions_count: :desc).limit(20)
     @profiles_video_views = Profile.paraguayos.order(total_video_view_count: :desc).limit(20)
-    @profiles_engagement = Profile.paraguayos.order(engagement_rate: :desc).limit(20)
     @profiles_disaster = Profile.paraguayos.where(total_posts: 0).order(followers: :desc).limit(40)
 
     set_meta_tags title: 'Perfiles de Influencers | Influencers.com.py', description: DESCRIPTION, keywords: KEYWORDS
