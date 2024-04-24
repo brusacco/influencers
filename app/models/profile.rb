@@ -29,9 +29,11 @@ class Profile < ApplicationRecord
 
   scope :paraguayos, -> { where(country_string: 'Paraguay') }
   scope :otros, -> { where(country_string: 'Otros') }
+  scope :has_uid, -> { where.not(uid: nil) }
   scope :no_country, -> { where(country_string: nil) }
   scope :no_profile_type, -> { where(profile_type: nil) }
   scope :micro, -> { where(followers: ..10_000) }
+  scope :tracked, -> { where(followers: 10_000..) }
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[
