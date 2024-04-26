@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :util do
   desc 'Generate collaborations'
   task collaborations: :environment do

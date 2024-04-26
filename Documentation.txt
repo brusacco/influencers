@@ -53,7 +53,7 @@ RAILS_ENV=production rails db:seed
 
 RAILS_ENV=production rails c
 
-nuhup puma &
+nohup puma &
 
 ----------------------------------------------------------------
 Dump the database and mantain the character set
