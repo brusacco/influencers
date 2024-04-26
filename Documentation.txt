@@ -16,6 +16,8 @@ https://github.com/rails/rails/issues/38560
 ruby issues
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
+EDITOR="mcedit --wait" bin/rails credentials:edit
+
 ALTER DATABASE influencers CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 ALTER TABLE profiles CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
