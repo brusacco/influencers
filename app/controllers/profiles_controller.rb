@@ -14,6 +14,7 @@ class ProfilesController < ApplicationController
   end
 
   def show
+    expires_in 30.minutes, public: true
     if @profile.profile_type
       @profiles = Profile.paraguayos.where(profile_type: @profile.profile_type).where.not(id: @profile.id).order(followers: :desc).limit(12)
     else
