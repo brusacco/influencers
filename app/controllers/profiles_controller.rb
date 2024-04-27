@@ -5,6 +5,7 @@ class ProfilesController < ApplicationController
   before_action :set_profile, only: %i[show]
 
   def index
+    expires_in 30.minutes, public: true
     @profiles = Profile.paraguayos.order(followers: :desc).limit(20)
     @profiles_interactions = Profile.paraguayos.order(total_interactions_count: :desc).limit(20)
     @profiles_video_views = Profile.paraguayos.order(total_video_view_count: :desc).limit(20)
