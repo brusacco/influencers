@@ -12,12 +12,3 @@ end
 Rails.configuration.to_prepare do
   ActiveSupport.on_load(:active_storage_attachment) { include ActiveStorageAttachmentExtension }
 end
-
-# config/initializers/active_storage.rb
-Rails.application.config.after_initialize do
-  ActiveStorage::Current.url_options = {
-    host: 'influencers.com.py', # Set your domain or base URL
-    protocol: 'https', # Use 'http' or 'https' depending on your setup
-    port: 80 # If needed, specify the port (commonly for development)
-  }
-end
