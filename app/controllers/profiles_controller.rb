@@ -4,6 +4,8 @@ class ProfilesController < ApplicationController
   before_action :set_profile, only: %i[show]
 
   def index
+    include ActiveStorage::SetCurrent
+
     # expires_in 30.minutes, public: true
     @profiles = Profile.paraguayos.order(followers: :desc).limit(20)
     @profiles_interactions = Profile.paraguayos.order(total_interactions_count: :desc).limit(20)
