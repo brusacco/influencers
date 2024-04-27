@@ -3,6 +3,7 @@
 class ProfilesController < ApplicationController
   before_action :set_profile, only: %i[show]
   include ActiveStorage::SetCurrent
+  layout 'profile'
 
   def index
     expires_in 30.minutes, public: true
