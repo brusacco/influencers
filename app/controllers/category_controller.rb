@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class CategoryController < ApplicationController
+  include ActiveStorage::SetCurrent
   def show
+    expires_in 30.minutes, public: true
     @category = params[:category_id]
     @profiles = Profile.paraguayos.where(profile_type: @category).order(followers: :desc).limit(40)
     @profiles_interactions = Profile.paraguayos.where(profile_type: @category).order(total_interactions_count: :desc).limit(20)
