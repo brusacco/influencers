@@ -16,7 +16,7 @@ end
 # config/initializers/active_storage.rb
 Rails.application.config.after_initialize do
   ActiveStorage::Current.url_options = {
-    host: 'www.influencers.com', # Set your domain or base URL
+    host: 'influencers.com.py', # Set your domain or base URL
     protocol: 'https', # Use 'http' or 'https' depending on your setup
     port: 80 # If needed, specify the port (commonly for development)
   }
