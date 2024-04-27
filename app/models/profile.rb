@@ -96,7 +96,6 @@ class Profile < ApplicationRecord
     url = profile_pic_url_hd || profile_pic_url
     response = HTTParty.get(url)
     data = response.body
-
     filename = "#{username}.jpg"
     avatar.attach(io: StringIO.new(data), filename: filename)
   end
