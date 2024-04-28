@@ -22,7 +22,11 @@ ActiveAdmin.register Profile do
     batch_action_collection.find(ids).each do |profile|
       profile.update_profile
     end
-    redirect_to collection_path, alert: 'The profile have been updated.'
+    # Preserve the current query parameters (filters)
+    current_params = request.query_parameters
+
+    # Redirect to the collection path with the preserved query parameters
+    redirect_to collection_path(current_params), alert: 'The profiles have been updated.'
   end
 
   #------------------------------------------------------------------
