@@ -31,6 +31,7 @@ ActiveAdmin.register Profile do
   member_action :update_profile, method: :put do
     profile = Profile.find(params[:id])
     profile.update_profile
+    profile.save_avatar
 
     flash[:notice] = 'Profile Updated successfully'
     redirect_to admin_profile_path, notice: 'Profile Updated successfully'
