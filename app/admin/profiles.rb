@@ -18,6 +18,13 @@ ActiveAdmin.register Profile do
                                  }
   #------------------------------------------------------------------
 
+  batch_action :update_profile do |ids|
+    batch_action_collection.find(ids).each do |profile|
+      profile.update_profile
+    end
+    redirect_to collection_path, alert: 'The profile have been updated.'
+  end
+
   #------------------------------------------------------------------
   # UPDATE_PROFILE
   #------------------------------------------------------------------
