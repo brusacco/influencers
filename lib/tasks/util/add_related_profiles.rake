@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :util do
   desc 'Add Related profiles to DB'
   task add_related_profiles: :environment do
