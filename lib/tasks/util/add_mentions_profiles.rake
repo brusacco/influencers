@@ -12,6 +12,7 @@ namespace :util do
       end
     rescue StandardError => e
       puts e.message
+      sleep 5
       next
     end
   end
