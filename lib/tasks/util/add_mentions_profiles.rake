@@ -10,6 +10,9 @@ namespace :util do
           puts "Adding >>> #{p.username} to DB"
         end
       end
+    rescue StandardError => e
+      puts e.message
+      next
     end
   end
 end
