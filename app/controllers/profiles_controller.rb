@@ -31,7 +31,13 @@ class ProfilesController < ApplicationController
     @related_brands = Profile.where(username: @profile.related_brands)
 
     @median_interactions = @profile.total_interactions_count / (@profile.total_posts + 1)
-    @median_video_views = @profile.total_video_view_count / (@profile.total_posts + 1)
+
+    if @profile.total_videos.zero?
+      @median_video_views = @profile.total_video_view_count / (@profile.total_videos + 1)
+    else
+      @median_video_views = 0
+    end
+
 
     set_meta_tags title: "#{@profile.username} | Influencers.com.py",
                   description: DESCRIPTION,

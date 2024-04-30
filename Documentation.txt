@@ -47,6 +47,9 @@ RAILS_ENV=production rake instagram:update_profiles
 RAILS_ENV=production rake instagram:update_posts
 RAILS_ENV=production rake instagram:update_profiles_stats
 
+RAILS_ENV=production rake util:collaborations
+RAILS_ENV=production rake util:add_mentions_profiles
+
 
 RAILS_ENV=production rake instagram:crawler_profile profile_id=6327
 
