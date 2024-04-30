@@ -33,9 +33,9 @@ class ProfilesController < ApplicationController
     @median_interactions = @profile.total_interactions_count / (@profile.total_posts + 1)
 
     if @profile.total_videos.zero?
-      @median_video_views = @profile.total_video_view_count / (@profile.total_videos + 1)
-    else
       @median_video_views = 0
+    else
+      @median_video_views = @profile.total_video_view_count / (@profile.total_videos + 1)
     end
 
 
