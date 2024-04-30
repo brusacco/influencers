@@ -60,6 +60,8 @@
                 <p>En la última semana ha a creado <b><%=number_with_delimiter(@profile.total_posts, delimiter: '.')%></b> publicaciones, generando un total de <b><%=number_with_delimiter(@profile.total_interactions_count, delimiter: '.')%></b> interacciones, en promedio se generan <b><%=number_with_delimiter(@median_interactions , delimiter: '.')%></b> interacciones por post. Su engagement rate es del <b><%=@profile.engagement_rate%>%</b></p>
                 <%if @profile.total_videos == 0%>
                   <p>La cuenta no ha publicado videos en la útima semana.</p>
+                <%elsif @profile.total_videos == 1%>
+                  <p>Su video ha sido visto <b><%=number_with_delimiter(@profile.total_video_view_count, delimiter: '.')%></b> veces en la última semana, en promedio cada video fue visto <b><%=number_with_delimiter(@median_video_views, delimiter: '.')%></b> veces.</p>
                 <%else%>
                   <p>Sus <b><%=number_with_delimiter(@profile.total_videos, delimiter: '.')%></b> videos han sido vistos <b><%=number_with_delimiter(@profile.total_video_view_count, delimiter: '.')%></b> veces en la última semana, en promedio cada video fue visto <b><%=number_with_delimiter(@median_video_views, delimiter: '.')%></b> veces.</p>
                 <%end%>
