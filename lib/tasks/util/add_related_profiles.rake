@@ -3,7 +3,7 @@
 namespace :util do
   desc 'Add Related profiles to DB'
   task add_related_profiles: :environment do
-    Profile.where(country_string: 'Paraguay', profile_type: :medio, followers: 50_000..).find_each do |profile|
+    Profile.where(country_string: 'Paraguay', profile_type: :programa, followers: 50_000..).find_each do |profile|
       puts "Adding profiles related to #{profile.username}"
       response = InstagramServices::GetProfileData.call(profile.username)
       next unless response.success?
