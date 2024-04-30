@@ -31,9 +31,12 @@
 
 /public/assets
 /public/sitemap*
+/public/.DS_Store
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
+.gitignore
+.DS_Store
