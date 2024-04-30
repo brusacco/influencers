@@ -117,3 +117,5 @@ gem 'ruby-openai', '~> 6.0'
 gem 'actionpack-page_caching', '~> 1.2'
 
 gem 'meta-tags', '~> 2.19'
+
+gem "sitemap_generator", "~> 6.3"
