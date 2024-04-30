@@ -35,9 +35,8 @@ class ProfilesController < ApplicationController
     if @profile.total_videos.zero?
       @median_video_views = 0
     else
-      @median_video_views = @profile.total_video_view_count / (@profile.total_videos + 1)
+      @median_video_views = @profile.total_video_view_count / @profile.total_videos
     end
-
 
     set_meta_tags title: "#{@profile.username} | Influencers.com.py",
                   description: DESCRIPTION,
