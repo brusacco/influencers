@@ -57,7 +57,11 @@
             </div>
             <%if @profile.total_posts.positive?%>
               <div class="space-y-6 text-xl text-gray-700">
+                <%if @profile.total_posts == 1%>
+                <p>En la última semana ha a creado <b>1</b> publicacion, generando un total de <b><%=number_with_delimiter(@profile.total_interactions_count, delimiter: '.')%></b> interacciones. Su engagement rate es del <b><%=@profile.engagement_rate%>%</b></p>
+                <%else%>
                 <p>En la última semana ha a creado <b><%=number_with_delimiter(@profile.total_posts, delimiter: '.')%></b> publicaciones, generando un total de <b><%=number_with_delimiter(@profile.total_interactions_count, delimiter: '.')%></b> interacciones, en promedio se generan <b><%=number_with_delimiter(@median_interactions , delimiter: '.')%></b> interacciones por post. Su engagement rate es del <b><%=@profile.engagement_rate%>%</b></p>
+                <%end%>
                 <%if @profile.total_videos == 0%>
                   <p>La cuenta no ha publicado videos en la útima semana.</p>
                 <%elsif @profile.total_videos == 1%>
