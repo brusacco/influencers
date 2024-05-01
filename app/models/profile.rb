@@ -45,7 +45,7 @@ class Profile < ApplicationRecord
       is_business_account
       followers
       biography
-      country
+      country_string
       profile_type
     ]
   end
