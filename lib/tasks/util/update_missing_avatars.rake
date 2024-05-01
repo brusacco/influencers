@@ -1,7 +1,7 @@
 namespace :util do
   desc 'Update MIssing Avatars'
   task update_missing_avatars: :environment do
-    Profile.find_each do |profile|
+    Parallel.each(Profile.order(followers: :desc), in_processes: 10) do |profile|
       next if profile.avatar.attached?
 
       puts "Updating #{profile.username} avatar"
