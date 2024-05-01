@@ -78,10 +78,11 @@ ActiveAdmin.register Profile do
     column 'Username' do |profile|
       link_to profile.username, "https://www.instagram.com/#{profile.username}", target: '_blank', rel: 'noopener'
     end
+    column :biography
     column :profile_type
     column :followers
     # column :engagement_rate
-    column :total_interactions_count
+    # column :total_interactions_count
     column :country_string
     # column :category_enum
     column :category_name
