@@ -49,6 +49,7 @@ ActiveAdmin.register Profile do
   #------------------------------------------------------------------
 
   filter :username
+  filter :country_string, as: :select, collection: %w[Paraguayos Otros]
   filter :profile_type, as: :select, collection: Profile.profile_types.map
   filter :category_name
   filter :is_private
