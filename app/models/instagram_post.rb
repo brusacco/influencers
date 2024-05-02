@@ -99,11 +99,19 @@ class InstagramPost < ApplicationRecord
   end
 
   def save_image(url)
-    response = HTTParty.get(url)
-    data = response.body
-    filename = "#{shortcode}.jpg"
-    image.attach(io: StringIO.new(data), filename: filename)
+    return if image.attached?
+
+    begin
+      response = HTTParty.get(url)
+      data = response.body
+      filename = "#{shortcode}.jpg"
+      image.attach(io: StringIO.new(data), filename: filename)
+    rescue StandardError => e
+      puts e.message
+    end
   end
+
+
 
   def update_total_count
     update!(total_count: likes_count + comments_count)

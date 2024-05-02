@@ -17,12 +17,7 @@ namespace :instagram do
 
         post = profile.instagram_posts.find_or_create_by!(shortcode: shortcode)
         post.update!(post_response.data)
-
-        begin
-          post.save_image(edge['node']['display_url']) unless post.image.attached?
-        rescue StandardError => e
-          puts e.message
-        end
+        post.save_image(edge['node']['display_url'])
         puts '---------------------------------------'
       rescue StandardError => e
         puts e.message
