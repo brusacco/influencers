@@ -96,11 +96,15 @@ class Profile < ApplicationRecord
   end
 
   def save_avatar
-    url = profile_pic_url_hd || profile_pic_url
-    response = HTTParty.get(url)
-    data = response.body
-    filename = "#{username}.jpg"
-    avatar.attach(io: StringIO.new(data), filename: filename)
+    begin
+      url = profile_pic_url_hd || profile_pic_url
+      response = HTTParty.get(url)
+      data = response.body
+      filename = "#{username}.jpg"
+      avatar.attach(io: StringIO.new(data), filename: filename)
+    rescue StandardError => e
+      puts e.message
+    end
   end
 
   def update_profile_stats
