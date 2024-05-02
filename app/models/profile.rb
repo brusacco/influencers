@@ -96,6 +96,8 @@ class Profile < ApplicationRecord
   end
 
   def save_avatar
+    #next if avatar.attached?
+
     begin
       url = profile_pic_url_hd || profile_pic_url
       response = HTTParty.get(url)
