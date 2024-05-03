@@ -35,7 +35,9 @@
               <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                 <%=collab.instagram_post.posted_at.strftime("%-d-%m-%Y")%>
               </td>
-              <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">Member</td>
+              <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                <%=link_to 'Link', collab.instagram_post.url, target: '_blank'%>
+              </td>
             </tr>
             <%end%>
 
