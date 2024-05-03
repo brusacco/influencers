@@ -105,7 +105,7 @@
         </section>
         <%if current_admin_user && @collabs.any?%>
         <h2 id="related-heading" class="text-xl font-bold text-gray-900">Últimas Colaboraciones</h2>
-        <%= render 'posts/collaborations'%>
+        <%= render partial: 'posts/collaborations', locals: { collaborations: @collabs } %>
         <%end%>
         <%if @profile.instagram_posts.a_month_ago && @profile.instagram_posts.a_month_ago.word_occurrences.any?%>
         <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
