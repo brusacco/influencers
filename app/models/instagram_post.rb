@@ -111,8 +111,6 @@ class InstagramPost < ApplicationRecord
     end
   end
 
-
-
   def update_total_count
     update!(total_count: likes_count + comments_count)
   end

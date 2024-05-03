@@ -38,6 +38,8 @@ class ProfilesController < ApplicationController
       @median_video_views = @profile.total_video_view_count / @profile.total_videos
     end
 
+    @collabs = InstagramCollaboration.where(collaborator: @profile).order(posted_at: :desc).limit(12)
+
     set_meta_tags title: "#{@profile.username} | Influencers.com.py",
                   description: DESCRIPTION,
                   keywords: KEYWORDS,

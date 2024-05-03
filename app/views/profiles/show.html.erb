@@ -103,6 +103,9 @@
             </dl>
           </div>
         </section>
+        <%if current_admin_user%>
+        <%= render 'posts/collaborations'%>
+        <%end%>
         <%if @profile.instagram_posts.a_month_ago && @profile.instagram_posts.a_month_ago.word_occurrences.any?%>
         <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
           <h2 id="related-heading" class="text-xl font-bold text-gray-900">Nube de Palabras</h2>
