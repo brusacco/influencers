@@ -14,7 +14,7 @@ class Profile < ApplicationRecord
            dependent: :destroy
   has_many :collaborated, through: :collaborated_collaborations, source: :collaborated
 
-  # As collaborated
+  # Been collaborated
   has_many :collaborator_collaborations,
            foreign_key: :collaborated_id,
            class_name: 'InstagramCollaboration',
