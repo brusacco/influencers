@@ -103,7 +103,8 @@
             </dl>
           </div>
         </section>
-        <%if current_admin_user%>
+        <%if current_admin_user && @collabs.any?%>
+        <h2 id="related-heading" class="text-xl font-bold text-gray-900">Últimas Colaboraciones</h2>
         <%= render 'posts/collaborations'%>
         <%end%>
         <%if @profile.instagram_posts.a_month_ago && @profile.instagram_posts.a_month_ago.word_occurrences.any?%>
