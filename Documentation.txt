@@ -90,3 +90,11 @@ https://blog.saeloun.com/2021/09/14/rails-7-adds-expiring-urls-to-active-storage
 
 POSIBLES PROBLEMAS DE PUMA
 https://stackoverflow.com/questions/34141011/unresponsive-socket-after-x-time-puma-ruby
+
+
+
+Para la segunda etapa y para verificar a los dueños de las cuentas se les puede pedir un post
+el mismo tendria un texto llamativo y un codigo unico para verificar la cuenta.
+Cuanto este listo le dan OK a verificar y el crawler revisa el ID en los ultimos posts.
+
+"Feliz de formar parte de la comunidad Influencer ams grande de Paraguay, HTG999A1"
