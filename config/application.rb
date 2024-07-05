@@ -13,6 +13,18 @@ module Influencers
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
+    # Add Rack::Deflater middleware
+    config.middleware.use Rack::Deflater,
+                          include: %w[
+                            text/html
+                            application/json
+                            text/css
+                            application/javascript
+                            application/xml
+                            text/plain
+                            image/svg+xml
+                          ]
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
