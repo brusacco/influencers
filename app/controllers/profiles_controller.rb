@@ -22,6 +22,13 @@ class ProfilesController < ApplicationController
       @profiles = Profile.paraguayos.where.not(id: @profile.id).order(total_interactions_count: :desc).limit(12)
     end
 
+    # Conditional GETs are a feature of the HTTP specification that
+    # provide a way for web servers
+    # to tell browsers that the response
+    # to a GET request hasn't changed since the last request
+    # and can be safely pulled from the browser cache.
+    fresh_when last_modified: @profiles.updated_at.utc, etag: @profiles
+
     @mentions = Profile.where(username: @profile.mentions)
 
     @posts = @profile.instagram_posts.order(posted_at: :desc).limit(12)
