@@ -6,10 +6,10 @@ class ProfilesController < ApplicationController
 
   def index
     expires_in 30.minutes, public: true
-    @profiles = Profile.paraguayos.order(followers: :desc).limit(20)
-    @profiles_interactions = Profile.paraguayos.order(total_interactions_count: :desc).limit(20)
-    @profiles_video_views = Profile.paraguayos.order(total_video_view_count: :desc).limit(20)
-    @profiles_disaster = Profile.paraguayos.where(total_posts: 0).order(followers: :desc).limit(40)
+    @profiles = Profile.paraguayos.with_attached_image.order(followers: :desc).limit(20)
+    @profiles_interactions = Profile.paraguayos.with_attached_image.order(total_interactions_count: :desc).limit(20)
+    @profiles_video_views = Profile.paraguayos.with_attached_image.order(total_video_view_count: :desc).limit(20)
+    @profiles_disaster = Profile.paraguayos.with_attached_image.where(total_posts: 0).order(followers: :desc).limit(40)
 
     set_meta_tags title: 'Perfiles de Influencers | Influencers.com.py', description: DESCRIPTION, keywords: KEYWORDS
   end

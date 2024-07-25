@@ -92,6 +92,22 @@ POSIBLES PROBLEMAS DE PUMA
 https://stackoverflow.com/questions/34141011/unresponsive-socket-after-x-time-puma-ruby
 
 
+##############################################################################
+JMALLOC MANEJO OPTIMIZADO DE MEMORIA como en HEROKU!!!! IMPORANTE!!!
+##############################################################################
+https://gist.github.com/hopsoft/9e2b89688b56f3b59cb6b9fc8cfdeeb0
+https://stackoverflow.com/questions/43908844/error-on-installing-ruby-with-jemalloc
+sudo apt install libjemalloc-dev
+rvm install 3.3.0 -C --with-jemalloc
+
+Este tambien puede ayudar.
+RUBY_CONFIGURE_OPTS="--enable-yjit
+
+rvm use 2.5.2
+ruby -r rbconfig -e "puts RbConfig::CONFIG['LIBS']"
+
+
+
 
 Para la segunda etapa y para verificar a los dueños de las cuentas se les puede pedir un post
 el mismo tendria un texto llamativo y un codigo unico para verificar la cuenta.
