@@ -38,7 +38,7 @@ class ProfilesController < ApplicationController
       @median_video_views = @profile.total_video_view_count / @profile.total_videos
     end
 
-    @collabs = @profile.collaborated_collaborations.includes(:instagram_post).order(posted_at: :desc).limit(12)
+    @collabs = @profile.with_attached_avatar.collaborated_collaborations.includes(:instagram_post).order(posted_at: :desc).limit(12)
 
     # Conditional GETs are a feature of the HTTP specification that
     # provide a way for web servers
