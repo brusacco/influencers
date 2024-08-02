@@ -21,7 +21,7 @@ namespace :instagram do
         post.update!(post_response.data)
 
         begin
-          post.save_image(edge['node']['display_url']) unless post.image.attached?
+          post.save_image(edge['node']['display_url']) #unless post.image.attached?
         rescue StandardError => e
           puts e.message
         end
