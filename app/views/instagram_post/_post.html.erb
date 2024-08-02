@@ -7,6 +7,7 @@
      alt: post.caption||"Posteo de #{post.profile.username}"
     ) %>
   </div>
-  <%=post.product_type%> - <%=post.media%> - <%=post.posted_at.strftime("%d/%m/%Y")%>
+  <%=post.product_type%> - <%=post.media%> - <%=post.posted_at.strftime("%d/%m/%Y")%><br>
+  <%=post.id%>
 </div>
 <%end%>
