@@ -102,10 +102,8 @@ class InstagramPost < ApplicationRecord
     return if image.attached?
 
     begin
-      response = HTTParty.get(url)
-      data = response.body
-      filename = "#{shortcode}.jpg"
-      image.attach(io: StringIO.new(data), filename:)
+      filename = File.basename(URI.parse(url).path)
+      image.attach(io: URI.open(url), filename:) # rubocop:disable Security/Open
     rescue StandardError => e
       puts e.message
     end
