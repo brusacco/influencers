@@ -105,10 +105,9 @@ class InstagramPost < ApplicationRecord
       filename = File.basename(URI.parse(url).path)
       image.attach(io: URI.open(url), filename:) # rubocop:disable Security/Open
     rescue StandardError => e
-      filename = File.basename(URI.parse(url).path)
-      url = URI::Parser.new.escape(url)
-      image.attach(io: URI.open(url), filename:) # rubocop:disable Security/Open
-      puts e.message
+      filename = 'placeholder.jpg'
+      image.attach(io: URI.open('https://placehold.co/500x500/000000/FFFFFF/jpg'), filename:) # rubocop:disable Security/Open
+      puts "#{e.message} - #{url}"
     end
   end
 
