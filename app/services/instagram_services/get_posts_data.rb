@@ -7,7 +7,7 @@ module InstagramServices
     end
 
     def call
-      request = CGI.escape("https://www.instagram.com/graphql/query/?doc_id=17991233890457762&variables={\"id\":\"#{@profile.uid}\",\"first\":200}")
+      request = CGI.escape("https://www.instagram.com/graphql/query/?doc_id=17991233890457762&variables={\"id\":\"#{@profile.uid}\",\"first\":12}")
       url = "http://api.scrape.do?token=ed138ed418924138923ced2b81e04d53&url=#{request}"
 
       response = HTTParty.get(url, format: :plain, timeout: 60)
