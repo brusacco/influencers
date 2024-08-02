@@ -99,12 +99,19 @@ class InstagramPost < ApplicationRecord
   end
 
   def save_image(url)
-    return if image.attached?
+    # return if image.attached?
 
     begin
       response = HTTParty.get(url)
       data = response.body
-      filename = "#{shortcode}.jpg"
+
+      if url.includes?('.webp?')
+        ext = '.webp'
+      else
+        ext = '.jpg'
+      end
+
+      filename = "#{shortcode}.#{ext}"
       image.attach(io: StringIO.new(data), filename: filename)
     rescue StandardError => e
       puts e.message
