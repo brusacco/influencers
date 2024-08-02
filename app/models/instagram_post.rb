@@ -103,6 +103,7 @@ class InstagramPost < ApplicationRecord
 
     begin
       filename = File.basename(URI.parse(url).path)
+      puts "Downloading #{filename}..."
       image.attach(io: URI.open(url), filename:) # rubocop:disable Security/Open
     rescue StandardError => e
       puts e.message
