@@ -5,7 +5,7 @@ namespace :instagram do
   task update_profile_posts: :environment do
     profile_id = ENV.fetch('PROFILE_ID', nil)
     puts profile_id
-    Profile.where(id: profile_id).order(followers: :desc) do |profile|
+    Profile.where(id: profile_id).find_each do |profile|
       puts "#{profile.username} - #{profile.followers}"
       response = InstagramServices::GetPostsData.call(profile)
       next unless response.success?
