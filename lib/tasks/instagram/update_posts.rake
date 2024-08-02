@@ -15,7 +15,7 @@ namespace :instagram do
         post_response = InstagramServices::UpdatePostData.call(edge, true)
         next unless post_response.success?
 
-        post = profile.instagram_posts.find_or_create_by!(shortcode: shortcode)
+        post = profile.instagram_posts.find_or_create_by!(shortcode:)
         post.update!(post_response.data)
         post.save_image(edge['node']['display_resources'][0]['src'])
         puts '---------------------------------------'
