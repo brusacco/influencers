@@ -25,7 +25,7 @@ namespace :instagram do
         rescue StandardError => e
           puts e.message
         end
-        profile.touch
+        profile.touch # rubocop:disable Rails/SkipsModelValidations
         puts '---------------------------------------'
       rescue StandardError => e
         puts e.message
