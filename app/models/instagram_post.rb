@@ -105,7 +105,7 @@ class InstagramPost < ApplicationRecord
       response = HTTParty.get(url)
       data = response.body
 
-      if url.includes?('.webp?')
+      if url.include?('.webp?')
         ext = '.webp'
       else
         ext = '.jpg'
