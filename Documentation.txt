@@ -51,7 +51,7 @@ RAILS_ENV=production rake util:collaborations
 RAILS_ENV=production rake util:add_mentions_profiles
 
 
-RAILS_ENV=production rake instagram:crawler_profile profile_id=6327
+PROFILE_ID=123 RAILS_ENV=production rake instagram:update_profile_posts
 
 RAILS_ENV=production rails db:migrate
 RAILS_ENV=production rails db:seed

@@ -4,8 +4,6 @@ namespace :instagram do
   desc 'Profile Posts crawler'
   task update_profile_posts: :environment do
     profile_id = ENV.fetch('PROFILE_ID', nil)
-    raise 'Profile ID not provided' unless profile_id
-
     Profile.where(id: profile_id).order(followers: :desc) do |profile|
       puts "#{profile.username} - #{profile.followers}"
       response = InstagramServices::GetPostsData.call(profile)
