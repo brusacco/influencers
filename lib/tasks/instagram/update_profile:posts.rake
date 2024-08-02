@@ -25,7 +25,7 @@ namespace :instagram do
         rescue StandardError => e
           puts e.message
         end
-        profile.touch!
+        profile.touch
         puts '---------------------------------------'
       rescue StandardError => e
         puts e.message
