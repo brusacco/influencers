@@ -104,15 +104,8 @@ class InstagramPost < ApplicationRecord
     begin
       response = HTTParty.get(url)
       data = response.body
-
-      if url.include?('.webp?')
-        ext = '.webp'
-      else
-        ext = '.jpg'
-      end
-
-      filename = "#{shortcode}.#{ext}"
-      image.attach(io: StringIO.new(data), filename: filename)
+      filename = "#{shortcode}.jpg"
+      image.attach(io: StringIO.new(data), filename:)
     rescue StandardError => e
       puts e.message
     end
