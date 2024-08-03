@@ -10,9 +10,15 @@ module InstagramServices
     #
     #------------------------------------------------------------------------------
     def call
-      data = api_call
-      data1 = data['data']['user']['edge_owner_to_timeline_media']['edges']
-      handle_success(data1)
+      data = api_call['data']['user']['edge_owner_to_timeline_media']['edges']
+
+      if data['data']['user']['edge_owner_to_timeline_media']['page_info']['has_next_page']
+        cursor = data['data']['user']['edge_owner_to_timeline_media']['page_info']['end_cursor']
+        data2 = api_call(cursor:)['data']['user']['edge_owner_to_timeline_media']['edges']
+        data += data2
+      end
+
+      handle_success(data)
     rescue StandardError => e
       handle_error(e.message)
     end
