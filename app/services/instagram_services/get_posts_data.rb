@@ -13,7 +13,9 @@ module InstagramServices
       api_resp = api_call
       data = api_resp['data']['user']['edge_owner_to_timeline_media']['edges']
 
-      if api_resp['data']['user']['edge_owner_to_timeline_media']['page_info']['has_next_page']
+      if @profile.profile_type == :medio &&
+         api_resp['data']['user']['edge_owner_to_timeline_media']['page_info']['has_next_page']
+
         cursor = api_resp['data']['user']['edge_owner_to_timeline_media']['page_info']['end_cursor']
         pag_data = api_call(cursor:)['data']['user']['edge_owner_to_timeline_media']['edges']
         data += pag_data
