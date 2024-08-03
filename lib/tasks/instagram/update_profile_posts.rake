@@ -12,7 +12,7 @@ namespace :instagram do
 
       response.data.each_with_index do |edge, i|
         shortcode = edge['node']['shortcode']
-        puts "#{shortcode} - #{profile.username} - #{profile.followers} - (#{i} / #{response.data.size})"
+        puts "#{shortcode} - #{profile.username} - #{profile.followers} - (#{i + 1} / #{response.data.size})"
 
         post_response = InstagramServices::UpdatePostData.call(edge, true)
         next unless post_response.success?
