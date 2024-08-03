@@ -8,9 +8,9 @@ namespace :instagram do
       response = InstagramServices::GetPostsData.call(profile)
       next unless response.success?
 
-      response.data.each do |edge|
+      response.data.each_with_index do |edge, i|
         shortcode = edge['node']['shortcode']
-        puts "#{shortcode} - #{profile.username} - #{profile.followers}"
+        puts "#{shortcode} - #{profile.username} - #{profile.followers} - (#{i + 1} / #{response.data.size})"
 
         post_response = InstagramServices::UpdatePostData.call(edge, true)
         next unless post_response.success?
