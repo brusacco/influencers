@@ -99,7 +99,7 @@ class InstagramPost < ApplicationRecord
   end
 
   def save_image(url)
-    # return if image.attached?
+    return if image.attached?
 
     begin
       filename = File.basename(URI.parse(url).path)
