@@ -6,7 +6,7 @@ namespace :instagram do
     profile_id = ENV.fetch('PROFILE_ID', nil)
     puts profile_id
     Profile.where(id: profile_id).find_each do |profile|
-      puts "#{profile.username} - #{profile.followers}"
+      puts "#{profile.username} - #{profile.followers} - #{profile.profile_type}"
       response = InstagramServices::GetPostsData.call(profile)
       next unless response.success?
 
