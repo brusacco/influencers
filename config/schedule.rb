@@ -2,7 +2,7 @@
 
 set :environment, 'production'
 
-every 6.hour do
+every 6.hours do
   rake 'instagram:update_news_posts'
 end
 
