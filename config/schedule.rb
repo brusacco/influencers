@@ -2,8 +2,9 @@
 
 set :environment, 'production'
 
-every 6.hours do
+every 3.hours do
   rake 'instagram:update_news_posts'
+  rake 'instagram:update_posts'
 end
 
 every 12.hours do
@@ -11,7 +12,6 @@ every 12.hours do
 end
 
 every 24.hours do
-  rake 'instagram:update_posts'
   rake 'instagram:update_profiles'
   rake 'util:collaborations'
   rake 'util:add_mentions_profiles'
