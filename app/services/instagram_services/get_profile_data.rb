@@ -2,15 +2,15 @@
 
 module InstagramServices
   class GetProfileData < ApplicationService
-    def initialize(username)
-      @username = username
+    def initialize(uid)
+      @uid = uid
     end
 
     def call
       url = 'https://www.instagram.com/graphql/query'
 
       headers = { 'Content-Type': 'application/x-www-form-urlencoded' }
-      variables = { id: @username, render_surface: 'PROFILE' }
+      variables = { id: @uid, render_surface: 'PROFILE' }
       doc_id = '28149645878012614'
 
       # Encode variables into a query string format

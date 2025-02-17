@@ -19,7 +19,7 @@ namespace :instagram do
         post.update!(post_response.data)
 
         begin
-          post.save_image(edge['node']['display_resources'][0]['src'])
+          post.save_image(edge['node']['display_url'])
         rescue StandardError => e
           puts e.message
         end
