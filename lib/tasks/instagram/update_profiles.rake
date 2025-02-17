@@ -19,7 +19,7 @@ namespace :instagram do
       end
     rescue StandardError => e
       puts e.message
-      retry
+      next
     end
   end
 end
