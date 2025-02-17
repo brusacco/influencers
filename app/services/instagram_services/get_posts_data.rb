@@ -10,34 +10,18 @@ module InstagramServices
     #
     #------------------------------------------------------------------------------
     def call
-      api_resp = api_call
-      data = api_resp['data']['user']['edge_owner_to_timeline_media']['edges']
+      url = "https://www.instagram.com/api/v1/users/web_profile_info/?username=#{@profile.username}"
 
-      if @profile.profile_type == 'medio' &&
-         api_resp['data']['user']['edge_owner_to_timeline_media']['page_info']['has_next_page']
+      headers = { 'x-ig-app-id': '936619743392459' }
+      response = HTTParty.get(url, headers:, timeout: 60)
+      data = JSON.parse(response.body)
 
-        cursor = api_resp['data']['user']['edge_owner_to_timeline_media']['page_info']['end_cursor']
-        pag_data = api_call(cursor:)['data']['user']['edge_owner_to_timeline_media']['edges']
-        data += pag_data
-      end
+      posts = data['data']['user']['edge_owner_to_timeline_media']['edges']
+      videos = data['data']['user']['edge_felix_video_timeline']['edges']
 
-      handle_success(data)
+      handle_success(posts + videos)
     rescue StandardError => e
       handle_error(e.message)
-    end
-
-    #------------------------------------------------------------------------------
-    #
-    #------------------------------------------------------------------------------
-    def api_call(cursor: nil)
-      query = { id: @profile.uid, first: 24, cursor: }
-      escaped_query = CGI.escape(query.to_json)
-
-      request_url = "https://www.instagram.com/graphql/query/?doc_id=17991233890457762&variables=#{escaped_query}"
-      api_url = "http://api.scrape.do?token=ed138ed418924138923ced2b81e04d53&url=#{CGI.escape(request_url)}"
-
-      response = HTTParty.get(api_url, format: :plain, timeout: 60)
-      JSON.parse(response.body)
     end
   end
 end

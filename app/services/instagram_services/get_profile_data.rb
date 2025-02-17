@@ -7,12 +7,18 @@ module InstagramServices
     end
 
     def call
-      proxy = 'http://api.scrape.do?token=ed138ed418924138923ced2b81e04d53&url='
-      url = "#{proxy}https://www.instagram.com/api/v1/users/web_profile_info/?username=#{@username}"
+      url = 'https://www.instagram.com/graphql/query'
 
-      ig_headers = { 'x-ig-app-id' => '936619743392459', 'x-requested-with' => 'XMLHttpRequest' }
+      headers = { 'Content-Type': 'application/x-www-form-urlencoded' }
+      variables = { id: @username, render_surface: 'PROFILE' }
+      doc_id = '28149645878012614'
 
-      response = HTTParty.get(url, headers: ig_headers)
+      # Encode variables into a query string format
+      encoded_variables = CGI.escape(variables.to_json)
+      body = "variables=#{encoded_variables}&doc_id=#{doc_id}"
+
+      response = HTTParty.post(url, headers:, body:, timeout: 60)
+
       data = JSON.parse(response.body)
       handle_success(data)
     rescue StandardError => e
