@@ -8,6 +8,7 @@ module InstagramServices
 
     def call
       url = 'https://www.instagram.com/graphql/query'
+      api_url = "http://api.scrape.do?token=ed138ed418924138923ced2b81e04d53&url=#{CGI.escape(url)}"
 
       headers = { 'Content-Type': 'application/x-www-form-urlencoded' }
       variables = { id: @uid, render_surface: 'PROFILE' }
@@ -17,7 +18,7 @@ module InstagramServices
       encoded_variables = CGI.escape(variables.to_json)
       body = "variables=#{encoded_variables}&doc_id=#{doc_id}"
 
-      response = HTTParty.post(url, headers:, body:, timeout: 60)
+      response = HTTParty.post(api_url, headers:, body:, timeout: 60)
 
       data = JSON.parse(response.body)
       handle_success(data)
