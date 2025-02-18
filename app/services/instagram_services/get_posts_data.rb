@@ -16,6 +16,8 @@ module InstagramServices
       response = HTTParty.get(url, headers:, timeout: 60)
       data = JSON.parse(response.body)
 
+      puts data
+
       posts = data['data']['user']['edge_owner_to_timeline_media']['edges']
       videos = data['data']['user']['edge_felix_video_timeline']['edges']
 
