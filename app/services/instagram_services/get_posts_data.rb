@@ -17,14 +17,12 @@ module InstagramServices
       response = HTTParty.get(api_url, headers:, timeout: 60)
       data = JSON.parse(response.body)
 
-      puts data
-
       posts = data['data']['user']['edge_owner_to_timeline_media']['edges']
       videos = data['data']['user']['edge_felix_video_timeline']['edges']
 
       handle_success(posts + videos)
-    # rescue StandardError => e
-    #   handle_error(e.message)
+    rescue StandardError => e
+      handle_error(e.message)
     end
   end
 end
