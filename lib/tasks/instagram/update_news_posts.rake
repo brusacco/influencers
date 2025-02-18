@@ -3,7 +3,7 @@
 namespace :instagram do
   desc 'News Posts crawler'
   task update_news_posts: :environment do
-    Parallel.each(Profile.paraguayos.where(profile_type: :medio).order(followers: :desc), in_processes: 10) do |profile|
+    Parallel.each(Profile.medios.order(followers: :desc), in_processes: 10) do |profile|
       puts "#{profile.username} - #{profile.followers}"
       response = InstagramServices::GetPostsData.call(profile)
       next unless response.success?

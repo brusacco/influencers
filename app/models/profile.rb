@@ -37,6 +37,8 @@ class Profile < ApplicationRecord
   scope :micro, -> { where(followers: 5_000..) }
   scope :macro, -> { where(followers: 50_000..) }
   scope :tracked, -> { paraguayos.micro }
+  scope :marcas, -> { paraguayos.where(profile_type: :marca) }
+  scope :medios, -> { paraguayos.where(profile_type: :medio) }
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[
