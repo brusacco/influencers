@@ -102,10 +102,11 @@ class Profile < ApplicationRecord
 
     begin
       url = profile_pic_url_hd || profile_pic_url
-      response = HTTParty.get(url)
+      api_url = "http://api.scrape.do?token=ed138ed418924138923ced2b81e04d53&url=#{CGI.escape(url)}"
+      response = HTTParty.get(api_url, timeout: 60)
       data = response.body
       filename = "#{username}.jpg"
-      avatar.attach(io: StringIO.new(data), filename: filename)
+      avatar.attach(io: StringIO.new(data), filename:)
     rescue StandardError => e
       puts e.message
     end
