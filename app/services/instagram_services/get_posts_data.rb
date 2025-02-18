@@ -20,8 +20,8 @@ module InstagramServices
       videos = data['data']['user']['edge_felix_video_timeline']['edges']
 
       handle_success(posts + videos)
-    rescue StandardError => e
-      handle_error(e.message)
+    # rescue StandardError => e
+    #   handle_error(e.message)
     end
   end
 end

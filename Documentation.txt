@@ -43,7 +43,7 @@ you can load and execute a specific seed file using the load method in Rails.
 For example, to run the users.rb seed file, you can use the Rails runner:
 rails runner "load('./db/seeds/profiles.rb')"
 
-RAILS_ENV=production rake instagram:update_profiles
+RAILS_ENV=production rake instagram:update_profile_posts
 RAILS_ENV=production rake instagram:update_posts
 RAILS_ENV=production rake instagram:update_profiles_stats
 
@@ -108,7 +108,7 @@ rvm use 2.5.2
 ruby -r rbconfig -e "puts RbConfig::CONFIG['LIBS']"
 
 
-
+ssh j6wnzukw5@influencers.com.py
 
 Para la segunda etapa y para verificar a los dueños de las cuentas se les puede pedir un post
 el mismo tendria un texto llamativo y un codigo unico para verificar la cuenta.
