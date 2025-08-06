@@ -3,15 +3,17 @@
 # app/helpers/storage_helper.rb
 
 module StorageHelper
-  def direct_storage_url(key)
-    # Assuming the key is something like "m4vk797r3w74pvu3m98gt3wctus0"
-    # and the storage structure is "m4/vk/797r3w74pvu3m98gt3wctus0"
-    # Adjust the slicing as per your storage structure
-    dir1 = key[0..1]
-    dir2 = key[2..3]
-    filename = key
+  def direct_blob_url(blob)
+    return unless blob&.key
 
-    # Construct the URL
-    "https://www.influencers.com.py/storage/#{dir1}/#{dir2}/#{filename}"
+    if Rails.env.production?
+      prefix = '/blob_files'
+      key = blob.key
+      path = "#{prefix}/#{key[0..1]}/#{key[2..3]}/#{key}"
+      URI.join(root_url, path).to_s
+    else
+      # fallback to normal Rails route in dev
+      Rails.application.routes.url_helpers.url_for(blob)
+    end
   end
 end
