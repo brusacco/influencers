@@ -55,8 +55,8 @@ class ProfilesController < ApplicationController
                     title: :title,
                     site_name: 'Influencers.com.py',
                     description: :description,
-                    image: @profile.avatar.url,
-                    url: direct_blob_url(@profile.avatar)
+                    image: direct_blob_url(@profile.avatar),
+                    url: url_for(action: :show, id: @profile.id)
                   },
                   twitter: { card: 'summary' }
   end
