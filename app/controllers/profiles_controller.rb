@@ -5,7 +5,7 @@ class ProfilesController < ApplicationController
   include ActiveStorage::SetCurrent
 
   def index
-    expires_in 30.minutes, public: true
+    expires_in 60.minutes, public: true
     @profiles = Profile.paraguayos.with_attached_avatar.order(followers: :desc).limit(20)
     @profiles_interactions = Profile.paraguayos.with_attached_avatar.order(total_interactions_count: :desc).limit(20)
     @profiles_video_views = Profile.paraguayos.with_attached_avatar.order(total_video_view_count: :desc).limit(20)
@@ -15,16 +15,16 @@ class ProfilesController < ApplicationController
   end
 
   def show
-    expires_in 30.minutes, public: true
+    expires_in 60.minutes, public: true
     if @profile.profile_type
       @profiles = Profile.paraguayos.with_attached_avatar.where(profile_type: @profile.profile_type).where.not(id: @profile.id).order(followers: :desc).limit(12)
     else
       @profiles = Profile.paraguayos.with_attached_avatar.where.not(id: @profile.id).order(total_interactions_count: :desc).limit(12)
     end
 
-    @mentions = Profile.where(username: @profile.mentions)
+    @mentions = Profile.where(username: @profile.mentions).limit(20)
 
-    @posts = @profile.instagram_posts.order(posted_at: :desc).limit(12)
+    @posts = @profile.instagram_posts.order(posted_at: :desc).limit(20)
 
     @last_week_posts = @profile.instagram_posts.a_week_ago
 
