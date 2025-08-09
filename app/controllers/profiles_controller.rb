@@ -3,6 +3,7 @@
 class ProfilesController < ApplicationController
   before_action :set_profile, only: %i[show]
   include ActiveStorage::SetCurrent
+  include StorageHelper
 
   def index
     expires_in 60.minutes, public: true
