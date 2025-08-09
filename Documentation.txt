@@ -93,6 +93,10 @@ POSIBLES PROBLEMAS DE PUMA
 https://stackoverflow.com/questions/34141011/unresponsive-socket-after-x-time-puma-ruby
 
 
+PUMA
+bundle exec pumactl --state tmp/pids/puma.state restart
+bundle exec pumactl --state tmp/pids/puma.state phased-restart
+
 ##############################################################################
 JMALLOC MANEJO OPTIMIZADO DE MEMORIA como en HEROKU!!!! IMPORANTE!!!
 ##############################################################################
