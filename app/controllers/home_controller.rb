@@ -25,7 +25,9 @@ class HomeController < ApplicationController
       system('RAILS_ENV=production rake assets:precompile')
 
       # Restart the Puma server
-      system('touch tmp/restart.txt')
+      # system('touch tmp/restart.txt')
+      # Preferred: phased restart via pumactl (requires state_path + control app)
+      system('bundle exec pumactl --state tmp/pids/puma.state phased-restart')
     end
 
     render plain: 'Deployment complete!'
