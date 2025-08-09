@@ -94,6 +94,7 @@ https://stackoverflow.com/questions/34141011/unresponsive-socket-after-x-time-pu
 
 
 PUMA
+bundle exec puma -C config/puma.rb
 bundle exec pumactl --state tmp/pids/puma.state restart
 bundle exec pumactl --state tmp/pids/puma.state phased-restart
 
