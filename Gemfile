@@ -94,8 +94,6 @@ gem 'parallel', '~> 1.23'
 
 gem 'seed_dump', '~> 3.3'
 
-gem 'puma-daemon', '~> 0.3.2'
-
 gem 'activeadmin_addons', '~> 1.10'
 
 gem 'active_admin_scoped_collection_actions', '~> 0.3.5'
@@ -118,4 +116,4 @@ gem 'actionpack-page_caching', '~> 1.2'
 
 gem 'meta-tags', '~> 2.19'
 
-gem "sitemap_generator", "~> 6.3"
+gem 'sitemap_generator', '~> 6.3'
