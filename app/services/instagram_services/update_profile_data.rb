@@ -11,15 +11,15 @@ module InstagramServices
 
       user = @data['data']['user']
       response = {
-        followers: user['follower_count'],
-        following: user['following_count'],
+        followers: user['edge_followed_by']['count'],
+        following: user['edge_follow']['count'],
         profile_pic_url: user['profile_pic_url'],
-        profile_pic_url_hd: user['hd_profile_pic_url_info']['url'] || nil,
-        is_business_account: user['is_business'] || nil,
+        profile_pic_url_hd: user['profile_pic_url_hd'] || nil,
+        is_business_account: user['is_business_account'] || nil,
         is_professional_account: user['is_professional_account'] || nil,
         business_category_name: user['business_category_name'] || nil,
         category_enum: user['category_enum'] || nil,
-        category_name: user['category'],
+        category_name: user['category_name'],
         is_private: user['is_private'],
         is_verified: user['is_verified'],
         full_name: user['full_name'],

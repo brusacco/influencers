@@ -8,7 +8,7 @@ namespace :instagram do
 
       puts "Updating profile #{profile.username}"
 
-      data = InstagramServices::GetProfileData.call(profile.uid)
+      data = InstagramServices::GetProfileData.call(profile.username)
       response = InstagramServices::UpdateProfileData.call(data.data)
       if response.success?
         profile.update!(response.data)
