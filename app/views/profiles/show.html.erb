@@ -103,7 +103,7 @@
             </dl>
           </div>
         </section>
-        <%if current_admin_user && @collabs.any?%>
+        <%if current_admin_user && @collabs.any? && false?%>
         <h2 id="related-heading" class="text-xl font-bold text-gray-900">Últimas Colaboraciones</h2>
         <%= render partial: 'posts/collaborations', locals: { collaborations: @collabs } %>
         <%end%>
