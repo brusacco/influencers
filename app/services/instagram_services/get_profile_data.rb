@@ -12,7 +12,7 @@ module InstagramServices
 
       headers = { 'Content-Type': 'application/x-www-form-urlencoded', 'x-ig-app-id': '936619743392459' }
       variables = { id: @uid, render_surface: 'PROFILE' }
-      doc_id = '28149645878012614'
+      doc_id = '24090101933962533'
 
       # Encode variables into a query string format
       encoded_variables = CGI.escape(variables.to_json)
