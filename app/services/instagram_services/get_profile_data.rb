@@ -10,7 +10,7 @@ module InstagramServices
       url = 'https://www.instagram.com/graphql/query'
       api_url = "http://api.scrape.do?token=ed138ed418924138923ced2b81e04d53&url=#{CGI.escape(url)}"
 
-      headers = { 'Content-Type': 'application/x-www-form-urlencoded' }
+      headers = { 'Content-Type': 'application/x-www-form-urlencoded', 'x-ig-app-id': '936619743392459' }
       variables = { id: @uid, render_surface: 'PROFILE' }
       doc_id = '28149645878012614'
 
