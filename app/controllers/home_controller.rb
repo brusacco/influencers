@@ -27,7 +27,7 @@ class HomeController < ApplicationController
       # Restart the Puma server
       # system('touch tmp/restart.txt')
       # Preferred: phased restart via pumactl (requires state_path + control app)
-      system('bundle exec pumactl --state tmp/pids/puma.state phased-restart')
+      system('RAILS_ENV=production bundle exec pumactl --state tmp/pids/puma.state phased-restart')
     end
 
     render plain: 'Deployment complete!'
