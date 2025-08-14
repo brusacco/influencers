@@ -87,6 +87,9 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    acts-as-taggable-on (11.0.0)
+      activerecord (>= 7.0, < 8.0)
+      zeitwerk (>= 2.4, < 3.0)
     addressable (2.8.6)
       public_suffix (>= 2.0.2, < 6.0)
     arbre (1.7.0)
@@ -394,6 +397,7 @@ DEPENDENCIES
   active_admin_scoped_collection_actions (~> 0.3.5)
   activeadmin (~> 3.0)
   activeadmin_addons (~> 1.10)
+  acts-as-taggable-on (~> 11.0)
   bootsnap
   capybara
   chartkick (~> 5.0)
