@@ -13,8 +13,8 @@ development:
   <<: *default
   database: influencers_development
   pool: 50
-  username: root
-  password: rootpassword
+  username: admin
+  password: admin
   host: 127.0.0.1
   encoding: utf8mb4
   collation: utf8mb4_unicode_ci
@@ -26,8 +26,8 @@ test:
   <<: *default
   database: influencers_test
   pool: 50
-  username: root
-  password: rootpassword
+  username: admin
+  password: admin
   host: 127.0.0.1
   encoding: utf8mb4
   collation: utf8mb4_unicode_ci
