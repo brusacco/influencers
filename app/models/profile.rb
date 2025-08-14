@@ -97,18 +97,39 @@ class Profile < ApplicationRecord
     collabs
   end
 
-  def save_avatar
-    #next if avatar.attached?
+  def save_avatar_new
+    url = profile_pic_url_hd || profile_pic_url
+    return if url.blank? || username.blank?
+
+    require 'open-uri'
+    require 'fileutils'
+
+    dir = Rails.public_path.join('images/profiles')
+    FileUtils.mkdir_p(dir)
+
+    ext = File.extname(URI.parse(url).path)
+    ext = '.jpg' if ext.blank?
+    filename = "#{username}#{ext}"
+    filepath = dir.join(filename)
 
     begin
-      url = profile_pic_url_hd || profile_pic_url
-      response = HTTParty.get(url)
-      data = response.body
-      filename = "#{username}.jpg"
-      avatar.attach(io: StringIO.new(data), filename:)
-    rescue StandardError => e
-      puts e.message
+      File.binwrite(filepath, URI.open(url).read)
+    rescue StandardError
+      placeholder_url = 'https://placehold.co/500x500/000000/FFFFFF/jpg'
+      File.binwrite(filepath, URI.open(placeholder_url).read)
     end
+  end
+
+  def save_avatar
+    # next if avatar.attached?
+
+    url = profile_pic_url_hd || profile_pic_url
+    response = HTTParty.get(url)
+    data = response.body
+    filename = "#{username}.jpg"
+    avatar.attach(io: StringIO.new(data), filename:)
+  rescue StandardError => e
+    puts e.message
   end
 
   def update_profile_stats

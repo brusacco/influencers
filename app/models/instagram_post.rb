@@ -98,15 +98,37 @@ class InstagramPost < ApplicationRecord
                     .take(limit)
   end
 
+  def save_image_new(url)
+    return if url.blank? || profile&.username.blank?
+
+    require 'open-uri'
+    require 'fileutils'
+
+    dir = Rails.public_path.join('images/instagram_posts')
+    FileUtils.mkdir_p(dir)
+
+    ext = File.extname(URI.parse(url).path)
+    ext = '.jpg' if ext.blank?
+    filename = "#{profile.username}#{ext}"
+    filepath = dir.join(filename)
+
+    begin
+      File.binwrite(filepath, URI.open(url).read)
+    rescue StandardError
+      placeholder_url = 'https://placehold.co/500x500/000000/FFFFFF/jpg'
+      File.binwrite(filepath, URI.open(placeholder_url).read)
+    end
+  end
+
   def save_image(url)
     return if image.attached?
 
     begin
       filename = File.basename(URI.parse(url).path)
-      image.attach(io: URI.open(url), filename:) # rubocop:disable Security/Open
+      image.attach(io: URI.open(url), filename:)
     rescue StandardError => e
       filename = 'placeholder.jpg'
-      image.attach(io: URI.open('https://placehold.co/500x500/000000/FFFFFF/jpg'), filename:) # rubocop:disable Security/Open
+      image.attach(io: URI.open('https://placehold.co/500x500/000000/FFFFFF/jpg'), filename:)
       puts "#{e.message} - #{url}"
     end
   end
