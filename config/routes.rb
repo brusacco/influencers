@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   post 'deploy', to: 'home#deploy'
 
   resources :profiles, only: %i[index show]
+  resources :tags, only: %i[index show]
 
   # Redirect old singular route to new plural route
   get '/profile/:id', to: redirect('/profiles/%{id}')
