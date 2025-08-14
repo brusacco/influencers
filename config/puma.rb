@@ -6,7 +6,8 @@
 #
 environment ENV.fetch('RAILS_ENV', 'production')
 
-app_dir = '/home/rails/influencers'
+require File.expand_path('../config/environment', __dir__)
+app_dir = Rails.root.to_s
 directory app_dir
 rackup "#{app_dir}/config.ru"
 

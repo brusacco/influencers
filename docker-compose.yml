@@ -1,0 +1,19 @@
+version: "3.7"
+
+services:
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    container_name: redis-influencers
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-influencers
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: influencers_development
+      MYSQL_USER: influencer
+      MYSQL_PASSWORD: influencerpassword

@@ -11,9 +11,7 @@ gem 'rails', '~> 7.0.4'
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
 
-group :production do
-  gem 'mysql2'
-end
+gem 'mysql2'
 
 # Use the Puma web server [https://github.com/puma/puma]
 # gem 'puma', '5.6.6'

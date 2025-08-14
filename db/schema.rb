@@ -11,13 +11,13 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2024_04_18_224317) do
-  create_table "active_admin_comments", force: :cascade do |t|
+  create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
     t.string "resource_type"
-    t.integer "resource_id"
+    t.bigint "resource_id"
     t.string "author_type"
-    t.integer "author_id"
+    t.bigint "author_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author"
@@ -25,17 +25,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_18_224317) do
     t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource"
   end
 
-  create_table "active_storage_attachments", force: :cascade do |t|
+  create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.integer "record_id", null: false
-    t.integer "blob_id", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
-  create_table "active_storage_blobs", force: :cascade do |t|
+  create_table "active_storage_blobs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "key", null: false
     t.string "filename", null: false
     t.string "content_type"
@@ -47,13 +47,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_18_224317) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "active_storage_variant_records", force: :cascade do |t|
-    t.integer "blob_id", null: false
+  create_table "active_storage_variant_records", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "admin_users", force: :cascade do |t|
+  create_table "admin_users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -65,7 +65,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_18_224317) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
-  create_table "instagram_collaborations", force: :cascade do |t|
+  create_table "instagram_collaborations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "instagram_post_id"
     t.integer "collaborator_id"
     t.integer "collaborated_id"
@@ -81,9 +81,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_18_224317) do
     t.index ["posted_at"], name: "index_instagram_collaborations_on_posted_at"
   end
 
-  create_table "instagram_posts", force: :cascade do |t|
+  create_table "instagram_posts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "data"
-    t.integer "profile_id", null: false
+    t.bigint "profile_id", null: false
     t.string "shortcode"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -104,14 +104,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_18_224317) do
     t.index ["shortcode"], name: "index_instagram_posts_on_shortcode"
   end
 
-  create_table "profiles", force: :cascade do |t|
+  create_table "profiles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "username"
     t.text "data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "followers", default: 0
     t.integer "following", default: 0
-    t.text "temp_image"
     t.text "profile_pic_url"
     t.boolean "is_business_account", default: false
     t.boolean "is_professional_account", default: false
