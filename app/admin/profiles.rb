@@ -35,7 +35,8 @@ ActiveAdmin.register Profile do
                                      country_string: 'text',
                                      profile_type: Profile.profile_types.map do |role|
                                                      [role.first.titleize, role.first]
-                                                   end
+                                                   end,
+                                     tag_list: ActsAsTaggableOn::Tag.pluck(:name)
                                    }
                                  }
   #------------------------------------------------------------------
@@ -71,9 +72,9 @@ ActiveAdmin.register Profile do
   #------------------------------------------------------------------
 
   filter :username
-  # filter :country_string, as: :select, collection: %w[Paraguay Otros]
-  # filter :profile_type, as: :select, collection: Profile.profile_types.map
-  # filter :category_name, as: :select, collection: Profile.where.not(category_name: nil).pluck(:category_name).uniq.sort
+  filter :country_string, as: :select, collection: %w[Paraguay Otros]
+  filter :profile_type, as: :select, collection: Profile.profile_types.map
+  filter :category_name, as: :select, collection: Profile.where.not(category_name: nil).pluck(:category_name).uniq.sort
   filter :is_private
   filter :is_business_account
   filter :followers
@@ -109,6 +110,7 @@ ActiveAdmin.register Profile do
     column :country_string
     # column :category_enum
     column :category_name
+    column :tag_list
 
     actions
   end
