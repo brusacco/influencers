@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Profile < ApplicationRecord
+  acts_as_taggable_on :tags
   has_one_attached :avatar
   serialize :data, Hash
   has_many :instagram_posts, dependent: :destroy

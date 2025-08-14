@@ -1,7 +1,29 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Profile do
-  permit_params :username, :data, :country, :country_string, :profile_type, :query, :uid
+  permit_params :username,
+                :data,
+                :country,
+                :country_string,
+                :profile_type,
+                :query,
+                :uid,
+                :followers,
+                :following,
+                :profile_pic_url,
+                :is_business_account,
+                :is_professional_account,
+                :business_category_name,
+                :category_enum,
+                :category_name,
+                :is_private,
+                :is_verified,
+                :full_name,
+                :biography,
+                :is_joined_recently,
+                :is_embeds_disabled,
+                :profile_pic_url_hd,
+                tag_list: []
 
   #------------------------------------------------------------------
   config.batch_actions = true
@@ -103,6 +125,7 @@ ActiveAdmin.register Profile do
       f.input :business_category_name
       f.input :category_enum
       f.input :category_name
+      f.input :tag_list, as: :check_boxes, collection: ActsAsTaggableOn::Tag.pluck(:name)
       f.input :is_private, as: :boolean
       f.input :is_verified, as: :boolean
       f.input :full_name
