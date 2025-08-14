@@ -71,9 +71,9 @@ ActiveAdmin.register Profile do
   #------------------------------------------------------------------
 
   filter :username
-  filter :country_string, as: :select, collection: %w[Paraguay Otros]
-  filter :profile_type, as: :select, collection: Profile.profile_types.map
-  filter :category_name, as: :select, collection: Profile.where.not(category_name: nil).pluck(:category_name).uniq.sort
+  # filter :country_string, as: :select, collection: %w[Paraguay Otros]
+  # filter :profile_type, as: :select, collection: Profile.profile_types.map
+  # filter :category_name, as: :select, collection: Profile.where.not(category_name: nil).pluck(:category_name).uniq.sort
   filter :is_private
   filter :is_business_account
   filter :followers
