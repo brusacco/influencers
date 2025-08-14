@@ -2,6 +2,8 @@
 
 # app/helpers/storage_helper.rb
 
+Rails.application.routes.default_url_options[:host] = 'localhost:9000'
+
 module StorageHelper
   def direct_blob_url(blob)
     return unless blob&.key

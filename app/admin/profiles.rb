@@ -109,7 +109,11 @@ ActiveAdmin.register Profile do
       f.input :biography
       f.input :is_joined_recently, as: :boolean
       f.input :is_embeds_disabled, as: :boolean
-      f.input :country_string
+      f.input :country_string,
+              as: :select,
+              collection: %w[Paraguay Otros],
+              input_html: { value: 'Paraguay' },
+              selected: 'Paraguay'
       f.input :profile_pic_url_hd
       f.input :query
       f.input :uid
