@@ -10,7 +10,8 @@ class TagsController < ApplicationController
       return
     end
 
-    profile_ids = Profile.paraguayos.with_attached_avatar.tagged_with(@tag.name).order(followers: :desc).limit(40).pluck(:id)
+    profile_ids = Profile.paraguayos.with_attached_avatar.tagged_with(@tag.name).order(followers: :desc).limit(40).ids
+
     @profiles = Profile.where(id: profile_ids).order(followers: :desc)
     @profiles_interactions = Profile.paraguayos.with_attached_avatar
                                     .tagged_with(@tag.name)
