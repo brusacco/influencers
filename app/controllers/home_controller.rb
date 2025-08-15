@@ -16,7 +16,7 @@ class HomeController < ApplicationController
       system('git pull')
 
       # Install dependencies
-      system('bundle install')
+      system('RAILS_ENV=production bundle install')
 
       # Migrate the database
       system('RAILS_ENV=production rails db:migrate')
