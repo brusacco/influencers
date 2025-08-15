@@ -117,3 +117,5 @@ gem 'meta-tags', '~> 2.19'
 gem 'sitemap_generator', '~> 6.3'
 
 gem 'acts-as-taggable-on', '~> 11.0'
+
+gem "htmlbeautifier", "~> 1.4"
