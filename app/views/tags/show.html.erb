@@ -19,7 +19,7 @@
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200 bg-white">
-                <%= render partial: "profiles/profile_table", collection: @profiles, as: :profile %>
+                <%= render partial: "profiles/profile_table", collection: @profiles, as: :profile, locals: { highlight: "followers" } %>
               </tbody>
             </table>
           </div>
@@ -45,7 +45,7 @@
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200 bg-white">
-                <%= render partial: "profiles/profile_table", collection: @profiles_interactions, as: :profile %>
+                <%= render partial: "profiles/profile_table", collection: @profiles_interactions, as: :profile, locals: { highlight: "interactions" } %>
               </tbody>
             </table>
           </div>
@@ -71,7 +71,7 @@
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200 bg-white">
-                <%= render partial: "profiles/profile_table", collection: @profiles_video_views, as: :profile %>
+                <%= render partial: "profiles/profile_table", collection: @profiles_video_views, as: :profile, locals: { highlight: "videos" } %>
               </tbody>
             </table>
           </div>
