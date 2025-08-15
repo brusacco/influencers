@@ -2,6 +2,7 @@
 
 class TagsController < ApplicationController
   def show
+    expires_in 30.minutes, public: true
     @tag = Tag.find_by(id: params[:id])
 
     unless @tag
