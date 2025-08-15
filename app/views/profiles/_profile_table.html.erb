@@ -13,14 +13,14 @@
       </div>
     </div>
   </td>
-  <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500 <%= 'bg-yellow-50' if defined?(highlight) && highlight == 'followers' %>">
-    <div class="text-gray-900"><%= number_with_delimiter(profile.followers, delimiter: ".") %></div>
+  <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500 text-right <%= 'bg-yellow-50' if defined?(highlight) && highlight == 'followers' %>">
+    <div class="text-gray-900 <%= 'text-lg font-bold' if defined?(highlight) && highlight == 'followers' %>"><%= number_with_delimiter(profile.followers, delimiter: ".") %></div>
   </td>
-  <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500 <%= 'bg-yellow-50' if defined?(highlight) && highlight == 'interactions' %>">
-    <div class="text-gray-900"><%= number_with_delimiter(profile.total_interactions_count, delimiter: ".") %></div>
+  <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500 text-right <%= 'bg-yellow-50' if defined?(highlight) && highlight == 'interactions' %>">
+    <div class="text-gray-900 <%= 'text-lg font-bold' if defined?(highlight) && highlight == 'interactions' %>"><%= number_with_delimiter(profile.total_interactions_count, delimiter: ".") %></div>
   </td>
-  <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500 <%= 'bg-yellow-50' if defined?(highlight) && highlight == 'videos' %>">
-    <div class="text-gray-900"><%= number_with_delimiter(profile.total_video_view_count, delimiter: ".") %></div>
+  <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500 text-right <%= 'bg-yellow-50' if defined?(highlight) && highlight == 'videos' %>">
+    <div class="text-gray-900 <%= 'text-lg font-bold' if defined?(highlight) && highlight == 'videos' %>"><%= number_with_delimiter(profile.total_video_view_count, delimiter: ".") %></div>
   </td>
   <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
     <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
