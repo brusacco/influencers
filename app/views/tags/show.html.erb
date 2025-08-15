@@ -1,37 +1,105 @@
 <main>
+  <main>
+    <div class="mx-auto max-w-2xl px-4 py-16 lg:max-w-7xl lg:px-8">
+      <div class="flow-root">
+        <h2 class="text-2xl font-bold tracking-tight text-gray-900">Top Influencers por Seguidores</h2>
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+            <table class="relative min-w-full divide-y divide-gray-300">
+              <thead>
+                <tr>
+                  <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Perfil</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Followers</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Interacciones</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Vistas Videos</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Categoria</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Tags</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Verificada</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Business</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 bg-white">
+                <%= render partial: "profiles/profile_table", collection: @profiles, as: :profile %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mx-auto max-w-2xl px-4 py-16 lg:max-w-7xl lg:px-8">
+      <div class="flow-root">
+        <h2 class="text-2xl font-bold tracking-tight text-gray-900">Top Influencers por Interacciones</h2>
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+            <table class="relative min-w-full divide-y divide-gray-300">
+              <thead>
+                <tr>
+                  <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Perfil</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Followers</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Interacciones</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Vistas Videos</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Categoria</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Tags</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Verificada</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Business</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 bg-white">
+                <%= render partial: "profiles/profile_table", collection: @profiles_interactions, as: :profile %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mx-auto max-w-2xl px-4 py-16 lg:max-w-7xl lg:px-8">
+      <div class="flow-root">
+        <h2 class="text-2xl font-bold tracking-tight text-gray-900">Top Influencers por Videos Vistos</h2>
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+            <table class="relative min-w-full divide-y divide-gray-300">
+              <thead>
+                <tr>
+                  <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Perfil</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Followers</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Interacciones</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Vistas Videos</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Categoria</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Tags</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Verificada</th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Business</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 bg-white">
+                <%= render partial: "profiles/profile_table", collection: @profiles_video_views, as: :profile %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
   <div class="bg-white">
     <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-      <h2 class="text-2xl font-bold tracking-tight text-gray-900">Top Perfiles por Seguidores</h2>
-      <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-        <%=render partial: "profiles/profile", collection: @profiles, cache: true%>
-      </div>
+      <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
+        <h2 id="related-heading" class="text-xl font-bold text-gray-900">Nube de Palabras</h2>
+        <div class="mt-6">
+          <%= render 'instagram_post/word_cloud', word_array: @posts.word_occurrences %>
+        </div>
+      </section>
+      <section aria-labelledby="related-heading" class="mt-2 border-t border-gray-200 px-4 py-16 sm:px-0">
+        <h2 id="related-heading" class="text-xl font-bold text-gray-900">Posteos por día</h2>
+        <div class="mt-6">
+          <%= column_chart @posts.group(:media).group_by_day(:posted_at).count, label: "Posteos", xtitle: "Fecha", ytitle: "Cant. Posteos", stacked: true %>
+        </div>
+      </section>
+      <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
+        <h2 id="related-heading" class="text-xl font-bold text-gray-900">Interacciones por día</h2>
+        <h3 class="text-xs font-bold text-gray-900">Obs: Likes y Comentarios cuentan como interacciones, visualizaciones de videos es una métrica aparte.</h3>
+        <div class="mt-6">
+          <%= column_chart @posts.group_by_day(:posted_at).sum(:total_count), colors: ['lightgreen'], label: "Interacciones", xtitle: "Fecha", ytitle: "Cant. Interacciones", thousands: "." %>
+        </div>
+      </section>
     </div>
-    <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-      <h2 class="text-2xl font-bold tracking-tight text-gray-900">Top Perfiles por Interacciones</h2>
-      <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-        <%=render partial: "profiles/profile", collection: @profiles_interactions, cache: true%>
-      </div>
-    </div>
-    <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-        <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
-          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Nube de Palabras</h2>
-          <div class="mt-6">
-            <%= render 'instagram_post/word_cloud', word_array: @posts.word_occurrences %>
-          </div>  
-        </section>
-        <section aria-labelledby="related-heading" class="mt-2 border-t border-gray-200 px-4 py-16 sm:px-0">
-          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Posteos por día</h2>
-          <div class="mt-6">
-            <%= column_chart @posts.group(:media).group_by_day(:posted_at).count, label: "Posteos", xtitle: "Fecha", ytitle: "Cant. Posteos", stacked: true %>
-          </div>
-        </section>
-        <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
-          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Interacciones por día</h2>
-          <h3 class="text-xs font-bold text-gray-900">Obs: Likes y Comentarios cuentan como interacciones, visualizaciones de videos es una métrica aparte.</h3>
-          <div class="mt-6">
-            <%= column_chart @posts.group_by_day(:posted_at).sum(:total_count), colors: ['lightgreen'], label: "Interacciones", xtitle: "Fecha", ytitle: "Cant. Interacciones", thousands: "." %>
-          </div>  
-        </section>
-    </div>
-  </div>  
+  </div>
 </main>

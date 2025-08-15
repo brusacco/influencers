@@ -19,44 +19,60 @@
       </div>
     </li>
     <%if @category %>
-    <li class="flex mb-0">
-      <div class="flex items-center">
-        <svg class="h-full w-6 flex-shrink-0 text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" aria-hidden="true">
-          <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
-        </svg>
-        <div class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" aria-current="page"><%=@category.capitalize%></div>
-      </div>
-    </li>
+      <li class="flex mb-0 ">
+        <div class="flex items-center">
+          <svg class="h-full w-6 flex-shrink-0 text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" aria-hidden="true">
+            <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
+          </svg>
+          <span class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">Categoria</span>
+        </div>
+      </li>
+      <li class="flex mb-0">
+        <div class="flex items-center">
+          <svg class="h-full w-6 flex-shrink-0 text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" aria-hidden="true">
+            <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
+          </svg>
+          <div class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" aria-current="page"><%=@category.capitalize%></div>
+        </div>
+      </li>
     <%end%>
     <%if @tag %>
-    <li class="flex mb-0">
-      <div class="flex items-center">
-        <svg class="h-full w-6 flex-shrink-0 text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" aria-hidden="true">
-          <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
-        </svg>
-        <div class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" aria-current="page"><%=@tag.name.capitalize%></div>
-      </div>
-    </li>
+      <li class="flex mb-0 ">
+        <div class="flex items-center">
+          <svg class="h-full w-6 flex-shrink-0 text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" aria-hidden="true">
+            <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
+          </svg>
+          <span class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">Tag</span>
+        </div>
+      </li>
+      <li class="flex mb-0">
+        <div class="flex items-center">
+          <svg class="h-full w-6 flex-shrink-0 text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" aria-hidden="true">
+            <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
+          </svg>
+          <div class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" aria-current="page"><%=@tag.name.capitalize%></div>
+        </div>
+      </li>
     <%end%>
     <%if @profile%>
-    <%if @profile.profile_type%>
-    <li class="flex mb-0">
-      <div class="flex items-center">
-        <svg class="h-full w-6 flex-shrink-0 text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" aria-hidden="true">
-          <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
-        </svg>
-        <%=link_to @profile.profile_type.capitalize, category_show_path(@profile.profile_type), class: 'ml-4 text-sm font-medium text-gray-500 hover:text-gray-700', aria_current: 'page'%>
-      </div>
-    </li>
-    <%end%>
-    <li class="flex mb-0">
-      <div class="flex items-center">
-        <svg class="h-full w-6 flex-shrink-0 text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" aria-hidden="true">
-          <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
-        </svg>
-        <div class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" aria-current="page"><%=@profile.username%></div>
-      </div>
-    </li>
+      <%if @profile.profile_type%>
+        <li class="flex mb-0">
+          <div class="flex items-center">
+            <svg class="h-full w-6 flex-shrink-0 text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" aria-hidden="true">
+              <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
+            </svg>
+            <%=link_to @profile.profile_type.capitalize, category_show_path(@profile.profile_type), class: 'ml-4 text-sm font-medium text-gray-500 hover:text-gray-700', aria_current: 'page'%>
+          </div>
+        </li>
+      <%end%>
+      <li class="flex mb-0">
+        <div class="flex items-center">
+          <svg class="h-full w-6 flex-shrink-0 text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" aria-hidden="true">
+            <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
+          </svg>
+          <div class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" aria-current="page"><%=@profile.username%></div>
+        </div>
+      </li>
     <%end%>
   </ol>
 </nav>

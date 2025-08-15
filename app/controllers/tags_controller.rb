@@ -12,7 +12,14 @@ class TagsController < ApplicationController
 
     profile_ids = Profile.paraguayos.with_attached_avatar.tagged_with(@tag.name).order(followers: :desc).limit(40).pluck(:id)
     @profiles = Profile.where(id: profile_ids)
-    @profiles_interactions = Profile.paraguayos.with_attached_avatar.tagged_with(@tag.name).order(total_interactions_count: :desc).limit(20)
+    @profiles_interactions = Profile.paraguayos.with_attached_avatar
+                                    .tagged_with(@tag.name)
+                                    .order(total_interactions_count: :desc)
+                                    .limit(20)
+    @profiles_video_views = Profile.paraguayos.with_attached_avatar
+                                   .tagged_with(@tag.name)
+                                   .order(total_video_view_count: :desc)
+                                   .limit(20)
 
     @posts = InstagramPost.where(profile_id: profile_ids).a_week_ago
   end
