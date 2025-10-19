@@ -13,14 +13,24 @@ class Profile < ApplicationRecord
            foreign_key: :collaborator_id,
            class_name: 'InstagramCollaboration',
            dependent: :destroy
-  has_many :collaborated, -> { paraguayos }, through: :collaborated_collaborations, source: :collaborated
+  has_many :collaborated,
+           lambda {
+             where(profiles: { country_string: 'Paraguay' })
+           },
+           through: :collaborated_collaborations,
+           source: :collaborated
 
   # Been collaborated
   has_many :collaborator_collaborations,
            foreign_key: :collaborated_id,
            class_name: 'InstagramCollaboration',
            dependent: :destroy
-  has_many :collaborators, -> { paraguayos }, through: :collaborator_collaborations, source: :collaborator
+  has_many :collaborators,
+           lambda {
+             where(profiles: { country_string: 'Paraguay' })
+           },
+           through: :collaborator_collaborations,
+           source: :collaborator
 
   validates :username, uniqueness: true
 
