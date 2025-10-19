@@ -1,5 +1,12 @@
 <%if profile.avatar.attached?%>
   <div class="group relative rounded-md border border-gray-200 bg-white">
+    <% if profile.is_verified %>
+      <div class="absolute top-2 right-2 z-10 bg-white rounded-full p-1 border border-gray-300">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#0095f6" class="size-4">
+          <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+        </svg>
+      </div>
+    <% end %>
     <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden  bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
       <%=link_to profile_path(profile) do%>
         <%= image_tag(direct_blob_url(profile.avatar), 
