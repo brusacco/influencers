@@ -59,6 +59,7 @@ RAILS_ENV=production rails db:seed
 
 RAILS_ENV=production rails c
 
+export RAILS_ENV=production
 nohup puma &
 
 ----------------------------------------------------------------

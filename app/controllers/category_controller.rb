@@ -21,11 +21,6 @@ class CategoryController < ApplicationController
                                    .order(total_video_view_count: :desc)
                                    .limit(20)
 
-    @last_posts = InstagramPost.joins(:profile)
-                               .where(profiles: { profile_type: @category })
-                               .order(posted_at: :desc)
-                               .limit(20)
-
     set_meta_tags title: "Top Influencers categoría #{@category.capitalize} | Influencers.com.py",
                   description: DESCRIPTION,
                   keywords: KEYWORDS
