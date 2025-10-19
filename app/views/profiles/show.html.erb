@@ -18,19 +18,21 @@
         <div class="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
           <a href="https://www.instagram.com/<%=@profile.username%>" target="_blank" class="text-3xl font-bold tracking-tight text-gray-900"><%=@profile.username%></a>
           <%if current_admin_user%>
-          <%=link_to 'Edit', edit_admin_profile_path(@profile), target: '_blank'%>
+            <%=link_to 'Edit', edit_admin_profile_path(@profile), target: '_blank'%>
           <%end%>
           <hr class="mb-2">
           <h2 class="text-xl font-bold tracking-tight text-gray-900"><%=@profile.full_name%></h2>
           <div class="mt-3">
-            <p class="text-3xl tracking-tight text-gray-900"><%=number_with_delimiter(@profile.followers, delimiter: '.')%> Seguidores</p>
+            <p class="text-3xl tracking-tight text-gray-900">
+              <%= number_to_human(@profile.followers, format: '%n%u', units: { thousand: 'K', million: 'M', billion: 'B' }, precision: 2) %>
+              Seguidores
+            </p>
           </div>
           <!-- Reviews -->
-          <div class="mt-3">
+          <%# <div class="mt-3">
             <h3 class="sr-only">Reviews</h3>
             <div class="flex items-center">
               <div class="flex items-center">
-                <!-- Active: "text-indigo-500", Inactive: "text-gray-300" -->
                 <svg class="h-5 w-5 flex-shrink-0 text-indigo-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" />
                 </svg>
@@ -49,7 +51,7 @@
               </div>
               <p class="sr-only">4 out of 5 stars</p>
             </div>
-          </div>
+          </div> %>
           <div class="mt-6">
             <h3 class="sr-only">Biografía</h3>
             <div class="space-y-6 text-xl text-gray-700">
@@ -59,9 +61,9 @@
             <%if @profile.total_posts.positive?%>
               <div class="space-y-6 text-xl text-gray-700">
                 <%if @profile.total_posts == 1%>
-                <p>En la última semana ha a creado <b>1</b> publicacion, generando un total de <b><%=number_with_delimiter(@profile.total_interactions_count, delimiter: '.')%></b> interacciones. Su engagement rate es del <b><%=@profile.engagement_rate%>%</b></p>
+                  <p>En la última semana ha a creado <b>1</b> publicacion, generando un total de <b><%=number_with_delimiter(@profile.total_interactions_count, delimiter: '.')%></b> interacciones. Su engagement rate es del <b><%=@profile.engagement_rate%>%</b></p>
                 <%else%>
-                <p>En la última semana ha a creado <b><%=number_with_delimiter(@profile.total_posts, delimiter: '.')%></b> publicaciones, generando un total de <b><%=number_with_delimiter(@profile.total_interactions_count, delimiter: '.')%></b> interacciones, en promedio se generan <b><%=number_with_delimiter(@median_interactions , delimiter: '.')%></b> interacciones por post. Su engagement rate es del <b><%=@profile.engagement_rate%>%</b></p>
+                  <p>En la última semana ha a creado <b><%=number_with_delimiter(@profile.total_posts, delimiter: '.')%></b> publicaciones, generando un total de <b><%=number_with_delimiter(@profile.total_interactions_count, delimiter: '.')%></b> interacciones, en promedio se generan <b><%=number_with_delimiter(@median_interactions , delimiter: '.')%></b> interacciones por post. Su engagement rate es del <b><%=@profile.engagement_rate%>%</b></p>
                 <%end%>
                 <%if @profile.total_videos == 0%>
                   <p>La cuenta no ha publicado videos en la útima semana.</p>
@@ -104,16 +106,16 @@
           </div>
         </section>
         <%if current_admin_user && @collabs.any? && false%>
-        <h2 id="related-heading" class="text-xl font-bold text-gray-900">Últimas Colaboraciones</h2>
-        <%= render partial: 'posts/collaborations', locals: { collaborations: @collabs } %>
+          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Últimas Colaboraciones</h2>
+          <%= render partial: 'posts/collaborations', locals: { collaborations: @collabs } %>
         <%end%>
         <%if @profile.instagram_posts.a_month_ago && @profile.instagram_posts.a_month_ago.word_occurrences.any?%>
-        <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
-          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Nube de Palabras</h2>
-          <div class="mt-6">
-            <%= render 'instagram_post/word_cloud', word_array: @profile.instagram_posts.a_month_ago.word_occurrences %>
-          </div>  
-        </section>
+          <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
+            <h2 id="related-heading" class="text-xl font-bold text-gray-900">Nube de Palabras</h2>
+            <div class="mt-6">
+              <%= render 'instagram_post/word_cloud', word_array: @profile.instagram_posts.a_month_ago.word_occurrences %>
+            </div>
+          </section>
         <%end%>
         <section aria-labelledby="related-heading" class="mt-2 border-t border-gray-200 px-4 py-16 sm:px-0">
           <h2 id="related-heading" class="text-xl font-bold text-gray-900">Posteos por día</h2>
@@ -126,38 +128,38 @@
           <h3 class="text-xs font-bold text-gray-900">Obs: Likes y Comentarios cuentan como interacciones, visualizaciones de videos es una métrica aparte.</h3>
           <div class="mt-6">
             <%= column_chart @last_week_posts.group_by_day(:posted_at).sum(:total_count), colors: ['lightgreen'], label: "Interacciones", xtitle: "Fecha", ytitle: "Cant. Interacciones", thousands: "." %>
-          </div>  
+          </div>
         </section>
         <%if @profile.total_video_view_count.positive?%>
-        <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
-          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Visualizaciones videos por día</h2>
-          <div class="mt-6">
-            <%= column_chart @last_week_posts.group_by_day(:posted_at).sum(:video_view_count), colors: ['lightblue'], label: "Visualizaciones", xtitle: "Fecha", ytitle: "Cant. Visualizaciones", thousands: "." %>
-          </div>  
-        </section>
+          <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
+            <h2 id="related-heading" class="text-xl font-bold text-gray-900">Visualizaciones videos por día</h2>
+            <div class="mt-6">
+              <%= column_chart @last_week_posts.group_by_day(:posted_at).sum(:video_view_count), colors: ['lightblue'], label: "Visualizaciones", xtitle: "Fecha", ytitle: "Cant. Visualizaciones", thousands: "." %>
+            </div>
+          </section>
         <%end%>
-        <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0"> 
+        <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
           <h2 id="related-heading" class="text-xl font-bold text-gray-900">Interacciones y Posteos por seccion</h2>
           <h3 class="text-xs font-bold text-gray-900">Obs: Likes y Comentarios cuentan como interacciones, visualizaciones de videos es una métrica aparte.</h3>
           <div class="flex">
             <div class="w-1/2">
               <%= pie_chart @last_week_posts.group(:product_type).count, donut: true, label: "Posteos" %>
-            </div>  
+            </div>
             <div class="w-1/2">
               <%= pie_chart @last_week_posts.group(:product_type).sum(:total_count), donut: true, label: "Interacciones", thousands: "." %>
-            </div>  
+            </div>
           </div>
         </section>
-        <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0"> 
+        <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
           <h2 id="related-heading" class="text-xl font-bold text-gray-900">Interacciones y Posteos por tipo</h2>
           <h3 class="text-xs font-bold text-gray-900">Obs: Likes y Comentarios cuentan como interacciones, visualizaciones de videos es una métrica aparte.</h3>
           <div class="flex">
             <div class="w-1/2">
               <%= pie_chart @last_week_posts.group(:media).count, donut: true, label: "Posteos" %>
-            </div>  
+            </div>
             <div class="w-1/2">
               <%= pie_chart @last_week_posts.group(:media).sum(:total_count), donut: true, label: "Interacciones", thousands: "." %>
-            </div>  
+            </div>
           </div>
         </section>
       <%end%>
