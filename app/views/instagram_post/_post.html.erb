@@ -1,12 +1,24 @@
+<% likes_count = post.likes_count.to_i %>
+<% comments_count = post.comments_count.to_i %>
+<% video_view_count = post.video_view_count.to_i %>
+<% total_interactions = likes_count + comments_count + video_view_count %>
+<% posted_on_text = post.posted_at.present? ? l(post.posted_at, format: :long) : nil %>
+<% posted_on_iso = post.posted_at&.iso8601 %>
+<% permalink = post.url.presence || (post.shortcode.present? ? "https://www.instagram.com/p/#{post.shortcode}" : nil) %>
+<% compact_units = { thousand: 'K', million: 'M', billion: 'B' } %>
 <%if post.image.attached?%>
-<div class="group relative">
-  <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-    <%= image_tag(direct_blob_url(post.image), 
+  <div class="group relative">
+    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+      <%= image_tag(direct_blob_url(post.image), 
      class: 'h-full w-full object-cover object-center lg:h-full lg:w-full',
      loading: 'lazy',
      alt: post.caption||"Posteo de #{post.profile.username}"
     ) %>
+    </div>
+    <div class="relative mt-4">
+      <h3 class="text-sm font-medium text-gray-900"> <%=post.product_type.capitalize%> - <%=post.media%></h3>
+      <p class="mt-1 text-sm text-gray-500"><%=post.posted_at.strftime("%d/%m/%Y")%></p>
+      <p class="mt-1 text-sm text-gray-500">Likes: <%= likes_count %> - Comentarios: <%= comments_count %></p>
+    </div>
   </div>
-  <%=post.product_type%> - <%=post.media%> - <%=post.posted_at.strftime("%d/%m/%Y")%>
-</div>
 <%end%>
