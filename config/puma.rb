@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# require 'puma/daemon'
+require 'puma/daemon'
 
 # Specifies the `environment` that Puma will run in.
 #
@@ -53,4 +53,4 @@ preload_app!
 # Allow puma to be restarted by `bin/rails restart` command.
 # plugin :tmp_restart
 
-# daemonize ENV.fetch('RAILS_ENV', 'production') == 'production'
+daemonize ENV.fetch('RAILS_ENV', 'production') == 'production'
