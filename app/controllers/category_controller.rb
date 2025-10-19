@@ -11,10 +11,12 @@ class CategoryController < ApplicationController
       return
     end
 
-    @profiles = Profile.where(profile_type: @category).order(followers: :desc).limit(40)
-    @profiles_interactions = Profile.where(profile_type: @category).order(total_interactions_count: :desc).limit(20)
-
-    @profiles_video_views = Profile.where(profile_type: @category)
+    @profiles = Profile.paraguayos.with_attached_avatar.where(profile_type: @category).order(followers: :desc).limit(40)
+    @profiles_interactions = Profile.paraguayos.with_attached_avatar
+                                    .where(profile_type: @category)
+                                    .order(total_interactions_count: :desc)
+                                    .limit(20)
+    @profiles_video_views = Profile.paraguayos.with_attached_avatar
                                    .where(profile_type: @category)
                                    .order(total_video_view_count: :desc)
                                    .limit(20)
