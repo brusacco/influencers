@@ -92,15 +92,21 @@
               </div>
               <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
                 <dt class="truncate text-sm font-medium text-gray-500">Total Interacciones</dt>
-                <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900"><%=number_with_delimiter(@profile.total_interactions_count, delimiter: '.')%></dd>
+                <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
+                  <%= number_to_human(@profile.total_interactions_count, format: '%n%u', units: { thousand: 'K', million: 'M', billion: 'B' }, precision: 2) %>
+                </dd>
               </div>
               <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
                 <dt class="truncate text-sm font-medium text-gray-500">Visualizaciones Videos</dt>
-                <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900"><%=number_with_delimiter(@profile.total_video_view_count, delimiter: '.')%></dd>
+                <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
+                  <%= number_to_human(@profile.total_video_view_count, format: '%n%u', units: { thousand: 'K', million: 'M', billion: 'B' }, precision: 2) %>
+                </dd>
               </div>
               <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
                 <dt class="truncate text-sm font-medium text-gray-500">Seguidores</dt>
-                <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900"><%=number_with_delimiter(@profile.followers, delimiter: '.')%></dd>
+                <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
+                  <%= number_to_human(@profile.followers, format: '%n%u', units: { thousand: 'K', million: 'M', billion: 'B' }, precision: 2) %>
+                </dd>
               </div>
             </dl>
           </div>
