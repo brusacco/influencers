@@ -15,7 +15,7 @@
      alt: post.caption||"Posteo de #{post.profile.username}"
     ) %>
     </div>
-    <div class="relative mt-4">
+    <div class="relative mt-1 px-2">
       <h3 class="text-sm font-medium text-gray-900"> <%=post.product_type.capitalize%> - <%=post.media%></h3>
       <p class="mt-1 text-sm text-gray-500"><%=post.posted_at.strftime("%d/%m/%Y")%></p>
       <p class="mt-1 text-sm text-gray-500">Likes: <%= likes_count %> - Comentarios: <%= comments_count %></p>
