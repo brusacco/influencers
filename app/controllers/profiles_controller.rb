@@ -23,9 +23,13 @@ class ProfilesController < ApplicationController
         any: true
       ).where.not(id: @profile.id).order(followers: :desc).limit(12)
     elsif @profile.profile_type
-      @profiles = Profile.paraguayos.with_attached_avatar.where(profile_type: @profile.profile_type).where.not(id: @profile.id).order(followers: :desc).limit(12)
+      @profiles = Profile.paraguayos.with_attached_avatar.where(profile_type: @profile.profile_type)
+                         .where.not(id: @profile.id)
+                         .order(followers: :desc).limit(12)
     else
-      @profiles = Profile.paraguayos.with_attached_avatar.where.not(id: @profile.id).order(total_interactions_count: :desc).limit(12)
+      @profiles = Profile.paraguayos.with_attached_avatar
+                         .where.not(id: @profile.id)
+                         .order(total_interactions_count: :desc).limit(12)
     end
 
     @mentions = Profile.where(username: @profile.mentions).limit(20)
