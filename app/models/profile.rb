@@ -45,7 +45,7 @@ class Profile < ApplicationRecord
   scope :no_profile_type, -> { where(profile_type: nil) }
   scope :has_profile_type, -> { where.not(profile_type: nil) }
 
-  scope :micro, -> { where(followers: 5_000..) }
+  scope :micro, -> { where(followers: 10_000..) }
   scope :macro, -> { where(followers: 50_000..) }
   scope :tracked, -> { paraguayos.micro }
   scope :marcas, -> { paraguayos.where(profile_type: :marca) }
