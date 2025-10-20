@@ -2,6 +2,7 @@
 
 class Profile < ApplicationRecord
   acts_as_taggable_on :tags
+  has_many :instagram_profile_stats, dependent: :destroy
   has_one_attached :avatar
   serialize :data, Hash
   has_many :instagram_posts, dependent: :destroy

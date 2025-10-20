@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_10_19_120000) do
+ActiveRecord::Schema[7.0].define(version: 2025_10_20_014145) do
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -104,6 +104,23 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_19_120000) do
     t.index ["shortcode"], name: "index_instagram_posts_on_shortcode"
   end
 
+  create_table "instagram_profile_stats", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "profile_id", null: false
+    t.date "date", null: false
+    t.integer "followers_count", default: 0
+    t.integer "total_likes", default: 0
+    t.integer "total_comments", default: 0
+    t.integer "total_video_views", default: 0
+    t.integer "total_interactions_count", default: 0
+    t.integer "total_posts", default: 0
+    t.integer "total_videos", default: 0
+    t.integer "engagement_rate", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["profile_id", "date"], name: "index_instagram_profile_stats_on_profile_id_and_date", unique: true
+    t.index ["profile_id"], name: "index_instagram_profile_stats_on_profile_id"
+  end
+
   create_table "profiles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "username"
     t.text "data"
@@ -174,5 +191,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_19_120000) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "instagram_posts", "profiles"
+  add_foreign_key "instagram_profile_stats", "profiles"
   add_foreign_key "taggings", "tags"
 end
