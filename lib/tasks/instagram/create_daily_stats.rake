@@ -16,7 +16,7 @@ namespace :instagram do
       total_video_views = posts.sum(:video_view_count)
       total_posts = posts.count
 
-      InstagramProfileStat.find_or_create_by(profile:, date: yesterday) do |stat|
+      InstagramProfileStat.find_or_create_by!(profile:, date: yesterday) do |stat|
         stat.followers_count = profile.followers
         stat.total_likes = total_likes
         stat.total_comments = total_comments
