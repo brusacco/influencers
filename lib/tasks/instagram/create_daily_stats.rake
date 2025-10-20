@@ -21,7 +21,7 @@ namespace :instagram do
         stat.total_likes = total_likes
         stat.total_comments = total_comments
         stat.total_video_views = total_video_views
-        stat.total_interactions = total_likes + total_comments + total_video_views
+        stat.total_interactions_count = total_likes + total_comments + total_video_views
         stat.total_posts = total_posts
       end
 
