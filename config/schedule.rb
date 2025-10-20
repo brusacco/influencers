@@ -19,3 +19,7 @@ every 24.hours do
   rake 'util:collaborations'
   rake 'util:add_mentions_profiles'
 end
+
+every 1.day, at: '00:00' do
+  rake 'instagram:create_daily_stats'
+end

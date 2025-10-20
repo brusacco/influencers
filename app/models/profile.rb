@@ -151,7 +151,7 @@ class Profile < ApplicationRecord
     self.total_likes_count = stats_posts.sum(:likes_count)
     self.total_comments_count = stats_posts.sum(:comments_count)
     self.total_video_view_count = stats_posts.sum(:video_view_count)
-    self.total_interactions_count = stats_posts.sum(:total_count)
+    self.total_interactions_count = total_likes_count + total_comments_count + total_video_view_count
     self.total_posts = stats_posts.count
     self.total_videos = stats_posts.where(media: 'GraphVideo').count
     self.engagement_rate = (stats_posts.sum(:total_count) / Float(followers) * 100).round
