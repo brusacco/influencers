@@ -17,7 +17,12 @@ class ProfilesController < ApplicationController
 
   def show
     expires_in 60.minutes, public: true
-    if @profile.profile_type
+    if @profile.tags.any?
+      @profiles = Profile.paraguayos.with_attached_avatar.tagged_with(
+        @profile.tags.map(&:name),
+        any: true
+      ).where.not(id: @profile.id).order(followers: :desc).limit(12)
+    elsif @profile.profile_type
       @profiles = Profile.paraguayos.with_attached_avatar.where(profile_type: @profile.profile_type).where.not(id: @profile.id).order(followers: :desc).limit(12)
     else
       @profiles = Profile.paraguayos.with_attached_avatar.where.not(id: @profile.id).order(total_interactions_count: :desc).limit(12)
