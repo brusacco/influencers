@@ -9,7 +9,7 @@ namespace :instagram do
 
     Profile.tracked.each do |profile|
       posts = profile.instagram_posts.where(posted_at: start_of_day..end_of_day)
-      next if posts.empty?
+      # next if posts.empty?
 
       total_likes = posts.sum(:likes_count)
       total_comments = posts.sum(:comments_count)
