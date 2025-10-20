@@ -105,7 +105,6 @@ ActiveAdmin.register Profile do
     column :biography
     column :profile_type
     column :followers
-    column :tracked
     # column :engagement_rate
     # column :total_interactions_count
     column :country_string
