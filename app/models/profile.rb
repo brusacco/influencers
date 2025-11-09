@@ -187,6 +187,35 @@ class Profile < ApplicationRecord
     total_video_view_count / total_videos
   end
 
+  # Calculate estimated reach using hybrid method
+  # Combines follower-based and interaction-based calculations
+  # @return [Integer] estimated reach (unique accounts reached)
+  def estimated_reach
+    return 0 if followers.zero? || total_posts.zero?
+
+    # Método 1: Basado en followers
+    follower_based_reach = calculate_follower_based_reach
+
+    # Método 2: Basado en interacciones
+    interaction_based_reach = calculate_interaction_based_reach
+
+    # Promedio ponderado (60% followers, 40% interactions)
+    weighted_reach = (follower_based_reach * 0.6) + (interaction_based_reach * 0.4)
+
+    # Cap máximo: nunca más del 50% de followers
+    max_reach = followers * 0.5
+
+    [weighted_reach, max_reach].min.round
+  end
+
+  # Calculate estimated reach as percentage of followers
+  # @return [Float] reach percentage (0-100)
+  def estimated_reach_percentage
+    return 0.0 if followers.zero?
+
+    (estimated_reach.to_f / followers * 100).round(2)
+  end
+
   # Find related profiles based on tags, profile_type, or interactions
   # @param limit [Integer] maximum number of profiles to return
   # @return [ActiveRecord::Relation] collection of related profiles
@@ -239,5 +268,93 @@ class Profile < ApplicationRecord
       .includes(:instagram_post)
       .order(posted_at: :desc)
       .limit(limit)
+  end
+
+  private
+
+  # Calculate reach based on follower count and adjustments
+  # @return [Float] follower-based reach estimation
+  def calculate_follower_based_reach
+    base_reach_percentage = 15.0
+
+    reach = followers * (base_reach_percentage / 100.0)
+    reach *= engagement_multiplier
+    reach *= content_type_multiplier
+    reach *= account_quality_multiplier
+
+    reach
+  end
+
+  # Calculate reach based on actual interaction data
+  # @return [Float] interaction-based reach estimation
+  def calculate_interaction_based_reach
+    return 0 if total_posts.zero?
+
+    avg_interactions = median_interactions
+
+    # Ratio de engagement típico: 10-12% de quienes ven el post interactúan
+    interaction_rate = has_high_video_ratio? ? 0.12 : 0.10
+
+    # Alcance estimado por post
+    avg_interactions / interaction_rate
+  end
+
+  # Calculate multiplier based on engagement rate
+  # @return [Float] engagement multiplier (0.5 - 2.0)
+  def engagement_multiplier
+    benchmark = 3.0
+    actual = engagement_rate.to_f
+
+    if actual >= benchmark
+      # Alto engagement: multiplier entre 1.0 y 2.0
+      [1.0 + ((actual - benchmark) / 10.0), 2.0].min
+    else
+      # Bajo engagement: multiplier entre 0.5 y 1.0
+      [0.5 + (actual / benchmark) * 0.5, 1.0].min
+    end
+  end
+
+  # Calculate multiplier based on content type (video ratio)
+  # @return [Float] content multiplier (1.0 - 1.5)
+  def content_type_multiplier
+    return 1.0 if total_posts.zero?
+
+    video_ratio = total_videos.to_f / total_posts
+
+    # Instagram favorece video content
+    # 0% videos = 1.0x, 50% videos = 1.25x, 100% videos = 1.5x
+    1.0 + (video_ratio * 0.5)
+  end
+
+  # Calculate multiplier based on account type and verification
+  # @return [Float] account quality multiplier (0.9 - 1.6+)
+  def account_quality_multiplier
+    multiplier = 1.0
+
+    # Cuentas verificadas tienen ~20% más alcance
+    multiplier *= 1.2 if is_verified
+
+    # Cuentas business tienen mejor distribución
+    multiplier *= 1.1 if is_business_account
+
+    # Ajuste por tipo de perfil
+    case profile_type
+    when 'medio', 'estatal'
+      multiplier *= 1.15 # Contenido informativo tiene más alcance
+    when 'memes'
+      multiplier *= 1.3  # Contenido viral tiene mucho más alcance
+    when 'marca'
+      multiplier *= 0.9  # Contenido comercial tiene menos alcance orgánico
+    end
+
+    multiplier
+  end
+
+  # Check if profile has high video content ratio
+  # @return [Boolean] true if more than 40% of posts are videos
+  def has_high_video_ratio?
+    return false if total_posts.zero?
+
+    (total_videos.to_f / total_posts) > 0.4
   end
 end
