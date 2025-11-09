@@ -28,5 +28,82 @@
     <%=render "layouts/nav"%>  
     <%= yield %>
     <%=render "layouts/footer"%>
+    
+    <!-- Scroll to Top Button -->
+    <button 
+      id="scroll-to-top" 
+      style="position: fixed; bottom: 2rem; right: 2rem; z-index: 9999;"
+      class="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-blue-600 to-purple-600 text-white rounded-full shadow-2xl hover:shadow-xl hover:scale-110 transition-all duration-300 cursor-pointer"
+      aria-label="Volver arriba"
+      type="button">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6">
+        <path fill-rule="evenodd" d="M9.47 6.47a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 1 1-1.06 1.06L10 8.06l-3.72 3.72a.75.75 0 0 1-1.06-1.06l4.25-4.25Z" clip-rule="evenodd" />
+      </svg>
+    </button>
+
+    <script>
+      (function() {
+        console.log('Inicializando scroll to top...');
+        
+        function initScrollToTop() {
+          const scrollButton = document.getElementById('scroll-to-top');
+          console.log('Botón encontrado:', scrollButton);
+          
+          if (!scrollButton) {
+            console.error('No se encontró el botón scroll-to-top');
+            return;
+          }
+          
+          // Click handler
+          scrollButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Click en botón scroll to top');
+            window.scrollTo({ 
+              top: 0, 
+              behavior: 'smooth' 
+            });
+          });
+          
+          // Scroll handler
+          function handleScroll() {
+            const scrollY = window.scrollY || window.pageYOffset;
+            console.log('Scroll position:', scrollY);
+            
+            if (scrollY > 300) {
+              scrollButton.style.opacity = '1';
+              scrollButton.style.pointerEvents = 'auto';
+              console.log('Mostrando botón');
+            } else {
+              scrollButton.style.opacity = '0';
+              scrollButton.style.pointerEvents = 'none';
+              console.log('Ocultando botón');
+            }
+          }
+          
+          // Initial state - hide button
+          scrollButton.style.opacity = '0';
+          scrollButton.style.pointerEvents = 'none';
+          
+          // Initial check
+          handleScroll();
+          
+          // Listen to scroll events
+          window.addEventListener('scroll', handleScroll, { passive: true });
+          console.log('Event listeners agregados');
+        }
+        
+        // Initialize
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initScrollToTop);
+        } else {
+          initScrollToTop();
+        }
+        
+        // Turbo support
+        if (typeof Turbo !== 'undefined') {
+          document.addEventListener('turbo:load', initScrollToTop);
+        }
+      })();
+    </script>
   </body>
 </html>

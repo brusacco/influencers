@@ -8,7 +8,7 @@ class ProfilesController < ApplicationController
 
   def index
     expires_in CACHE_MEDIUM_DURATION, public: true
-    
+
     @profiles = Profile.paraguayos.with_attached_avatar.order(followers: :desc).limit(ENGAGEMENT_PROFILES_LIMIT)
     @profiles_interactions = Profile.paraguayos.with_attached_avatar.order(total_interactions_count: :desc).limit(ENGAGEMENT_PROFILES_LIMIT)
     @profiles_video_views = Profile.paraguayos.with_attached_avatar.order(total_video_view_count: :desc).limit(ENGAGEMENT_PROFILES_LIMIT)
@@ -19,14 +19,14 @@ class ProfilesController < ApplicationController
 
   def show
     expires_in CACHE_MEDIUM_DURATION, public: true
-    
+
     # Use model methods for related profiles and data
     @profiles = @profile.related_profiles
     @mentions = @profile.mentions_profiles
     @posts = @profile.recent_posts
     @last_week_posts = @profile.instagram_posts.a_week_ago
     @collabs = @profile.recent_collaborations
-    
+
     # Calculate median metrics using model methods
     @median_interactions = @profile.median_interactions
     @median_video_views = @profile.median_video_views
