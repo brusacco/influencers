@@ -11,4 +11,89 @@ module ApplicationHelper
     # Ensure the result is within the range [1, 10]
     normalized.clamp(1, 10)
   end
+
+  # JSON-LD Structured Data Helpers
+  def organization_schema
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": SITE_NAME,
+      "url": root_url,
+      "logo": {
+        "@type": "ImageObject",
+        "url": "#{root_url}logo.png"
+      },
+      "description": DESCRIPTION,
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "PY"
+      },
+      "sameAs": [
+        "https://www.instagram.com/influencerspy",
+        "https://www.facebook.com/influencerspy"
+      ]
+    }.to_json.html_safe
+  end
+
+  def website_schema
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": SITE_NAME,
+      "url": root_url,
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "#{profiles_url}?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }.to_json.html_safe
+  end
+
+  def profile_schema(profile)
+    return unless profile
+
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfilePage",
+      "mainEntity": {
+        "@type": "Person",
+        "name": profile.full_name,
+        "alternateName": "@#{profile.username}",
+        "description": profile.biography,
+        "image": direct_blob_url(profile.avatar),
+        "sameAs": "https://www.instagram.com/#{profile.username}",
+        "interactionStatistic": [
+          {
+            "@type": "InteractionCounter",
+            "interactionType": "https://schema.org/FollowAction",
+            "userInteractionCount": profile.followers
+          },
+          {
+            "@type": "InteractionCounter",
+            "interactionType": "https://schema.org/LikeAction",
+            "userInteractionCount": profile.total_interactions_count
+          }
+        ]
+      },
+      "dateModified": profile.updated_at.iso8601
+    }.to_json.html_safe
+  end
+
+  def breadcrumb_schema(items)
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": items.map.with_index do |item, index|
+        {
+          "@type": "ListItem",
+          "position": index + 1,
+          "name": item[:name],
+          "item": item[:url]
+        }
+      end
+    }.to_json.html_safe
+  end
 end

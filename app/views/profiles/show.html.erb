@@ -1,229 +1,485 @@
-<div class="bg-white">
-  <main class="mx-auto max-w-7xl sm:px-6 sm:pt-16 lg:px-8">
-    <div class="mx-auto max-w-2xl lg:max-w-none">
-      <!-- Product -->
-      <div class="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
+<% content_for :structured_data do %>
+  <script type="application/ld+json">
+    <%= profile_schema(@profile) %>
+  </script>
+  <script type="application/ld+json">
+    <%= breadcrumb_schema([
+      { name: 'Home', url: root_url },
+      { name: 'Influencers', url: profiles_url },
+      { name: @profile.full_name, url: profile_url(@profile) }
+    ]) %>
+  </script>
+<% end %>
+
+<!-- Hero Section - Slide 1 -->
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+  <main class="mx-auto container-fluid px-6 sm:px-8 lg:px-12 xl:px-16 2xl:px-24 py-12 lg:py-16">
+    <div class="mx-auto max-w-[1600px]">
+      <!-- Profile Hero -->
+      <div class="lg:grid lg:grid-cols-2 lg:items-center lg:gap-x-16 mb-20">
         <!-- Image gallery -->
-        <div class="flex flex-col-reverse">
-          <div class="aspect-h-1 aspect-w-1 w-full">
-            <!-- Tab panel, show/hide based on tab state. -->
+        <div class="relative group">
+          <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
+          <div class="relative aspect-square w-full overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-gray-900/5">
             <div id="tabs-2-panel-1" aria-labelledby="tabs-2-tab-1" role="tabpanel" tabindex="0">
               <%=image_tag direct_blob_url(@profile.avatar), 
-                                  class: 'h-full w-full object-cover object-center sm:rounded-lg',
+                                  class: 'h-full w-full object-cover object-center transform group-hover:scale-105 transition duration-500',
                                   alt: @profile.username%>
             </div>
           </div>
         </div>
-        <!-- Product info -->
-        <div class="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
-          <a href="https://www.instagram.com/<%=@profile.username%>" target="_blank" class="text-3xl font-bold tracking-tight text-gray-900">
-            <span class="flex items-center pr-2">
-              <%=@profile.full_name%>
-              <% if @profile.is_verified %>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#0095f6" class="size-5">
-                  <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
-                </svg>
-              <% end %>
-            </span>
-          </a>
-          <%if current_admin_user%>
-            <%=link_to 'Edit', edit_admin_profile_path(@profile), target: '_blank'%>
-          <%end%>
-          <hr class="mb-2">
-          <h2 class="text-xl font-bold tracking-tight text-gray-900">@<%=@profile.username%></h2>
-          <div class="mt-3">
-            <p class="text-3xl tracking-tight text-gray-900">
-              <%= number_to_human(@profile.followers, format: '%n%u', units: { thousand: 'K', million: 'M', billion: 'B' }, precision: 2) %>
-              Seguidores
-            </p>
+        
+        <!-- Profile info -->
+        <div class="mt-10 lg:mt-0 space-y-8">
+          <!-- Header -->
+          <div class="space-y-4">
+            <div class="flex items-center gap-3">
+              <a href="https://www.instagram.com/<%=@profile.username%>" target="_blank" class="group inline-flex items-center gap-2 hover:opacity-80 transition-opacity">
+                <h1 class="text-4xl lg:text-5xl font-bold tracking-tight text-gray-900">
+                  <%=@profile.full_name%>
+                </h1>
+                <% if @profile.is_verified %>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#0095f6" class="w-7 h-7 flex-shrink-0">
+                    <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+                  </svg>
+                <% end %>
+              </a>
+              <%if current_admin_user%>
+                <%=link_to edit_admin_profile_path(@profile), target: '_blank', class: 'inline-flex items-center gap-2 rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 transition-colors' do%>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                    <path d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />
+                    <path d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
+                  </svg>
+                  Editar
+                <%end%>
+              <%end%>
+            </div>
+            
+            <div class="flex items-center gap-2 text-lg text-gray-600">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                <path d="M12.378 1.602a.75.75 0 00-.756 0L3 6.632l9 5.25 9-5.25-8.622-5.03zM21.75 7.93l-9 5.25v9l8.628-5.032a.75.75 0 00.372-.648V7.93zM11.25 22.18v-9l-9-5.25v8.57a.75.75 0 00.372.648l8.628 5.033z" />
+              </svg>
+              <a href="https://www.instagram.com/<%=@profile.username%>" target="_blank" class="font-medium hover:text-blue-600 transition-colors">
+                @<%=@profile.username%>
+              </a>
+            </div>
           </div>
-          <!-- Reviews -->
-          <%# <div class="mt-3">
-            <h3 class="sr-only">Reviews</h3>
-            <div class="flex items-center">
-              <div class="flex items-center">
-                <svg class="h-5 w-5 flex-shrink-0 text-indigo-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" />
-                </svg>
-                <svg class="h-5 w-5 flex-shrink-0 text-indigo-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" />
-                </svg>
-                <svg class="h-5 w-5 flex-shrink-0 text-indigo-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" />
-                </svg>
-                <svg class="h-5 w-5 flex-shrink-0 text-indigo-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" />
-                </svg>
-                <svg class="h-5 w-5 flex-shrink-0 text-gray-300" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" />
-                </svg>
-              </div>
-              <p class="sr-only">4 out of 5 stars</p>
+
+          <!-- Followers Stat Card -->
+          <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 to-purple-600 p-8 shadow-xl">
+            <div class="relative z-10">
+              <p class="text-sm font-medium text-blue-100 uppercase tracking-wider">Audiencia Total</p>
+              <p class="mt-2 text-5xl font-bold text-white">
+                <%= number_to_human(@profile.followers, format: '%n%u', units: { thousand: 'K', million: 'M', billion: 'B' }, precision: 2) %>
+              </p>
+              <p class="mt-1 text-lg text-blue-100">Seguidores</p>
             </div>
-          </div> %>
-          <div class="mt-6">
-            <h3 class="sr-only">Biografía</h3>
-            <div class="space-y-6 text-xl text-gray-700">
-              <p><%=@profile.biography%></p>
-            </div>
-            <br>
-            <%if @profile.total_posts.positive?%>
-              <div class="space-y-6 text-xl text-gray-700">
-                <%if @profile.total_posts == 1%>
-                  <p>En la última semana ha a creado <b>1</b> publicacion, generando un total de <b><%=number_with_delimiter(@profile.total_interactions_count, delimiter: '.')%></b> interacciones. Su engagement rate es del <b><%=@profile.engagement_rate%>%</b></p>
-                <%else%>
-                  <p>En la última semana ha a creado <b><%=number_with_delimiter(@profile.total_posts, delimiter: '.')%></b> publicaciones, generando un total de <b><%=number_with_delimiter(@profile.total_interactions_count, delimiter: '.')%></b> interacciones, en promedio se generan <b><%=number_with_delimiter(@median_interactions , delimiter: '.')%></b> interacciones por post. Su engagement rate es del <b><%=@profile.engagement_rate%>%</b></p>
-                <%end%>
-                <%if @profile.total_videos == 0%>
-                  <p>La cuenta no ha publicado videos en la útima semana.</p>
-                <%elsif @profile.total_videos == 1%>
-                  <p>Su video ha sido visto <b><%=number_with_delimiter(@profile.total_video_view_count, delimiter: '.')%></b> veces en la última semana, en promedio cada video fue visto <b><%=number_with_delimiter(@median_video_views, delimiter: '.')%></b> veces.</p>
-                <%else%>
-                  <p>Sus <b><%=number_with_delimiter(@profile.total_videos, delimiter: '.')%></b> videos han sido vistos <b><%=number_with_delimiter(@profile.total_video_view_count, delimiter: '.')%></b> veces en la última semana, en promedio cada video fue visto <b><%=number_with_delimiter(@median_video_views, delimiter: '.')%></b> veces.</p>
-                <%end%>
+            <div class="absolute top-0 right-0 -mt-4 -mr-4 h-32 w-32 rounded-full bg-white/10 blur-2xl"></div>
+            <div class="absolute bottom-0 left-0 -mb-8 -ml-8 h-40 w-40 rounded-full bg-purple-500/20 blur-3xl"></div>
+          </div>
+          <!-- Biography Card -->
+          <div class="rounded-xl bg-white border border-gray-200 p-6 shadow-sm">
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Biografía</h3>
+            <p class="text-base leading-relaxed text-gray-700"><%=@profile.biography%></p>
+          </div>
+
+          <!-- Performance Metrics -->
+          <%if @profile.total_posts.positive?%>
+            <div class="space-y-4">
+              <!-- Engagement Card -->
+              <div class="rounded-xl bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 p-6">
+                <div class="flex items-start justify-between">
+                  <div class="flex-1">
+                    <h4 class="text-sm font-semibold text-green-800 uppercase tracking-wider mb-2">Engagement Última Semana</h4>
+                    <%if @profile.total_posts == 1%>
+                      <p class="text-sm leading-relaxed text-gray-700">
+                        Creó <span class="font-bold text-green-700">1</span> publicación, generando 
+                        <span class="font-bold text-green-700"><%=number_with_delimiter(@profile.total_interactions_count, delimiter: '.')%></span> interacciones.
+                      </p>
+                    <%else%>
+                      <p class="text-sm leading-relaxed text-gray-700 mb-2">
+                        Creó <span class="font-bold text-green-700"><%=number_with_delimiter(@profile.total_posts, delimiter: '.')%></span> publicaciones con 
+                        <span class="font-bold text-green-700"><%=number_with_delimiter(@profile.total_interactions_count, delimiter: '.')%></span> interacciones totales.
+                      </p>
+                      <p class="text-sm text-gray-600">
+                        Promedio: <span class="font-semibold text-green-700"><%=number_with_delimiter(@median_interactions, delimiter: '.')%></span> interacciones/post
+                      </p>
+                    <%end%>
+                  </div>
+                  <div class="ml-4 flex-shrink-0">
+                    <div class="inline-flex items-center rounded-full bg-green-600 px-4 py-2">
+                      <span class="text-2xl font-bold text-white"><%=@profile.engagement_rate%>%</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-            <%end%>
-            <div class="mt-5 space-y-6 text-xs text-gray-700">
-              <p>Obs: Los datos no son en tiempo real.</p>
+
+              <!-- Video Performance Card -->
+              <%if @profile.total_videos > 0%>
+                <div class="rounded-xl bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200 p-6">
+                  <h4 class="text-sm font-semibold text-purple-800 uppercase tracking-wider mb-2">Rendimiento Videos</h4>
+                  <%if @profile.total_videos == 1%>
+                    <p class="text-sm leading-relaxed text-gray-700">
+                      Su video fue visto <span class="font-bold text-purple-700"><%=number_with_delimiter(@profile.total_video_view_count, delimiter: '.')%></span> veces.
+                    </p>
+                  <%else%>
+                    <p class="text-sm leading-relaxed text-gray-700 mb-2">
+                      <span class="font-bold text-purple-700"><%=number_with_delimiter(@profile.total_videos, delimiter: '.')%></span> videos con 
+                      <span class="font-bold text-purple-700"><%=number_with_delimiter(@profile.total_video_view_count, delimiter: '.')%></span> visualizaciones.
+                    </p>
+                    <p class="text-sm text-gray-600">
+                      Promedio: <span class="font-semibold text-purple-700"><%=number_with_delimiter(@median_video_views, delimiter: '.')%></span> views/video
+                    </p>
+                  <%end%>
+                </div>
+              <%else%>
+                <div class="rounded-xl bg-gray-50 border border-gray-200 p-4">
+                  <p class="text-sm text-gray-500 text-center">Sin videos publicados esta semana</p>
+                </div>
+              <%end%>
+            </div>
+          <%end%>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Stats Section - Slide 2 -->
+<%if @last_week_posts.any?%>
+  <div class="min-h-screen bg-gradient-to-br from-white via-slate-50 to-gray-100 py-20">
+    <div class="mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 2xl:px-24 max-w-[1800px]">
+      <!-- Section Header -->
+      <div class="mb-12 text-center">
+        <h2 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Métricas de Rendimiento</h2>
+        <p class="mt-4 text-lg leading-relaxed text-gray-600 max-w-3xl mx-auto">
+          Análisis completo de los últimos días
+        </p>
+        <div class="mt-4 flex items-center justify-center gap-2 text-sm text-gray-500">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z" clip-rule="evenodd" />
+          </svg>
+          Likes y comentarios = interacciones | Visualizaciones de videos = métrica separada
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <dl class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-20">
+        <!-- Total Posts -->
+        <div class="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg ring-1 ring-gray-900/5 transition-all hover:shadow-xl hover:scale-105">
+          <div class="absolute top-0 right-0 -mt-4 -mr-4 h-24 w-24 rounded-full bg-blue-100 opacity-20 group-hover:opacity-30 transition-opacity"></div>
+          <dt class="relative text-sm font-semibold text-gray-500 uppercase tracking-wider">Total Posts</dt>
+          <dd class="relative mt-3 flex items-baseline gap-2">
+            <span class="text-5xl font-bold tracking-tight text-gray-900"><%=@last_week_posts.size%></span>
+          </dd>
+          <div class="mt-4 flex items-center text-sm text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-1">
+              <path fill-rule="evenodd" d="M1 5.25A2.25 2.25 0 0 1 3.25 3h13.5A2.25 2.25 0 0 1 19 5.25v9.5A2.25 2.25 0 0 1 16.75 17H3.25A2.25 2.25 0 0 1 1 14.75v-9.5Zm1.5 5.81v3.69c0 .414.336.75.75.75h13.5a.75.75 0 0 0 .75-.75v-2.69l-2.22-2.219a.75.75 0 0 0-1.06 0l-1.91 1.909.47.47a.75.75 0 1 1-1.06 1.06L6.53 8.091a.75.75 0 0 0-1.06 0l-2.97 2.97ZM12 7a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" clip-rule="evenodd" />
+            </svg>
+            Publicaciones
+          </div>
+        </div>
+
+        <!-- Total Interactions -->
+        <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 p-8 shadow-lg transition-all hover:shadow-xl hover:scale-105">
+          <div class="absolute bottom-0 left-0 -mb-8 -ml-8 h-32 w-32 rounded-full bg-white/10 blur-2xl"></div>
+          <dt class="relative text-sm font-semibold text-green-100 uppercase tracking-wider">Total Interacciones</dt>
+          <dd class="relative mt-3 flex items-baseline gap-2">
+            <span class="text-5xl font-bold tracking-tight text-white">
+              <%= number_to_human(@profile.total_interactions_count, format: '%n%u', units: { thousand: 'K', million: 'M', billion: 'B' }, precision: 2) %>
+            </span>
+          </dd>
+          <div class="relative mt-4 flex items-center text-sm text-green-100">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-1">
+              <path d="M1 8.25a1.25 1.25 0 1 1 2.5 0v7.5a1.25 1.25 0 1 1-2.5 0v-7.5ZM11 3V1.7c0-.268.14-.526.395-.607A2 2 0 0 1 14 3c0 .995-.182 1.948-.514 2.826-.204.54.166 1.174.744 1.174h2.52c1.243 0 2.261 1.01 2.146 2.247a23.864 23.864 0 0 1-1.341 5.974C17.153 16.323 16.072 17 14.9 17h-3.192a3 3 0 0 1-1.341-.317l-2.734-1.366A3 3 0 0 0 6.292 15H5V8h.963c.685 0 1.258-.483 1.612-1.068a4.011 4.011 0 0 1 2.166-1.73c.432-.143.853-.386 1.011-.814.16-.432.248-.9.248-1.388Z" />
+            </svg>
+            Likes + Comentarios
+          </div>
+        </div>
+
+        <!-- Video Views -->
+        <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 p-8 shadow-lg transition-all hover:shadow-xl hover:scale-105">
+          <div class="absolute top-0 right-0 -mt-4 -mr-4 h-32 w-32 rounded-full bg-white/10 blur-2xl"></div>
+          <dt class="relative text-sm font-semibold text-purple-100 uppercase tracking-wider">Visualizaciones Videos</dt>
+          <dd class="relative mt-3 flex items-baseline gap-2">
+            <span class="text-5xl font-bold tracking-tight text-white">
+              <%= number_to_human(@profile.total_video_view_count, format: '%n%u', units: { thousand: 'K', million: 'M', billion: 'B' }, precision: 2) %>
+            </span>
+          </dd>
+          <div class="relative mt-4 flex items-center text-sm text-purple-100">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-1">
+              <path d="M3.25 4A2.25 2.25 0 0 0 1 6.25v7.5A2.25 2.25 0 0 0 3.25 16h7.5A2.25 2.25 0 0 0 13 13.75v-7.5A2.25 2.25 0 0 0 10.75 4h-7.5ZM19 4.75a.75.75 0 0 0-1.28-.53l-3 3a.75.75 0 0 0-.22.53v4.5c0 .199.079.39.22.53l3 3a.75.75 0 0 0 1.28-.53V4.75Z" />
+            </svg>
+            Reproducciones
+          </div>
+        </div>
+
+        <!-- Followers -->
+        <div class="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg ring-1 ring-gray-900/5 transition-all hover:shadow-xl hover:scale-105">
+          <div class="absolute bottom-0 right-0 -mb-6 -mr-6 h-28 w-28 rounded-full bg-indigo-100 opacity-20 group-hover:opacity-30 transition-opacity"></div>
+          <dt class="relative text-sm font-semibold text-gray-500 uppercase tracking-wider">Seguidores</dt>
+          <dd class="relative mt-3 flex items-baseline gap-2">
+            <span class="text-5xl font-bold tracking-tight text-gray-900">
+              <%= number_to_human(@profile.followers, format: '%n%u', units: { thousand: 'K', million: 'M', billion: 'B' }, precision: 2) %>
+            </span>
+          </dd>
+          <div class="relative mt-4 flex items-center text-sm text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-1">
+              <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM1.49 15.326a.78.78 0 0 1-.358-.442 3 3 0 0 1 4.308-3.516 6.484 6.484 0 0 0-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 0 1-2.07-.655ZM16.44 15.98a4.97 4.97 0 0 0 2.07-.654.78.78 0 0 0 .357-.442 3 3 0 0 0-4.308-3.517 6.484 6.484 0 0 1 1.907 3.96 2.32 2.32 0 0 1-.026.654ZM18 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM5.304 16.19a.844.844 0 0 1-.277-.71 5 5 0 0 1 9.947 0 .843.843 0 0 1-.277.71A6.975 6.975 0 0 1 10 18a6.974 6.974 0 0 1-4.696-1.81Z" />
+            </svg>
+            Audiencia
+          </div>
+        </div>
+      </dl>
+
+      <%if current_admin_user && @collabs.any? && false%>
+        <div class="mb-16">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Últimas Colaboraciones</h2>
+          <%= render partial: 'posts/collaborations', locals: { collaborations: @collabs } %>
+        </div>
+      <%end%>
+
+      <!-- Word Cloud -->
+      <%if @profile.instagram_posts.a_month_ago && @profile.instagram_posts.a_month_ago.word_occurrences.any?%>
+        <div class="mb-16">
+          <div class="rounded-2xl bg-white p-10 shadow-xl ring-1 ring-gray-900/5">
+            <div class="flex items-center justify-between mb-8">
+              <div>
+                <h2 class="text-3xl font-bold text-gray-900">Nube de Palabras</h2>
+                <p class="mt-2 text-sm text-gray-600">Términos más frecuentes en las publicaciones</p>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10 text-blue-500">
+                <path fill-rule="evenodd" d="M4.848 2.771A49.144 49.144 0 0 1 12 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97a48.901 48.901 0 0 1-3.476.383.39.39 0 0 0-.297.17l-2.755 4.133a.75.75 0 0 1-1.248 0l-2.755-4.133a.39.39 0 0 0-.297-.17 48.9 48.9 0 0 1-3.476-.384c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97ZM6.75 8.25a.75.75 0 0 1 .75-.75h9a.75.75 0 0 1 0 1.5h-9a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5H12a.75.75 0 0 0 0-1.5H7.5Z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="bg-gradient-to-br from-slate-50 to-blue-50 rounded-xl p-8">
+              <%= render 'instagram_post/word_cloud', word_array: @profile.instagram_posts.a_month_ago.word_occurrences %>
+            </div>
+          </div>
+        </div>
+      <%end%>
+
+      <!-- Charts Section -->
+      <div class="space-y-12">
+        <!-- Posts per Day -->
+        <div class="rounded-2xl bg-white p-10 shadow-xl ring-1 ring-gray-900/5">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h2 class="text-3xl font-bold text-gray-900">Posteos por Día</h2>
+              <p class="mt-2 text-sm text-gray-600">Distribución temporal de publicaciones</p>
+            </div>
+            <div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-50 border border-blue-200">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-blue-600">
+                <path fill-rule="evenodd" d="M5.75 2a.75.75 0 0 1 .75.75V4h7V2.75a.75.75 0 0 1 1.5 0V4h.25A2.75 2.75 0 0 1 18 6.75v8.5A2.75 2.75 0 0 1 15.25 18H4.75A2.75 2.75 0 0 1 2 15.25v-8.5A2.75 2.75 0 0 1 4.75 4H5V2.75A.75.75 0 0 1 5.75 2Zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75Z" clip-rule="evenodd" />
+              </svg>
+              <span class="text-sm font-medium text-blue-700">Última semana</span>
+            </div>
+          </div>
+          <div class="bg-gradient-to-br from-slate-50 to-gray-50 rounded-xl p-6">
+            <%= column_chart @last_week_posts.group(:media).group_by_day(:posted_at).count, label: "Posteos", xtitle: "Fecha", ytitle: "Cant. Posteos", stacked: true %>
+          </div>
+        </div>
+
+        <!-- Interactions per Day -->
+        <div class="rounded-2xl bg-white p-10 shadow-xl ring-1 ring-gray-900/5">
+          <div class="mb-6">
+            <div class="flex items-center justify-between mb-2">
+              <h2 class="text-3xl font-bold text-gray-900">Interacciones por Día</h2>
+              <div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-green-50 border border-green-200">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-green-600">
+                  <path d="M1 8.25a1.25 1.25 0 1 1 2.5 0v7.5a1.25 1.25 0 1 1-2.5 0v-7.5ZM11 3V1.7c0-.268.14-.526.395-.607A2 2 0 0 1 14 3c0 .995-.182 1.948-.514 2.826-.204.54.166 1.174.744 1.174h2.52c1.243 0 2.261 1.01 2.146 2.247a23.864 23.864 0 0 1-1.341 5.974C17.153 16.323 16.072 17 14.9 17h-3.192a3 3 0 0 1-1.341-.317l-2.734-1.366A3 3 0 0 0 6.292 15H5V8h.963c.685 0 1.258-.483 1.612-1.068a4.011 4.011 0 0 1 2.166-1.73c.432-.143.853-.386 1.011-.814.16-.432.248-.9.248-1.388Z" />
+                </svg>
+                <span class="text-sm font-medium text-green-700">Engagement</span>
+              </div>
+            </div>
+            <p class="text-sm text-gray-600">Likes y comentarios combinados</p>
+          </div>
+          <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6">
+            <%= column_chart @last_week_posts.group_by_day(:posted_at).sum(:total_count), colors: ['#10b981'], label: "Interacciones", xtitle: "Fecha", ytitle: "Cant. Interacciones", thousands: "." %>
+          </div>
+        </div>
+
+        <!-- Video Views per Day -->
+        <%if @profile.total_video_view_count.positive?%>
+          <div class="rounded-2xl bg-white p-10 shadow-xl ring-1 ring-gray-900/5">
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <h2 class="text-3xl font-bold text-gray-900">Visualizaciones de Videos por Día</h2>
+                <p class="mt-2 text-sm text-gray-600">Rendimiento de contenido en video</p>
+              </div>
+              <div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-50 border border-purple-200">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-purple-600">
+                  <path d="M3.25 4A2.25 2.25 0 0 0 1 6.25v7.5A2.25 2.25 0 0 0 3.25 16h7.5A2.25 2.25 0 0 0 13 13.75v-7.5A2.25 2.25 0 0 0 10.75 4h-7.5ZM19 4.75a.75.75 0 0 0-1.28-.53l-3 3a.75.75 0 0 0-.22.53v4.5c0 .199.079.39.22.53l3 3a.75.75 0 0 0 1.28-.53V4.75Z" />
+                </svg>
+                <span class="text-sm font-medium text-purple-700">Videos</span>
+              </div>
+            </div>
+            <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6">
+              <%= column_chart @last_week_posts.group_by_day(:posted_at).sum(:video_view_count), colors: ['#a855f7'], label: "Visualizaciones", xtitle: "Fecha", ytitle: "Cant. Visualizaciones", thousands: "." %>
+            </div>
+          </div>
+        <%end%>
+
+        <!-- Distribution Charts -->
+        <div class="rounded-2xl bg-white p-10 shadow-xl ring-1 ring-gray-900/5">
+          <div class="mb-8">
+            <h2 class="text-3xl font-bold text-gray-900">Distribución por Sección</h2>
+            <p class="mt-2 text-sm text-gray-600">Análisis comparativo de posteos e interacciones</p>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-4 text-center">Posteos por Sección</h3>
+              <%= pie_chart @last_week_posts.group(:product_type).count, donut: true, label: "Posteos" %>
+            </div>
+            <div class="bg-gradient-to-br from-green-50 to-teal-50 rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-4 text-center">Interacciones por Sección</h3>
+              <%= pie_chart @last_week_posts.group(:product_type).sum(:total_count), donut: true, label: "Interacciones", thousands: "." %>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-2xl bg-white p-10 shadow-xl ring-1 ring-gray-900/5">
+          <div class="mb-8">
+            <h2 class="text-3xl font-bold text-gray-900">Distribución por Tipo de Contenido</h2>
+            <p class="mt-2 text-sm text-gray-600">Comparación entre formatos de publicación</p>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <div class="bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-4 text-center">Posteos por Tipo</h3>
+              <%= pie_chart @last_week_posts.group(:media).count, donut: true, label: "Posteos" %>
+            </div>
+            <div class="bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl p-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-4 text-center">Interacciones por Tipo</h3>
+              <%= pie_chart @last_week_posts.group(:media).sum(:total_count), donut: true, label: "Interacciones", thousands: "." %>
             </div>
           </div>
         </div>
       </div>
-      <%if @last_week_posts.any?%>
-        <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
-          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Stats últimos días</h2>
-          <h3 class="text-xs font-bold text-gray-900">Obs: Likes y Comentarios cuentan como interacciones, visualizaciones de videos es una métrica aparte.</h3>
-          <div class="mt-6">
-            <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-4">
-              <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
-                <dt class="truncate text-sm font-medium text-gray-500">Total Posts</dt>
-                <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900"><%=@last_week_posts.size%></dd>
-              </div>
-              <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
-                <dt class="truncate text-sm font-medium text-gray-500">Total Interacciones</dt>
-                <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
-                  <%= number_to_human(@profile.total_interactions_count, format: '%n%u', units: { thousand: 'K', million: 'M', billion: 'B' }, precision: 2) %>
-                </dd>
-              </div>
-              <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
-                <dt class="truncate text-sm font-medium text-gray-500">Visualizaciones Videos</dt>
-                <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
-                  <%= number_to_human(@profile.total_video_view_count, format: '%n%u', units: { thousand: 'K', million: 'M', billion: 'B' }, precision: 2) %>
-                </dd>
-              </div>
-              <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
-                <dt class="truncate text-sm font-medium text-gray-500">Seguidores</dt>
-                <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
-                  <%= number_to_human(@profile.followers, format: '%n%u', units: { thousand: 'K', million: 'M', billion: 'B' }, precision: 2) %>
-                </dd>
-              </div>
-            </dl>
-          </div>
-        </section>
-        <%if current_admin_user && @collabs.any? && false%>
-          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Últimas Colaboraciones</h2>
-          <%= render partial: 'posts/collaborations', locals: { collaborations: @collabs } %>
-        <%end%>
-        <%if @profile.instagram_posts.a_month_ago && @profile.instagram_posts.a_month_ago.word_occurrences.any?%>
-          <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
-            <h2 id="related-heading" class="text-xl font-bold text-gray-900">Nube de Palabras</h2>
-            <div class="mt-6">
-              <%= render 'instagram_post/word_cloud', word_array: @profile.instagram_posts.a_month_ago.word_occurrences %>
-            </div>
-          </section>
-        <%end%>
-        <section aria-labelledby="related-heading" class="mt-2 border-t border-gray-200 px-4 py-16 sm:px-0">
-          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Posteos por día</h2>
-          <div class="mt-6">
-            <%= column_chart @last_week_posts.group(:media).group_by_day(:posted_at).count, label: "Posteos", xtitle: "Fecha", ytitle: "Cant. Posteos", stacked: true %>
-          </div>
-        </section>
-        <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
-          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Interacciones por día</h2>
-          <h3 class="text-xs font-bold text-gray-900">Obs: Likes y Comentarios cuentan como interacciones, visualizaciones de videos es una métrica aparte.</h3>
-          <div class="mt-6">
-            <%= column_chart @last_week_posts.group_by_day(:posted_at).sum(:total_count), colors: ['lightgreen'], label: "Interacciones", xtitle: "Fecha", ytitle: "Cant. Interacciones", thousands: "." %>
-          </div>
-        </section>
-        <%if @profile.total_video_view_count.positive?%>
-          <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
-            <h2 id="related-heading" class="text-xl font-bold text-gray-900">Visualizaciones videos por día</h2>
-            <div class="mt-6">
-              <%= column_chart @last_week_posts.group_by_day(:posted_at).sum(:video_view_count), colors: ['lightblue'], label: "Visualizaciones", xtitle: "Fecha", ytitle: "Cant. Visualizaciones", thousands: "." %>
-            </div>
-          </section>
-        <%end%>
-        <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
-          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Interacciones y Posteos por seccion</h2>
-          <h3 class="text-xs font-bold text-gray-900">Obs: Likes y Comentarios cuentan como interacciones, visualizaciones de videos es una métrica aparte.</h3>
-          <div class="flex">
-            <div class="w-1/2">
-              <%= pie_chart @last_week_posts.group(:product_type).count, donut: true, label: "Posteos" %>
-            </div>
-            <div class="w-1/2">
-              <%= pie_chart @last_week_posts.group(:product_type).sum(:total_count), donut: true, label: "Interacciones", thousands: "." %>
-            </div>
-          </div>
-        </section>
-        <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
-          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Interacciones y Posteos por tipo</h2>
-          <h3 class="text-xs font-bold text-gray-900">Obs: Likes y Comentarios cuentan como interacciones, visualizaciones de videos es una métrica aparte.</h3>
-          <div class="flex">
-            <div class="w-1/2">
-              <%= pie_chart @last_week_posts.group(:media).count, donut: true, label: "Posteos" %>
-            </div>
-            <div class="w-1/2">
-              <%= pie_chart @last_week_posts.group(:media).sum(:total_count), donut: true, label: "Interacciones", thousands: "." %>
-            </div>
-          </div>
-        </section>
-      <%end%>
-      <%if @profile.collaborated.any?%>
-        <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
-          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Colaboraciones</h2>
-          <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            <%=render partial: "profiles/profile", collection: @profile.collaborated.distinct.limit(20), cache: true%>
-          </div>
-        </section>
-      <%end%>
-      <%if @profile.collaborators.any?%>
-        <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
-          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Colaboradores</h2>
-          <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            <%=render partial: "profiles/profile", collection: @profile.collaborators.distinct.limit(20), cache: true%>
-          </div>
-        </section>
-      <%end%>
-      <%if @mentions.any?%>
-        <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
-          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Menciones</h2>
-          <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            <%=render partial: "profiles/profile", collection: @mentions, cache: true%>
-          </div>
-        </section>
-      <%end%>
-      <%if false && @related_brands.any?%>
-        <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
-          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Colaboraciones y Menciones Recientes</h2>
-          <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            <%=render partial: "profiles/profile", collection: @related_brands, cache: true%>
-          </div>
-        </section>
-      <%end%>
-      <%if @posts.any?%>
-        <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
-          <h2 id="related-heading" class="text-xl font-bold text-gray-900">Posteos Recientes</h2>
-          <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            <%=render partial: "instagram_post/post", collection: @posts, cache: true%>
-          </div>
-        </section>
-      <%end%>
-      <section aria-labelledby="related-heading" class="mt-10 border-t border-gray-200 px-4 py-16 sm:px-0">
-        <h2 id="related-heading" class="text-xl font-bold text-gray-900">Cuentas Relacionadas</h2>
-        <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          <%=render partial: "profiles/profile", collection: @profiles, cache: true%>
-        </div>
-      </section>
     </div>
-  </main>
+  </div>
+<%end%>
+
+<!-- Related Profiles Section - Slide 3 -->
+<div class="bg-gradient-to-br from-slate-50 via-white to-gray-50 py-20">
+  <div class="mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 2xl:px-24 max-w-[1800px]">
+    <!-- Debug: Verificar valores -->
+    <%# collaborated count: <%= @profile.collaborated.count %>
+    <%# collaborators count: <%= @profile.collaborators.count %>
+    
+    <%if @profile.collaborated.any?%>
+      <div class="mb-24">
+        <div class="mb-12">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
+                <path d="M4.5 6.375a4.125 4.125 0 1 1 8.25 0 4.125 4.125 0 0 1-8.25 0ZM14.25 8.625a3.375 3.375 0 1 1 6.75 0 3.375 3.375 0 0 1-6.75 0ZM1.5 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63 13.067 13.067 0 0 1-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM17.25 19.128l-.001.144a2.25 2.25 0 0 1-.233.96 10.088 10.088 0 0 0 5.06-1.01.75.75 0 0 0 .42-.643 4.875 4.875 0 0 0-6.957-4.611 8.586 8.586 0 0 1 1.71 5.157v.003Z" />
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-4xl font-bold text-gray-900">Colaboraciones</h2>
+              <p class="mt-1 text-sm text-gray-600">Perfiles con los que ha colaborado</p>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6">
+          <%=render partial: "profiles/profile", collection: @profile.collaborated.distinct.limit(20), cache: true%>
+        </div>
+      </div>
+    <%end%>
+
+    <%if @profile.collaborators.any?%>
+      <div class="mb-24">
+        <div class="mb-12">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 shadow-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
+                <path fill-rule="evenodd" d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z" clip-rule="evenodd" />
+                <path d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-4xl font-bold text-gray-900">Colaboradores</h2>
+              <p class="mt-1 text-sm text-gray-600">Quienes colaboran con este perfil</p>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6">
+          <%=render partial: "profiles/profile", collection: @profile.collaborators.distinct.limit(20), cache: true%>
+        </div>
+      </div>
+    <%end%>
+
+    <%if @mentions.any?%>
+      <div class="mb-24">
+        <div class="mb-12">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 shadow-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
+                <path fill-rule="evenodd" d="M5.337 21.718a6.707 6.707 0 0 1-.533-.074.75.75 0 0 1-.44-1.223 3.73 3.73 0 0 0 .814-1.686c.023-.115-.022-.317-.254-.543C3.274 16.587 2.25 14.41 2.25 12c0-5.03 4.428-9 9.75-9s9.75 3.97 9.75 9c0 5.03-4.428 9-9.75 9-.833 0-1.643-.097-2.417-.279a6.721 6.721 0 0 1-4.246.997Z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-4xl font-bold text-gray-900">Menciones</h2>
+              <p class="mt-1 text-sm text-gray-600">Perfiles mencionados en publicaciones</p>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6">
+          <%=render partial: "profiles/profile", collection: @mentions, cache: true%>
+        </div>
+      </div>
+    <%end%>
+
+    <%if false && @related_brands.any?%>
+      <div class="mb-24">
+        <div class="mb-12">
+          <h2 class="text-4xl font-bold text-gray-900">Colaboraciones y Menciones Recientes</h2>
+          <p class="mt-2 text-sm text-gray-600">Marcas y perfiles relacionados</p>
+        </div>
+        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6">
+          <%=render partial: "profiles/profile", collection: @related_brands, cache: true%>
+        </div>
+      </div>
+    <%end%>
+
+    <%if @posts.any?%>
+      <div class="mb-24">
+        <div class="mb-12">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-teal-600 shadow-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
+                <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-4xl font-bold text-gray-900">Posteos Recientes</h2>
+              <p class="mt-1 text-sm text-gray-600">Últimas publicaciones del perfil</p>
+            </div>
+          </div>
+        </div>
+        <div class="columns-1 gap-8 sm:columns-2 lg:columns-4 2xl:columns-5 space-y-8">
+          <%=render partial: "instagram_post/post", collection: @posts, cache: true%>
+        </div>
+      </div>
+    <%end%>
+
+    <!-- Related Accounts -->
+    <div>
+      <div class="mb-12">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-blue-600 shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
+              <path fill-rule="evenodd" d="M19.902 4.098a3.75 3.75 0 0 0-5.304 0l-4.5 4.5a3.75 3.75 0 0 0 1.035 6.037.75.75 0 0 1-.646 1.353 5.25 5.25 0 0 1-1.449-8.45l4.5-4.5a5.25 5.25 0 1 1 7.424 7.424l-1.757 1.757a.75.75 0 1 1-1.06-1.06l1.757-1.757a3.75 3.75 0 0 0 0-5.304Zm-7.389 4.267a.75.75 0 0 1 1-.353 5.25 5.25 0 0 1 1.449 8.45l-4.5 4.5a5.25 5.25 0 1 1-7.424-7.424l1.757-1.757a.75.75 0 1 1 1.06 1.06l-1.757 1.757a3.75 3.75 0 1 0 5.304 5.304l4.5-4.5a3.75 3.75 0 0 0-1.035-6.037.75.75 0 0 1-.354-1Z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <div>
+            <h2 class="text-4xl font-bold text-gray-900">Cuentas Relacionadas</h2>
+            <p class="mt-1 text-sm text-gray-600">Perfiles similares que pueden interesarte</p>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6">
+        <%=render partial: "profiles/profile", collection: @profiles, cache: true%>
+      </div>
+    </div>
+  </div>
 </div>

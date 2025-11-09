@@ -3,7 +3,34 @@
 class HomeController < ApplicationController
   skip_before_action :verify_authenticity_token
 
-  def index; end
+  def index
+    # SEO Meta Tags - Homepage
+    set_meta_tags(
+      title: "#{SITE_NAME} - #{SITE_TAGLINE}",
+      description: DESCRIPTION,
+      keywords: KEYWORDS,
+      canonical: root_url,
+      og: {
+        title: "#{SITE_NAME} - #{SITE_TAGLINE}",
+        description: DESCRIPTION,
+        type: 'website',
+        url: root_url,
+        image: OG_IMAGE_URL,
+        site_name: SITE_NAME,
+        locale: 'es_PY'
+      },
+      twitter: {
+        card: 'summary_large_image',
+        site: TWITTER_HANDLE,
+        title: "#{SITE_NAME} - #{SITE_TAGLINE}",
+        description: DESCRIPTION,
+        image: OG_IMAGE_URL
+      },
+      alternate: {
+        'es-PY' => root_url
+      }
+    )
+  end
 
   def deploy
     Dir.chdir('/home/rails/influencers') do

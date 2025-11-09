@@ -243,9 +243,6 @@ GEM
     public_suffix (5.0.5)
     puma (5.6.8)
       nio4r (~> 2.0)
-    puma-daemon (0.3.2)
-      puma (>= 5.0)
-      rack
     racc (1.7.3)
     rack (2.2.9)
     rack-test (2.1.0)
@@ -420,7 +417,6 @@ DEPENDENCIES
   oj (~> 3.16)
   parallel (~> 1.23)
   puma (~> 5.0)
-  puma-daemon
   rails (~> 7.0.4)
   redis (~> 4.0)
   rubocop (~> 1.63)

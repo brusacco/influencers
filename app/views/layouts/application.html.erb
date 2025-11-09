@@ -1,13 +1,28 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-PY">
   <head>
-    <title>Influencers</title>
+    <meta charset="utf-8">
+    <%= display_meta_tags site: SITE_NAME, separator: '-', reverse: true %>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://www.google-analytics.com">
+    
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+      <%= organization_schema %>
+    </script>
+    <script type="application/ld+json">
+      <%= website_schema %>
+    </script>
+    <%= yield :structured_data %>
   </head>
   <body class="h-full">
     <%=render "layouts/nav"%>  

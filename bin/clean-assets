@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+echo "🧹 Limpiando assets precompilados..."
+rm -rf public/assets
+rm -rf tmp/cache/assets
+
+echo "✅ Assets limpios!"
+echo "💡 Ahora ejecuta: bin/dev"
+

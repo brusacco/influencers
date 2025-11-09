@@ -1,28 +1,105 @@
-<main>
-  <div class="bg-white">
-    <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-      <h2 class="text-2xl font-bold tracking-tight text-gray-900">Top Influencers por Seguidores</h2>
-      <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-        <%=render partial: "profiles/profile", collection: @profiles, cache: true%>
+<!-- Hero Section -->
+<div class="relative bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 py-16">
+  <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDEzNGg4djhoLTh6TTI4IDE0Mmg4djhoLTh6TTQ0IDE0Mmg4djhoLTh6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-20"></div>
+  
+  <div class="relative mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 2xl:px-24 max-w-[1800px]">
+    <div class="text-center">
+      <div class="inline-flex items-center gap-3 mb-4 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-blue-300">
+          <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM1.49 15.326a.78.78 0 0 1-.358-.442 3 3 0 0 1 4.308-3.516 6.484 6.484 0 0 0-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 0 1-2.07-.655ZM16.44 15.98a4.97 4.97 0 0 0 2.07-.654.78.78 0 0 0 .357-.442 3 3 0 0 0-4.308-3.517 6.484 6.484 0 0 1 1.907 3.96 2.32 2.32 0 0 1-.026.654ZM18 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM5.304 16.19a.844.844 0 0 1-.277-.71 5 5 0 0 1 9.947 0 .843.843 0 0 1-.277.71A6.975 6.975 0 0 1 10 18a6.974 6.974 0 0 1-4.696-1.81Z" />
+        </svg>
+        <span class="text-sm font-bold text-white uppercase tracking-wider">Influencers</span>
       </div>
-    </div>
-    <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-      <h2 class="text-2xl font-bold tracking-tight text-gray-900">Top Influencers por Interacciones</h2>
-      <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-        <%=render partial: "profiles/profile", collection: @profiles_interactions, cache: true%>
-      </div>
-    </div>
-    <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-      <h2 class="text-2xl font-bold tracking-tight text-gray-900">Top Influencers por Videos Vistos</h2>
-      <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-        <%=render partial: "profiles/profile", collection: @profiles_video_views, cache: true%>
-      </div>
-    </div>
-    <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-      <h2 class="text-2xl font-bold tracking-tight text-gray-900">Top Influencers sin Posteos en la Última semana</h2>
-      <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-        <%=render partial: "profiles/profile", collection: @profiles_disaster, cache: true%>
-      </div>
+      
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3">
+        Top Influencers de Paraguay
+      </h1>
+      
+      <p class="text-lg text-blue-100">
+        Los creadores de contenido más destacados ordenados por rendimiento
+      </p>
     </div>
   </div>
-</main>
+</div>
+
+<!-- Rankings Grid -->
+<div class="bg-gradient-to-b from-gray-50 to-white py-12">
+  <div class="mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 2xl:px-24 max-w-[1800px] space-y-16">
+    
+    <!-- Top por Seguidores -->
+    <section class="relative">
+      <div class="mb-8 flex items-center gap-4">
+        <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
+            <path d="M4.5 6.375a4.125 4.125 0 1 1 8.25 0 4.125 4.125 0 0 1-8.25 0ZM14.25 8.625a3.375 3.375 0 1 1 6.75 0 3.375 3.375 0 0 1-6.75 0ZM1.5 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63 13.067 13.067 0 0 1-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM17.25 19.128l-.001.144a2.25 2.25 0 0 1-.233.96 10.088 10.088 0 0 0 5.06-1.01.75.75 0 0 0 .42-.643 4.875 4.875 0 0 0-6.957-4.611 8.586 8.586 0 0 1 1.71 5.157v.003Z" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="text-3xl font-bold text-gray-900">Top por Seguidores</h2>
+          <p class="text-sm text-gray-600">Influencers con mayor audiencia</p>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6">
+        <%= render partial: "profiles/profile", collection: @profiles, cache: true %>
+      </div>
+    </section>
+
+    <!-- Top por Interacciones -->
+    <section class="relative">
+      <div class="mb-8 flex items-center gap-4">
+        <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 shadow-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
+            <path d="M7.493 18.5c-.425 0-.82-.236-.975-.632A7.48 7.48 0 0 1 6 15.125c0-1.75.599-3.358 1.602-4.634.151-.192.373-.309.6-.397.473-.183.89-.514 1.212-.924a9.042 9.042 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75A.75.75 0 0 1 15 2a2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H14.23c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23h-.777ZM2.331 10.727a11.969 11.969 0 0 0-.831 4.398 12 12 0 0 0 .52 3.507C2.28 19.482 3.105 20 3.994 20H4.9c.445 0 .72-.498.523-.898a8.963 8.963 0 0 1-.924-3.977c0-1.708.476-3.305 1.302-4.666.245-.403-.028-.959-.5-.959H4.25c-.832 0-1.612.453-1.918 1.227Z" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="text-3xl font-bold text-gray-900">Top por Engagement</h2>
+          <p class="text-sm text-gray-600">Mayor interacción con su audiencia</p>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6">
+        <%= render partial: "profiles/profile", collection: @profiles_interactions, cache: true %>
+      </div>
+    </section>
+
+    <!-- Top por Videos -->
+    <section class="relative">
+      <div class="mb-8 flex items-center gap-4">
+        <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 shadow-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
+            <path d="M4.5 4.5a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h8.25a3 3 0 0 0 3-3v-9a3 3 0 0 0-3-3H4.5ZM19.94 18.75l-2.69-2.69V7.94l2.69-2.69c.944-.945 2.56-.276 2.56 1.06v11.38c0 1.336-1.616 2.005-2.56 1.06Z" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="text-3xl font-bold text-gray-900">Top por Videos</h2>
+          <p class="text-sm text-gray-600">Videos más vistos</p>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6">
+        <%= render partial: "profiles/profile", collection: @profiles_video_views, cache: true %>
+      </div>
+    </section>
+
+    <!-- Influencers Inactivos -->
+    <section class="relative">
+      <div class="mb-8 flex items-center gap-4">
+        <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 shadow-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
+            <path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="text-3xl font-bold text-gray-900">Influencers sin Posteos Recientes</h2>
+          <p class="text-sm text-gray-600">Sin actividad en la última semana</p>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6">
+        <%= render partial: "profiles/profile", collection: @profiles_disaster, cache: true %>
+      </div>
+    </section>
+  </div>
+</div>

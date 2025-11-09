@@ -8,6 +8,7 @@ Rails.application.config.active_storage.variant_processor = :mini_magick
 
 # Add additional assets to the asset load path.
 # Rails.application.config.assets.paths << Emoji.images_path
+Rails.application.config.assets.paths << Rails.root.join('app/assets/builds')
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
