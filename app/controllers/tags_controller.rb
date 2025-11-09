@@ -1,43 +1,32 @@
 # frozen_string_literal: true
 
 class TagsController < ApplicationController
-  def show
-    expires_in 30.minutes, public: true
-    @tag = Tag.find_by(id: params[:id])
-
-    unless @tag
-      redirect_to root_path, alert: 'Tag not found'
-      return
-    end
-
-    profile_ids = Profile.paraguayos.with_attached_avatar.tagged_with(@tag.name).order(followers: :desc).limit(40).ids
-
-    @profiles = Profile.where(id: profile_ids).order(followers: :desc)
-    @profiles_interactions = Profile.paraguayos.with_attached_avatar
-                                    .tagged_with(@tag.name)
-                                    .order(total_interactions_count: :desc)
-                                    .limit(20)
-    @profiles_video_views = Profile.paraguayos.with_attached_avatar
-                                   .tagged_with(@tag.name)
-                                   .order(total_video_view_count: :desc)
-                                   .limit(20)
-
-    @posts = InstagramPost.where(profile_id: profile_ids).a_week_ago
+  include SeoConcern
+  
+  def index
+    expires_in CACHE_MEDIUM_DURATION, public: true
     
-    # SEO Meta Tags - Tag Page
-    tag_name = @tag.name.titleize
-    total_profiles = @profiles.size
+    # Get all tags from paraguayan profiles, ordered by usage count
+    @tags = ActsAsTaggableOn::Tag
+              .joins(:taggings)
+              .joins("INNER JOIN profiles ON profiles.id = taggings.taggable_id AND taggings.taggable_type = 'Profile'")
+              .where(profiles: { country_string: 'Paraguay' })
+              .select('tags.*, COUNT(taggings.id) as taggings_count')
+              .group('tags.id')
+              .order('taggings_count DESC')
+              .to_a  # Execute the query and convert to array
     
+    # SEO Meta Tags for Tags Index
     set_meta_tags(
-      title: "##{@tag.name} - Influencers Paraguay | #{SITE_NAME}",
-      description: "Explora #{total_profiles} influencers paraguayos etiquetados con ##{@tag.name}. Rankings actualizados, análisis de engagement y métricas detalladas de Instagram.",
-      keywords: "#{@tag.name} Paraguay, hashtag #{@tag.name}, influencers #{@tag.name}, #{KEYWORDS}",
-      canonical: tag_url(@tag),
+      title: "Tags de Influencers Paraguay | #{SITE_NAME}",
+      description: "Explora todos los tags y categorías de influencers paraguayos. Encuentra creadores de contenido por sus intereses, nichos y especialidades.",
+      keywords: "tags influencers Paraguay, categorías influencers, hashtags Paraguay, #{KEYWORDS}",
+      canonical: tags_url,
       og: {
-        title: "##{@tag.name} - Influencers Paraguay",
-        description: "#{total_profiles} influencers paraguayos destacados en la categoría #{tag_name}",
+        title: "Tags de Influencers Paraguay",
+        description: "Explora influencers paraguayos por tags y categorías",
         type: 'website',
-        url: tag_url(@tag),
+        url: tags_url,
         image: OG_IMAGE_URL,
         site_name: SITE_NAME,
         locale: 'es_PY'
@@ -45,12 +34,43 @@ class TagsController < ApplicationController
       twitter: {
         card: 'summary_large_image',
         site: TWITTER_HANDLE,
-        title: "##{@tag.name} - Influencers Paraguay",
-        description: "#{total_profiles} influencers paraguayos destacados en #{tag_name}"
-      },
-      alternate: {
-        'es-PY' => tag_url(@tag)
+        title: "Tags de Influencers Paraguay",
+        description: "Explora influencers paraguayos por tags y categorías"
       }
     )
+  end
+  
+  def show
+    expires_in CACHE_SHORT_DURATION, public: true
+    @tag = Tag.find_by(id: params[:id])
+
+    unless @tag
+      redirect_to root_path, alert: 'Tag not found'
+      return
+    end
+
+    # Optimized: Use single query instead of two queries
+    @profiles = Profile.paraguayos
+                       .with_attached_avatar
+                       .tagged_with(@tag.name)
+                       .order(followers: :desc)
+                       .limit(TOP_PROFILES_LIMIT)
+    
+    @profiles_interactions = Profile.paraguayos
+                                    .with_attached_avatar
+                                    .tagged_with(@tag.name)
+                                    .order(total_interactions_count: :desc)
+                                    .limit(ENGAGEMENT_PROFILES_LIMIT)
+    
+    @profiles_video_views = Profile.paraguayos
+                                   .with_attached_avatar
+                                   .tagged_with(@tag.name)
+                                   .order(total_video_view_count: :desc)
+                                   .limit(VIDEO_VIEWS_PROFILES_LIMIT)
+
+    @posts = InstagramPost.where(profile_id: @profiles.pluck(:id)).a_week_ago
+    
+    # SEO Meta Tags
+    set_tag_meta_tags(@tag, @profiles.size)
   end
 end

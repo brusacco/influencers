@@ -168,4 +168,76 @@ class Profile < ApplicationRecord
     update!(response.data)
     save_avatar
   end
+
+  # Business Logic Methods for Metrics
+
+  # Calculate median interactions per post
+  # @return [Integer] median interactions count
+  def median_interactions
+    return 0 if total_posts.zero?
+
+    total_interactions_count / total_posts
+  end
+
+  # Calculate median video views per video
+  # @return [Integer] median video views count
+  def median_video_views
+    return 0 if total_videos.zero?
+
+    total_video_view_count / total_videos
+  end
+
+  # Find related profiles based on tags, profile_type, or interactions
+  # @param limit [Integer] maximum number of profiles to return
+  # @return [ActiveRecord::Relation] collection of related profiles
+  def related_profiles(limit: RELATED_PROFILES_LIMIT)
+    if tags.any?
+      # Find profiles with similar tags
+      self.class.paraguayos
+          .with_attached_avatar
+          .tagged_with(tags.map(&:name), any: true)
+          .where.not(id: id)
+          .order(followers: :desc)
+          .limit(limit)
+    elsif profile_type
+      # Find profiles in same category
+      self.class.paraguayos
+          .with_attached_avatar
+          .where(profile_type: profile_type)
+          .where.not(id: id)
+          .order(followers: :desc)
+          .limit(limit)
+    else
+      # Find profiles by interactions
+      self.class.paraguayos
+          .with_attached_avatar
+          .where.not(id: id)
+          .order(total_interactions_count: :desc)
+          .limit(limit)
+    end
+  end
+
+  # Get profiles mentioned in recent posts
+  # @param limit [Integer] maximum number of profiles to return
+  # @return [ActiveRecord::Relation] collection of mentioned profiles
+  def mentions_profiles(limit: MENTIONS_LIMIT)
+    self.class.where(username: mentions).limit(limit)
+  end
+
+  # Get recent posts
+  # @param limit [Integer] maximum number of posts to return
+  # @return [ActiveRecord::Relation] collection of recent posts
+  def recent_posts(limit: RECENT_POSTS_LIMIT)
+    instagram_posts.order(posted_at: :desc).limit(limit)
+  end
+
+  # Get recent collaborations
+  # @param limit [Integer] maximum number of collaborations to return
+  # @return [ActiveRecord::Relation] collection of recent collaborations
+  def recent_collaborations(limit: COLLABORATIONS_LIMIT)
+    collaborated_collaborations
+      .includes(:instagram_post)
+      .order(posted_at: :desc)
+      .limit(limit)
+  end
 end
