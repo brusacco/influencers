@@ -1,23 +1,39 @@
 # frozen_string_literal: true
 
 module InstagramServices
-  class GetProfileData < ApplicationService
+  # Service to fetch Instagram profile data
+  # @example
+  #   result = InstagramServices::GetProfileData.call('username')
+  #   if result.success?
+  #     profile_data = result.data
+  #   else
+  #     error_message = result.error
+  #   end
+  class GetProfileData < Base
     def initialize(username)
       @username = username
     end
 
     def call
-      url = "https://www.instagram.com/api/v1/users/web_profile_info/?username=#{@username}"
-      api_url = "http://api.scrape.do?token=ed138ed418924138923ced2b81e04d53&url=#{CGI.escape(url)}"
-
-      headers = { 'Content-Type': 'application/x-www-form-urlencoded', 'x-ig-app-id': '936619743392459' }
-
-      response = HTTParty.get(api_url, headers:, timeout: 60)
-
-      data = JSON.parse(response.body)
+      data = fetch_instagram_data(@username)
+      validate_response_structure!(data)
       handle_success(data)
-    rescue StandardError => e
+    rescue InvalidUsernameError, APIError, TimeoutError, ParseError => e
       handle_error(e.message)
+    rescue StandardError => e
+      log_error("Unexpected error in GetProfileData: #{e.message}\n#{e.backtrace.first(5).join("\n")}")
+      handle_error("Unexpected error: #{e.message}")
+    end
+
+    private
+
+    # Validate that the response has the expected structure
+    # @param data [Hash] Response data to validate
+    # @raise [ParseError] if structure is invalid
+    def validate_response_structure!(data)
+      unless data.is_a?(Hash) && data.dig('data', 'user')
+        raise ParseError, 'Invalid response structure: missing user data'
+      end
     end
   end
 end

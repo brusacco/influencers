@@ -12,7 +12,7 @@ namespace :instagram do
         shortcode = edge['node']['shortcode']
         puts "#{shortcode} - #{profile.username} - #{profile.followers} - (#{i + 1} / #{response.data.size})"
 
-        post_response = InstagramServices::UpdatePostData.call(edge, true)
+        post_response = InstagramServices::UpdatePostData.call(edge, cursor: true)
         next unless post_response.success?
 
         post = profile.instagram_posts.find_or_create_by!(shortcode:)
