@@ -29,6 +29,18 @@ class ProfilesController < ApplicationController
 
     # Historical data for charts
     @followers_history = @profile.instagram_profile_stats.order(:date).pluck(:date, :followers_count)
+    
+    # Calculate daily follower changes (growth/loss)
+    if @followers_history.present?
+      @followers_daily_change = []
+      @followers_history.each_with_index do |(date, count), index|
+        if index > 0
+          previous_count = @followers_history[index - 1][1]
+          change = count - previous_count
+          @followers_daily_change << [date, change]
+        end
+      end
+    end
 
     # Calculate median metrics using model methods
     @median_interactions = @profile.median_interactions

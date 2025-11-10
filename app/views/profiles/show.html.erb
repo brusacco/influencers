@@ -338,11 +338,32 @@
       <div class="space-y-12">
         <!-- Followers per Day -->
         <% if @followers_history.present? %>
+          <%
+            # Calculate min and max for better visualization
+            follower_counts = @followers_history.map(&:last)
+            min_followers = follower_counts.min
+            max_followers = follower_counts.max
+            range = max_followers - min_followers
+            
+            # Set y-axis min to show variations better (start 5% below min value)
+            y_min = [0, (min_followers - range * 0.1).to_i].max
+            y_max = (max_followers + range * 0.1).to_i
+          %>
+          
           <div class="rounded-2xl bg-white p-10 shadow-xl ring-1 ring-gray-900/5">
             <div class="flex items-center justify-between mb-6">
               <div>
                 <h2 class="text-3xl font-bold text-gray-900">Seguidores por Día</h2>
-                <p class="mt-2 text-sm text-gray-600">Evolución histórica de seguidores</p>
+                <p class="mt-2 text-sm text-gray-600">
+                  Evolución histórica de seguidores
+                  <span class="inline-flex items-center gap-1 ml-2">
+                    <span class="text-gray-400">•</span>
+                    <span class="font-semibold <%= @followers_history.last[1] >= @followers_history.first[1] ? 'text-green-600' : 'text-red-600' %>">
+                      <%= number_with_delimiter(@followers_history.last[1] - @followers_history.first[1], delimiter: '.') %>
+                    </span>
+                    <span class="text-gray-500 text-xs">en el período</span>
+                  </span>
+                </p>
               </div>
               <div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-50 border border-purple-200">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-purple-600">
@@ -352,9 +373,76 @@
               </div>
             </div>
             <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6">
-              <%= line_chart @followers_history, colors: ['#9333ea'], label: "Seguidores", xtitle: "Fecha", ytitle: "Cant. Seguidores", thousands: ".", curve: false %>
+              <%= line_chart @followers_history, 
+                  colors: ['#9333ea'], 
+                  label: "Seguidores", 
+                  xtitle: "Fecha", 
+                  ytitle: "Cant. Seguidores", 
+                  thousands: ".",
+                  min: y_min,
+                  max: y_max,
+                  points: true,
+                  curve: false,
+                  library: { 
+                    scales: { 
+                      y: { 
+                        ticks: { 
+                          callback: "function(value) { return value.toLocaleString('es-ES'); }" 
+                        } 
+                      } 
+                    }
+                  } %>
             </div>
           </div>
+
+          <!-- Daily Follower Change -->
+          <% if @followers_daily_change.present? %>
+            <div class="rounded-2xl bg-white p-10 shadow-xl ring-1 ring-gray-900/5">
+              <div class="flex items-center justify-between mb-6">
+                <div>
+                  <h2 class="text-3xl font-bold text-gray-900">Cambio Diario de Seguidores</h2>
+                  <p class="mt-2 text-sm text-gray-600">Ganancia o pérdida diaria de seguidores</p>
+                </div>
+                <div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-50 border border-indigo-200">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-indigo-600">
+                    <path fill-rule="evenodd" d="M10 17a.75.75 0 0 1-.75-.75V5.612L5.29 9.77a.75.75 0 0 1-1.08-1.04l5.25-5.5a.75.75 0 0 1 1.08 0l5.25 5.5a.75.75 0 1 1-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0 1 10 17Z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="text-sm font-medium text-indigo-700">Cambios</span>
+                </div>
+              </div>
+              <div class="bg-gradient-to-br from-indigo-50 to-blue-50 rounded-xl p-6">
+                <%= column_chart @followers_daily_change, 
+                    colors: ['#6366f1'], 
+                    label: "Cambio", 
+                    xtitle: "Fecha", 
+                    ytitle: "Seguidores +/-", 
+                    thousands: ".",
+                    library: {
+                      plugins: {
+                        tooltip: {
+                          callbacks: {
+                            label: "function(context) { 
+                              var value = context.parsed.y;
+                              var prefix = value >= 0 ? '+' : '';
+                              return prefix + value.toLocaleString('es-ES') + ' seguidores';
+                            }"
+                          }
+                        }
+                      },
+                      scales: {
+                        y: {
+                          ticks: {
+                            callback: "function(value) { 
+                              var prefix = value >= 0 ? '+' : '';
+                              return prefix + value.toLocaleString('es-ES');
+                            }"
+                          }
+                        }
+                      }
+                    } %>
+              </div>
+            </div>
+          <% end %>
         <% end %>
 
         <!-- Posts per Day -->
