@@ -3,6 +3,7 @@
 module Instagram
   module Serializers
     class ProfileSerializer
+      include Rails.application.routes.url_helpers
       attr_reader :profile
 
       def initialize(profile)
@@ -31,6 +32,7 @@ module Instagram
           business_category_name: profile.business_category_name,
           profile_pic_url: profile.profile_pic_url,
           profile_pic_url_hd: profile.profile_pic_url_hd,
+          avatar_image_url: avatar_image_url,
           engagement_rate: profile.engagement_rate,
           total_posts: profile.total_posts,
           total_videos: profile.total_videos,
@@ -51,6 +53,25 @@ module Instagram
       # Método de clase para serializar una colección
       def self.collection(profiles)
         profiles.map { |profile| new(profile).as_json }
+      end
+
+      private
+
+      def avatar_image_url
+        return nil unless profile.avatar.attached?
+
+        blob = profile.avatar
+        return nil unless blob&.key
+
+        if Rails.env.production?
+          prefix = '/blob_files'
+          key = blob.key
+          path = "#{prefix}/#{key[0..1]}/#{key[2..3]}/#{key}"
+          "#{root_url}#{path}"
+        else
+          # fallback to normal Rails route in dev
+          url_for(blob)
+        end
       end
     end
   end
