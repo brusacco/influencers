@@ -22,4 +22,15 @@ Rails.application.routes.draw do
   resources :posts, only: %i[index show]
 
   get 'category/:category_id', to: 'category#show', as: :category_show
+
+  # API Routes
+  namespace :api do
+    namespace :v1 do
+      # GET /api/v1/profiles/:username - Retorna datos del perfil
+      get 'profiles/:username', to: 'profiles#show'
+      
+      # GET /api/v1/profiles/:username/posts - Retorna los últimos 100 posteos del perfil
+      get 'profiles/:username/posts', to: 'posts#index'
+    end
+  end
 end
