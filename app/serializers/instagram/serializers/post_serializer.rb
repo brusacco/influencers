@@ -3,6 +3,7 @@
 module Instagram
   module Serializers
     class PostSerializer
+      include Rails.application.routes.url_helpers
       attr_reader :post
 
       def initialize(post)
@@ -22,6 +23,7 @@ module Instagram
           comments_count: post.comments_count,
           video_view_count: post.video_view_count,
           total_count: post.total_count,
+          post_image_url: post_image_url,
           profile_id: post.profile_id,
           created_at: post.created_at,
           updated_at: post.updated_at
@@ -45,6 +47,24 @@ module Instagram
         posts.map do |post|
           serializer = new(post)
           include_profile ? serializer.as_json_with_profile : serializer.as_json
+        end
+      end
+
+      private
+
+      def post_image_url
+        return nil unless post.image.attached?
+
+        blob = post.image
+        return nil unless blob&.key
+
+        if Rails.env.production?
+          prefix = '/blob_files'
+          key = blob.key
+          "https://www.influencers.com.py#{prefix}/#{key[0..1]}/#{key[2..3]}/#{key}"
+        else
+          # fallback to normal Rails route in dev
+          url_for(blob)
         end
       end
     end
