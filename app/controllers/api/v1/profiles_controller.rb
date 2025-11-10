@@ -11,7 +11,7 @@ module Api
       def show
         profile = Profile.find_by!(username: params[:username])
         
-        render json: ProfileSerializer.new(profile).as_json, status: :ok
+        render json: Instagram::Serializers::ProfileSerializer.new(profile).as_json, status: :ok
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Profile not found' }, status: :not_found
       end

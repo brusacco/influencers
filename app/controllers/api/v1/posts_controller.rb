@@ -17,7 +17,7 @@ module Api
         render json: {
           profile_username: profile.username,
           total_posts: posts.count,
-          posts: InstagramPostSerializer.collection(posts)
+          posts: Instagram::Serializers::PostSerializer.collection(posts)
         }, status: :ok
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Profile not found' }, status: :not_found
