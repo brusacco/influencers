@@ -27,6 +27,9 @@ class ProfilesController < ApplicationController
     @last_week_posts = @profile.instagram_posts.a_week_ago
     @collabs = @profile.recent_collaborations
 
+    # Historical data for charts
+    @followers_history = @profile.instagram_profile_stats.order(:date).pluck(:date, :followers_count)
+
     # Calculate median metrics using model methods
     @median_interactions = @profile.median_interactions
     @median_video_views = @profile.median_video_views
