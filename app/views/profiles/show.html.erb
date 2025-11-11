@@ -412,7 +412,6 @@
               </div>
               <div class="bg-gradient-to-br from-indigo-50 to-blue-50 rounded-xl p-6">
                 <%= column_chart @followers_daily_change, 
-                    colors: ['#6366f1'], 
                     label: "Cambio", 
                     xtitle: "Fecha", 
                     ytitle: "Seguidores +/-", 
@@ -437,6 +436,19 @@
                               return prefix + value.toLocaleString('es-ES');
                             }"
                           }
+                        }
+                      },
+                      datasets: {
+                        bar: {
+                          backgroundColor: "function(context) {
+                            var value = context.parsed.y;
+                            return value >= 0 ? '#10b981' : '#ef4444';
+                          }",
+                          borderColor: "function(context) {
+                            var value = context.parsed.y;
+                            return value >= 0 ? '#059669' : '#dc2626';
+                          }",
+                          borderWidth: 1
                         }
                       }
                     } %>
