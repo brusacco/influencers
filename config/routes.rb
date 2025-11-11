@@ -23,6 +23,9 @@ Rails.application.routes.draw do
 
   get 'category/:category_id', to: 'category#show', as: :category_show
 
+  # Company Pages
+  get 'acerca-de', to: 'pages#about', as: :about
+
   # Legal Pages
   get 'privacidad', to: 'legal#privacy', as: :privacy
   get 'terminos', to: 'legal#terms', as: :terms
