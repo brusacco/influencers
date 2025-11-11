@@ -4,7 +4,7 @@ class TagsController < ApplicationController
   include SeoConcern
   
   def index
-    expires_in CACHE_MEDIUM_DURATION, public: true
+    # expires_in CACHE_MEDIUM_DURATION, public: true
     
     # Get all tags from enabled paraguayan profiles, ordered by usage count
     @tags = ActsAsTaggableOn::Tag
@@ -41,7 +41,7 @@ class TagsController < ApplicationController
   end
   
   def show
-    expires_in CACHE_SHORT_DURATION, public: true
+    # expires_in CACHE_SHORT_DURATION, public: true
     @tag = Tag.find_by(id: params[:id])
 
     unless @tag

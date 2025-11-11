@@ -7,7 +7,7 @@ class ProfilesController < ApplicationController
   include SeoConcern
 
   def index
-    expires_in CACHE_MEDIUM_DURATION, public: true
+    # expires_in CACHE_MEDIUM_DURATION, public: true
 
     @profiles = Profile.enabled.paraguayos.with_attached_avatar.order(followers: :desc).limit(ENGAGEMENT_PROFILES_LIMIT)
     @profiles_interactions = Profile.enabled.paraguayos.with_attached_avatar.order(total_interactions_count: :desc).limit(ENGAGEMENT_PROFILES_LIMIT)
@@ -18,7 +18,7 @@ class ProfilesController < ApplicationController
   end
 
   def show
-    expires_in CACHE_MEDIUM_DURATION, public: true
+    # expires_in CACHE_MEDIUM_DURATION, public: true
 
     # Use model methods for related profiles and data
     @profiles = @profile.related_profiles

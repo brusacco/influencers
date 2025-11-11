@@ -5,7 +5,7 @@ class CategoryController < ApplicationController
   include SeoConcern
   
   def show
-    expires_in CACHE_SHORT_DURATION, public: true
+    # expires_in CACHE_SHORT_DURATION, public: true
     @category = params[:category_id]
 
     unless @category
