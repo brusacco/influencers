@@ -13,12 +13,12 @@ class CategoryController < ApplicationController
       return
     end
 
-    @profiles = Profile.paraguayos.where(profile_type: @category).order(followers: :desc).limit(TOP_PROFILES_LIMIT)
-    @profiles_interactions = Profile.paraguayos
+    @profiles = Profile.enabled.paraguayos.where(profile_type: @category).order(followers: :desc).limit(TOP_PROFILES_LIMIT)
+    @profiles_interactions = Profile.enabled.paraguayos
                                     .where(profile_type: @category)
                                     .order(total_interactions_count: :desc)
                                     .limit(ENGAGEMENT_PROFILES_LIMIT)
-    @profiles_video_views = Profile.paraguayos
+    @profiles_video_views = Profile.enabled.paraguayos
                                    .where(profile_type: @category)
                                    .order(total_video_view_count: :desc)
                                    .limit(VIDEO_VIEWS_PROFILES_LIMIT)

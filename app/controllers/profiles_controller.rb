@@ -9,10 +9,10 @@ class ProfilesController < ApplicationController
   def index
     expires_in CACHE_MEDIUM_DURATION, public: true
 
-    @profiles = Profile.paraguayos.with_attached_avatar.order(followers: :desc).limit(ENGAGEMENT_PROFILES_LIMIT)
-    @profiles_interactions = Profile.paraguayos.with_attached_avatar.order(total_interactions_count: :desc).limit(ENGAGEMENT_PROFILES_LIMIT)
-    @profiles_video_views = Profile.paraguayos.with_attached_avatar.order(total_video_view_count: :desc).limit(ENGAGEMENT_PROFILES_LIMIT)
-    @profiles_disaster = Profile.paraguayos.with_attached_avatar.where(total_posts: 0).order(followers: :desc).limit(INACTIVE_PROFILES_LIMIT)
+    @profiles = Profile.enabled.paraguayos.with_attached_avatar.order(followers: :desc).limit(ENGAGEMENT_PROFILES_LIMIT)
+    @profiles_interactions = Profile.enabled.paraguayos.with_attached_avatar.order(total_interactions_count: :desc).limit(ENGAGEMENT_PROFILES_LIMIT)
+    @profiles_video_views = Profile.enabled.paraguayos.with_attached_avatar.order(total_video_view_count: :desc).limit(ENGAGEMENT_PROFILES_LIMIT)
+    @profiles_disaster = Profile.enabled.paraguayos.with_attached_avatar.where(total_posts: 0).order(followers: :desc).limit(INACTIVE_PROFILES_LIMIT)
 
     set_profiles_index_meta_tags
   end
@@ -66,6 +66,6 @@ class ProfilesController < ApplicationController
   private
 
   def set_profile
-    @profile = Profile.find(params[:id])
+    @profile = Profile.enabled.find(params[:id])
   end
 end

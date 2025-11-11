@@ -1,0 +1,60 @@
+<!-- Error 404 - Not Found -->
+<div class="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 flex items-center justify-center px-6 py-24">
+  <div class="max-w-2xl w-full text-center">
+    <!-- Error Code -->
+    <div class="mb-8">
+      <h1 class="text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600">
+        404
+      </h1>
+    </div>
+
+    <!-- Icon -->
+    <div class="flex justify-center mb-8">
+      <div class="relative">
+        <div class="absolute inset-0 bg-gradient-to-r from-indigo-400 to-purple-400 rounded-full blur-2xl opacity-30 animate-pulse"></div>
+        <div class="relative bg-white rounded-full p-8 shadow-2xl ring-1 ring-gray-900/5">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-24 h-24 text-indigo-600">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607ZM10.5 7.5v6m3-3h-6" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Message -->
+    <div class="mb-12">
+      <h2 class="text-4xl font-bold text-gray-900 mb-4">
+        Página no encontrada
+      </h2>
+      <p class="text-lg text-gray-600 max-w-lg mx-auto">
+        Lo sentimos, la página que estás buscando no existe o ha sido movida. 
+        Puede que hayas escrito mal la dirección o el enlace esté desactualizado.
+      </p>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <%= link_to root_path, class: 'group inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-4 text-base font-semibold text-white shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-200' do %>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+          <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z" clip-rule="evenodd" />
+        </svg>
+        <span>Volver al Inicio</span>
+      <% end %>
+
+      <%= link_to profiles_path, class: 'group inline-flex items-center justify-center gap-2 rounded-xl bg-white px-8 py-4 text-base font-semibold text-gray-900 shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-200 ring-1 ring-gray-900/5' do %>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+          <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM1.49 15.326a.78.78 0 0 1-.358-.442 3 3 0 0 1 4.308-3.516 6.484 6.484 0 0 0-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 0 1-2.07-.655ZM16.44 15.98a4.97 4.97 0 0 0 2.07-.654.78.78 0 0 0 .357-.442 3 3 0 0 0-4.308-3.517 6.484 6.484 0 0 1 1.907 3.96 2.32 2.32 0 0 1-.026.654ZM18 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM5.304 16.19a.844.844 0 0 1-.277-.71 5 5 0 0 1 9.947 0 .843.843 0 0 1-.277.71A6.975 6.975 0 0 1 10 18a6.974 6.974 0 0 1-4.696-1.81Z" />
+        </svg>
+        <span>Ver Influencers</span>
+      <% end %>
+    </div>
+
+    <!-- Decorative Elements -->
+    <div class="mt-16 flex items-center justify-center gap-2 text-sm text-gray-500">
+      <span>¿Necesitas ayuda?</span>
+      <a href="mailto:soporte@influencers.com.py" class="font-semibold text-indigo-600 hover:text-indigo-500 transition-colors">
+        Contáctanos
+      </a>
+    </div>
+  </div>
+</div>
+

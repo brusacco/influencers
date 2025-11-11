@@ -37,20 +37,29 @@ class Profile < ApplicationRecord
 
   after_create :update_profile
 
+  # Enabled/Disabled scopes
+  scope :enabled, -> { where(enabled: true) }
+  scope :disabled, -> { where(enabled: false) }
+
+  # Country scopes
   scope :paraguayos, -> { where(country_string: 'Paraguay') }
   scope :otros, -> { where(country_string: 'Otros') }
   scope :no_country, -> { where(country_string: nil) }
 
   scope :has_uid, -> { where.not(uid: nil) }
 
+  # Profile type scopes
   scope :no_profile_type, -> { where(profile_type: nil) }
   scope :has_profile_type, -> { where.not(profile_type: nil) }
 
+  # Follower scopes
   scope :micro, -> { where(followers: 10_000..) }
   scope :macro, -> { where(followers: 50_000..) }
-  scope :tracked, -> { paraguayos.micro }
-  scope :marcas, -> { paraguayos.where(profile_type: :marca) }
-  scope :medios, -> { paraguayos.where(profile_type: :medio) }
+  
+  # Combined scopes - only enabled profiles
+  scope :tracked, -> { enabled.paraguayos.micro }
+  scope :marcas, -> { enabled.paraguayos.where(profile_type: :marca) }
+  scope :medios, -> { enabled.paraguayos.where(profile_type: :medio) }
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[
@@ -66,6 +75,7 @@ class Profile < ApplicationRecord
       biography
       country_string
       profile_type
+      enabled
     ]
   end
 
@@ -222,7 +232,7 @@ class Profile < ApplicationRecord
   def related_profiles(limit: RELATED_PROFILES_LIMIT)
     if tags.any?
       # Find profiles with similar tags
-      self.class.paraguayos
+      self.class.enabled.paraguayos
           .with_attached_avatar
           .tagged_with(tags.map(&:name), any: true)
           .where.not(id: id)
@@ -230,7 +240,7 @@ class Profile < ApplicationRecord
           .limit(limit)
     elsif profile_type
       # Find profiles in same category
-      self.class.paraguayos
+      self.class.enabled.paraguayos
           .with_attached_avatar
           .where(profile_type: profile_type)
           .where.not(id: id)
@@ -238,7 +248,7 @@ class Profile < ApplicationRecord
           .limit(limit)
     else
       # Find profiles by interactions
-      self.class.paraguayos
+      self.class.enabled.paraguayos
           .with_attached_avatar
           .where.not(id: id)
           .order(total_interactions_count: :desc)

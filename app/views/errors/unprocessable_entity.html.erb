@@ -1,0 +1,60 @@
+<!-- Error 422 - Unprocessable Entity -->
+<div class="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 flex items-center justify-center px-6 py-24">
+  <div class="max-w-2xl w-full text-center">
+    <!-- Error Code -->
+    <div class="mb-8">
+      <h1 class="text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600">
+        422
+      </h1>
+    </div>
+
+    <!-- Icon -->
+    <div class="flex justify-center mb-8">
+      <div class="relative">
+        <div class="absolute inset-0 bg-gradient-to-r from-orange-400 to-amber-400 rounded-full blur-2xl opacity-30 animate-pulse"></div>
+        <div class="relative bg-white rounded-full p-8 shadow-2xl ring-1 ring-gray-900/5">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-24 h-24 text-orange-600">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Message -->
+    <div class="mb-12">
+      <h2 class="text-4xl font-bold text-gray-900 mb-4">
+        Solicitud no procesable
+      </h2>
+      <p class="text-lg text-gray-600 max-w-lg mx-auto">
+        No pudimos procesar tu solicitud. Puede que los datos enviados no sean válidos o que haya un problema con el formulario.
+        Por favor, verifica la información e intenta nuevamente.
+      </p>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <button onclick="history.back()" class="group inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 px-8 py-4 text-base font-semibold text-white shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-200">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+          <path fill-rule="evenodd" d="M17 10a.75.75 0 0 1-.75.75H5.612l4.158 3.96a.75.75 0 1 1-1.04 1.08l-5.5-5.25a.75.75 0 0 1 0-1.08l5.5-5.25a.75.75 0 1 1 1.04 1.08L5.612 9.25H16.25A.75.75 0 0 1 17 10Z" clip-rule="evenodd" />
+        </svg>
+        <span>Volver Atrás</span>
+      </button>
+
+      <%= link_to root_path, class: 'group inline-flex items-center justify-center gap-2 rounded-xl bg-white px-8 py-4 text-base font-semibold text-gray-900 shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-200 ring-1 ring-gray-900/5' do %>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+          <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z" clip-rule="evenodd" />
+        </svg>
+        <span>Ir al Inicio</span>
+      <% end %>
+    </div>
+
+    <!-- Help Text -->
+    <div class="mt-16 flex items-center justify-center gap-2 text-sm text-gray-500">
+      <span>¿El problema persiste?</span>
+      <a href="mailto:soporte@influencers.com.py" class="font-semibold text-orange-600 hover:text-orange-500 transition-colors">
+        Contáctanos
+      </a>
+    </div>
+  </div>
+</div>
+

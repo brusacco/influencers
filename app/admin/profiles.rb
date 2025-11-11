@@ -23,6 +23,7 @@ ActiveAdmin.register Profile do
                 :is_joined_recently,
                 :is_embeds_disabled,
                 :profile_pic_url_hd,
+                :enabled,
                 tag_list: []
 
   #------------------------------------------------------------------
@@ -36,6 +37,7 @@ ActiveAdmin.register Profile do
                                      profile_type: Profile.profile_types.map do |role|
                                                      [role.first.titleize, role.first]
                                                    end,
+                                     enabled: [['Enabled', true], ['Disabled', false]],
                                      tag_list: ActsAsTaggableOn::Tag.pluck(:name)
                                    }
                                  }
@@ -75,6 +77,7 @@ ActiveAdmin.register Profile do
   filter :country_string, as: :select, collection: %w[Paraguay Otros]
   filter :profile_type, as: :select, collection: Profile.profile_types.map
   filter :category_name, as: :select, collection: Profile.where.not(category_name: nil).pluck(:category_name).uniq.sort
+  filter :enabled, as: :select, collection: [['Enabled', true], ['Disabled', false]]
   filter :is_private
   filter :is_business_account
   filter :followers
@@ -85,6 +88,9 @@ ActiveAdmin.register Profile do
   scope :paraguayos, group: :country
   scope :otros, group: :country
   scope :no_country, group: :country
+
+  scope :enabled, group: :status
+  scope :disabled, group: :status
 
   scope :no_profile_type
 
@@ -105,6 +111,9 @@ ActiveAdmin.register Profile do
     column :biography
     column :profile_type
     column :followers
+    column :enabled do |profile|
+      status_tag profile.enabled, class: (profile.enabled ? 'yes' : 'no')
+    end
     # column :engagement_rate
     # column :total_interactions_count
     column :country_string
@@ -119,6 +128,7 @@ ActiveAdmin.register Profile do
     f.inputs 'Profile Details' do
       f.input :username
       f.input :profile_type
+      f.input :enabled, as: :boolean, label: 'Enabled (Show/Track profile)'
       f.input :followers
       f.input :following
       f.input :profile_pic_url

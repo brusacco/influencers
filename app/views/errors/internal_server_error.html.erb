@@ -1,0 +1,72 @@
+<!-- Error 500 - Internal Server Error -->
+<div class="min-h-screen bg-gradient-to-br from-red-50 via-rose-50 to-pink-50 flex items-center justify-center px-6 py-24">
+  <div class="max-w-2xl w-full text-center">
+    <!-- Error Code -->
+    <div class="mb-8">
+      <h1 class="text-9xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-rose-600 to-pink-600">
+        500
+      </h1>
+    </div>
+
+    <!-- Icon -->
+    <div class="flex justify-center mb-8">
+      <div class="relative">
+        <div class="absolute inset-0 bg-gradient-to-r from-red-400 to-rose-400 rounded-full blur-2xl opacity-30 animate-pulse"></div>
+        <div class="relative bg-white rounded-full p-8 shadow-2xl ring-1 ring-gray-900/5">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-24 h-24 text-red-600">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Message -->
+    <div class="mb-12">
+      <h2 class="text-4xl font-bold text-gray-900 mb-4">
+        Error interno del servidor
+      </h2>
+      <p class="text-lg text-gray-600 max-w-lg mx-auto">
+        Oops! Algo salió mal en nuestros servidores. Nuestro equipo ha sido notificado y está trabajando para solucionar el problema.
+        Por favor, intenta nuevamente en unos minutos.
+      </p>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <button onclick="location.reload()" class="group inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 px-8 py-4 text-base font-semibold text-white shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-200">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+          <path fill-rule="evenodd" d="M15.312 11.424a5.5 5.5 0 0 1-9.201 2.466l-.312-.311h2.433a.75.75 0 0 0 0-1.5H3.989a.75.75 0 0 0-.75.75v4.242a.75.75 0 0 0 1.5 0v-2.43l.31.31a7 7 0 0 0 11.712-3.138.75.75 0 0 0-1.449-.39Zm1.23-3.723a.75.75 0 0 0 .219-.53V2.929a.75.75 0 0 0-1.5 0V5.36l-.31-.31A7 7 0 0 0 3.239 8.188a.75.75 0 1 0 1.448.389A5.5 5.5 0 0 1 13.89 6.11l.311.31h-2.432a.75.75 0 0 0 0 1.5h4.243a.75.75 0 0 0 .53-.219Z" clip-rule="evenodd" />
+        </svg>
+        <span>Reintentar</span>
+      </button>
+
+      <%= link_to root_path, class: 'group inline-flex items-center justify-center gap-2 rounded-xl bg-white px-8 py-4 text-base font-semibold text-gray-900 shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-200 ring-1 ring-gray-900/5' do %>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+          <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z" clip-rule="evenodd" />
+        </svg>
+        <span>Ir al Inicio</span>
+      <% end %>
+    </div>
+
+    <!-- Status Info -->
+    <div class="mt-16 rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5 max-w-md mx-auto">
+      <div class="flex items-start gap-4">
+        <div class="flex-shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-6 h-6 text-blue-600">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="flex-1 text-left">
+          <p class="text-sm font-semibold text-gray-900 mb-1">¿Problema urgente?</p>
+          <p class="text-sm text-gray-600">
+            Contacta a nuestro equipo en 
+            <a href="mailto:soporte@influencers.com.py" class="font-semibold text-red-600 hover:text-red-500 transition-colors">
+              soporte@influencers.com.py
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

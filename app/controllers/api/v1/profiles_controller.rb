@@ -20,13 +20,13 @@ module Api
           return
         end
 
-        # Search by username or full_name with pagination
-        profiles = Profile.paraguayos
-                          .with_attached_avatar
-                          .where('username LIKE ? OR full_name LIKE ?', "%#{query}%", "%#{query}%")
-                          .order(followers: :desc)
-                          .limit(per_page + 1) # Get one extra to check if there are more
-                          .offset(offset)
+            # Search by username or full_name with pagination (only enabled profiles)
+            profiles = Profile.enabled.paraguayos
+                              .with_attached_avatar
+                              .where('username LIKE ? OR full_name LIKE ?', "%#{query}%", "%#{query}%")
+                              .order(followers: :desc)
+                              .limit(per_page + 1) # Get one extra to check if there are more
+                              .offset(offset)
 
         # Check if there are more results
         has_more = profiles.size > per_page

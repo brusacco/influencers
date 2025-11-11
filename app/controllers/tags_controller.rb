@@ -6,11 +6,11 @@ class TagsController < ApplicationController
   def index
     expires_in CACHE_MEDIUM_DURATION, public: true
     
-    # Get all tags from paraguayan profiles, ordered by usage count
+    # Get all tags from enabled paraguayan profiles, ordered by usage count
     @tags = ActsAsTaggableOn::Tag
               .joins(:taggings)
               .joins("INNER JOIN profiles ON profiles.id = taggings.taggable_id AND taggings.taggable_type = 'Profile'")
-              .where(profiles: { country_string: 'Paraguay' })
+              .where(profiles: { country_string: 'Paraguay', enabled: true })
               .select('tags.*, COUNT(taggings.id) as taggings_count')
               .group('tags.id')
               .order('taggings_count DESC')
@@ -50,19 +50,19 @@ class TagsController < ApplicationController
     end
 
     # Optimized: Use single query instead of two queries
-    @profiles = Profile.paraguayos
+    @profiles = Profile.enabled.paraguayos
                        .with_attached_avatar
                        .tagged_with(@tag.name)
                        .order(followers: :desc)
                        .limit(TOP_PROFILES_LIMIT)
     
-    @profiles_interactions = Profile.paraguayos
+    @profiles_interactions = Profile.enabled.paraguayos
                                     .with_attached_avatar
                                     .tagged_with(@tag.name)
                                     .order(total_interactions_count: :desc)
                                     .limit(ENGAGEMENT_PROFILES_LIMIT)
     
-    @profiles_video_views = Profile.paraguayos
+    @profiles_video_views = Profile.enabled.paraguayos
                                    .with_attached_avatar
                                    .tagged_with(@tag.name)
                                    .order(total_video_view_count: :desc)

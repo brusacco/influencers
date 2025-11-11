@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_10_20_014145) do
+ActiveRecord::Schema[7.0].define(version: 2025_11_11_122306) do
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -152,7 +152,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_10_20_014145) do
     t.integer "profile_type"
     t.text "query"
     t.string "uid"
+    t.boolean "enabled", default: false, null: false
     t.index ["country_string"], name: "index_instagram_profiles_on_country_string"
+    t.index ["enabled"], name: "index_profiles_on_enabled"
     t.index ["profile_type"], name: "index_profiles_on_profile_type"
     t.index ["username"], name: "index_instagram_profiles_on_username", unique: true
   end
