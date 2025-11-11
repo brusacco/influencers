@@ -61,8 +61,9 @@ module SeoConcern
 
   # Profile Detail SEO
   def set_profile_meta_tags(profile)
+    followers_text = profile.followers.present? ? "#{view_context.number_to_human(profile.followers)} seguidores" : "influencer"
     profile_description = profile.biography.presence || 
-      "Perfil de #{profile.full_name} (@#{profile.username}) - #{number_to_human(profile.followers)} seguidores. Descubre métricas, engagement rate y análisis completo de uno de los influencers más destacados de Paraguay."
+      "Perfil de #{profile.full_name} (@#{profile.username}) - #{followers_text}. Descubre métricas, engagement rate y análisis completo de uno de los influencers más destacados de Paraguay."
     
     profile_keywords = build_profile_keywords(profile)
 
@@ -76,13 +77,13 @@ module SeoConcern
         description: profile_description.truncate(200),
         type: 'profile',
         url: profile_url(profile),
-        image: direct_blob_url(profile.avatar),
+        image: profile.avatar.attached? ? direct_blob_url(profile.avatar) : OG_IMAGE_URL,
         site_name: SITE_NAME,
         locale: 'es_PY',
         profile: {
           username: profile.username,
-          first_name: profile.full_name.split.first,
-          last_name: profile.full_name.split.last
+          first_name: profile.full_name.to_s.split.first.to_s,
+          last_name: profile.full_name.to_s.split.last.to_s
         }
       },
       twitter: {
@@ -90,7 +91,7 @@ module SeoConcern
         site: TWITTER_HANDLE,
         title: "#{profile.full_name} (@#{profile.username})",
         description: profile_description.truncate(200),
-        image: direct_blob_url(profile.avatar)
+        image: profile.avatar.attached? ? direct_blob_url(profile.avatar) : OG_IMAGE_URL
       },
       article: {
         published_time: profile.created_at.iso8601,
