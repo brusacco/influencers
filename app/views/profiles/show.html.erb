@@ -396,34 +396,46 @@
           </div>
 
           <!-- Daily Follower Change -->
-          <% if @followers_daily_change.present? %>
+          <% if @followers_gains.present? %>
             <div class="rounded-2xl bg-white p-10 shadow-xl ring-1 ring-gray-900/5">
               <div class="flex items-center justify-between mb-6">
                 <div>
                   <h2 class="text-3xl font-bold text-gray-900">Cambio Diario de Seguidores</h2>
                   <p class="mt-2 text-sm text-gray-600">Ganancia o pérdida diaria de seguidores</p>
                 </div>
-                <div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-50 border border-indigo-200">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-indigo-600">
-                    <path fill-rule="evenodd" d="M10 17a.75.75 0 0 1-.75-.75V5.612L5.29 9.77a.75.75 0 0 1-1.08-1.04l5.25-5.5a.75.75 0 0 1 1.08 0l5.25 5.5a.75.75 0 1 1-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0 1 10 17Z" clip-rule="evenodd" />
-                  </svg>
-                  <span class="text-sm font-medium text-indigo-700">Cambios</span>
+                <div class="flex items-center gap-3">
+                  <div class="flex items-center gap-1.5">
+                    <div class="w-3 h-3 bg-green-500 rounded"></div>
+                    <span class="text-xs text-gray-600">Ganancia</span>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <div class="w-3 h-3 bg-red-500 rounded"></div>
+                    <span class="text-xs text-gray-600">Pérdida</span>
+                  </div>
                 </div>
               </div>
               <div class="bg-gradient-to-br from-indigo-50 to-blue-50 rounded-xl p-6">
-                <%= column_chart @followers_daily_change, 
-                    label: "Cambio", 
+                <%= column_chart [
+                      { name: "Ganancia", data: @followers_gains },
+                      { name: "Pérdida", data: @followers_losses }
+                    ], 
+                    colors: ['#10b981', '#ef4444'],
                     xtitle: "Fecha", 
                     ytitle: "Seguidores +/-", 
                     thousands: ".",
+                    stacked: false,
                     library: {
                       plugins: {
+                        legend: {
+                          display: false
+                        },
                         tooltip: {
                           callbacks: {
                             label: "function(context) { 
                               var value = context.parsed.y;
+                              if (value === 0) return null;
                               var prefix = value >= 0 ? '+' : '';
-                              return prefix + value.toLocaleString('es-ES') + ' seguidores';
+                              return context.dataset.label + ': ' + prefix + value.toLocaleString('es-ES') + ' seguidores';
                             }"
                           }
                         }
@@ -436,19 +448,6 @@
                               return prefix + value.toLocaleString('es-ES');
                             }"
                           }
-                        }
-                      },
-                      datasets: {
-                        bar: {
-                          backgroundColor: "function(context) {
-                            var value = context.parsed.y;
-                            return value >= 0 ? '#10b981' : '#ef4444';
-                          }",
-                          borderColor: "function(context) {
-                            var value = context.parsed.y;
-                            return value >= 0 ? '#059669' : '#dc2626';
-                          }",
-                          borderWidth: 1
                         }
                       }
                     } %>

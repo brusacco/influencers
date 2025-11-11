@@ -32,12 +32,22 @@ class ProfilesController < ApplicationController
     
     # Calculate daily follower changes (growth/loss)
     if @followers_history.present?
-      @followers_daily_change = []
+      @followers_gains = []
+      @followers_losses = []
+      
       @followers_history.each_with_index do |(date, count), index|
         if index > 0
           previous_count = @followers_history[index - 1][1]
           change = count - previous_count
-          @followers_daily_change << [date, change]
+          
+          # Separate positive and negative changes for different colors
+          if change >= 0
+            @followers_gains << [date, change]
+            @followers_losses << [date, 0]
+          else
+            @followers_gains << [date, 0]
+            @followers_losses << [date, change]
+          end
         end
       end
     end
