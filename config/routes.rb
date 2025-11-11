@@ -23,6 +23,10 @@ Rails.application.routes.draw do
 
   get 'category/:category_id', to: 'category#show', as: :category_show
 
+  # Legal Pages
+  get 'privacidad', to: 'legal#privacy', as: :privacy
+  get 'terminos', to: 'legal#terms', as: :terms
+
   # API Routes
   namespace :api do
     namespace :v1 do

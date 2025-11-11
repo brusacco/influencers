@@ -1,0 +1,107 @@
+<div class="bg-white py-16 sm:py-24">
+  <div class="mx-auto max-w-4xl px-6 lg:px-8">
+    <!-- Header -->
+    <div class="mb-12 text-center">
+      <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+        Política de Privacidad
+      </h1>
+      <p class="mt-4 text-lg text-gray-600">
+        Última actualización: <%= Time.current.strftime('%d de %B de %Y') %>
+      </p>
+    </div>
+
+    <!-- Content -->
+    <div class="prose prose-lg max-w-none">
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">1. Introducción</h2>
+        <p class="text-gray-600 leading-relaxed">
+          En Influencers.com.py, nos comprometemos a proteger tu privacidad. Esta Política de Privacidad explica cómo recopilamos, usamos, divulgamos y protegemos tu información cuando visitas nuestro sitio web.
+        </p>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">2. Información que Recopilamos</h2>
+        <p class="text-gray-600 leading-relaxed mb-4">
+          Podemos recopilar diferentes tipos de información, incluyendo:
+        </p>
+        <ul class="list-disc list-inside text-gray-600 space-y-2 ml-4">
+          <li><strong>Información de uso:</strong> Datos sobre cómo utilizas nuestro sitio web, incluyendo páginas visitadas y tiempo de navegación.</li>
+          <li><strong>Información técnica:</strong> Dirección IP, tipo de navegador, sistema operativo y datos de cookies.</li>
+          <li><strong>Información analítica:</strong> Datos estadísticos sobre el rendimiento y uso del sitio web.</li>
+        </ul>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">3. Cómo Usamos tu Información</h2>
+        <p class="text-gray-600 leading-relaxed mb-4">
+          Utilizamos la información recopilada para:
+        </p>
+        <ul class="list-disc list-inside text-gray-600 space-y-2 ml-4">
+          <li>Proporcionar y mantener nuestro servicio</li>
+          <li>Mejorar la experiencia del usuario</li>
+          <li>Analizar el uso del sitio web para mejoras continuas</li>
+          <li>Detectar, prevenir y abordar problemas técnicos</li>
+          <li>Cumplir con obligaciones legales</li>
+        </ul>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">4. Cookies</h2>
+        <p class="text-gray-600 leading-relaxed">
+          Utilizamos cookies y tecnologías similares para mejorar tu experiencia en nuestro sitio. Las cookies son pequeños archivos de texto que se almacenan en tu dispositivo. Puedes configurar tu navegador para rechazar las cookies, aunque esto puede afectar algunas funcionalidades del sitio.
+        </p>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">5. Compartir Información</h2>
+        <p class="text-gray-600 leading-relaxed">
+          No vendemos ni compartimos tu información personal con terceros, excepto en las siguientes circunstancias:
+        </p>
+        <ul class="list-disc list-inside text-gray-600 space-y-2 ml-4">
+          <li>Con tu consentimiento explícito</li>
+          <li>Para cumplir con obligaciones legales</li>
+          <li>Con proveedores de servicios que nos ayudan a operar nuestro sitio web</li>
+        </ul>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">6. Seguridad de Datos</h2>
+        <p class="text-gray-600 leading-relaxed">
+          Implementamos medidas de seguridad técnicas y organizativas apropiadas para proteger tu información contra el acceso no autorizado, alteración, divulgación o destrucción. Sin embargo, ningún método de transmisión por Internet o almacenamiento electrónico es 100% seguro.
+        </p>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">7. Enlaces a Otros Sitios</h2>
+        <p class="text-gray-600 leading-relaxed">
+          Nuestro sitio puede contener enlaces a sitios web de terceros. No somos responsables de las prácticas de privacidad de estos sitios. Te recomendamos leer sus políticas de privacidad.
+        </p>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">8. Cambios a esta Política</h2>
+        <p class="text-gray-600 leading-relaxed">
+          Podemos actualizar nuestra Política de Privacidad periódicamente. Te notificaremos cualquier cambio publicando la nueva política en esta página y actualizando la fecha de "última actualización".
+        </p>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">9. Contacto</h2>
+        <p class="text-gray-600 leading-relaxed">
+          Si tienes preguntas sobre esta Política de Privacidad, puedes contactarnos a través de nuestro sitio web o por correo electrónico.
+        </p>
+      </section>
+    </div>
+
+    <!-- Back Button -->
+    <div class="mt-12 text-center">
+      <%= link_to root_path, class: 'inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold' do %>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+          <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
+        </svg>
+        Volver al Inicio
+      <% end %>
+    </div>
+  </div>
+</div>
+

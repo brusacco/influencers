@@ -1,0 +1,112 @@
+<div class="bg-white py-16 sm:py-24">
+  <div class="mx-auto max-w-4xl px-6 lg:px-8">
+    <!-- Header -->
+    <div class="mb-12 text-center">
+      <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+        Términos y Condiciones
+      </h1>
+      <p class="mt-4 text-lg text-gray-600">
+        Última actualización: <%= Time.current.strftime('%d de %B de %Y') %>
+      </p>
+    </div>
+
+    <!-- Content -->
+    <div class="prose prose-lg max-w-none">
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">1. Aceptación de los Términos</h2>
+        <p class="text-gray-600 leading-relaxed">
+          Al acceder y utilizar Influencers.com.py, aceptas estar sujeto a estos Términos y Condiciones. Si no estás de acuerdo con alguna parte de estos términos, no deberás utilizar nuestro sitio web.
+        </p>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">2. Descripción del Servicio</h2>
+        <p class="text-gray-600 leading-relaxed">
+          Influencers.com.py es una plataforma que proporciona información, análisis y rankings de influencers de Paraguay. Ofrecemos datos públicos sobre perfiles de Instagram, métricas de engagement y estadísticas de rendimiento.
+        </p>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">3. Uso Aceptable</h2>
+        <p class="text-gray-600 leading-relaxed mb-4">
+          Al utilizar nuestro servicio, aceptas:
+        </p>
+        <ul class="list-disc list-inside text-gray-600 space-y-2 ml-4">
+          <li>No utilizar el sitio para ningún propósito ilegal o no autorizado</li>
+          <li>No intentar acceder a áreas restringidas del sitio</li>
+          <li>No interferir con el funcionamiento adecuado del sitio</li>
+          <li>No copiar, reproducir o distribuir contenido sin autorización</li>
+          <li>No utilizar técnicas de scraping o extracción automatizada de datos</li>
+          <li>Respetar los derechos de propiedad intelectual de terceros</li>
+        </ul>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">4. Propiedad Intelectual</h2>
+        <p class="text-gray-600 leading-relaxed">
+          Todo el contenido de este sitio web, incluyendo pero no limitado a textos, gráficos, logos, iconos, imágenes, y software, es propiedad de Influencers.com.py o de sus proveedores de contenido y está protegido por las leyes de propiedad intelectual de Paraguay e internacionales.
+        </p>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">5. Información de Terceros</h2>
+        <p class="text-gray-600 leading-relaxed">
+          La información mostrada sobre influencers y sus métricas se obtiene de fuentes públicas y se presenta con fines informativos. No garantizamos la exactitud, completitud o actualidad de toda la información. Los datos de Instagram y otras plataformas son propiedad de sus respectivos dueños.
+        </p>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">6. Enlaces a Sitios de Terceros</h2>
+        <p class="text-gray-600 leading-relaxed">
+          Nuestro sitio puede contener enlaces a sitios web de terceros, incluyendo perfiles de Instagram. No somos responsables del contenido o prácticas de privacidad de estos sitios externos.
+        </p>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">7. Limitación de Responsabilidad</h2>
+        <p class="text-gray-600 leading-relaxed">
+          El sitio web se proporciona "tal cual" y "según disponibilidad". No garantizamos que el servicio será ininterrumpido, oportuno, seguro o libre de errores. En ningún caso seremos responsables por daños directos, indirectos, incidentales, especiales o consecuentes.
+        </p>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">8. Modificaciones del Servicio</h2>
+        <p class="text-gray-600 leading-relaxed">
+          Nos reservamos el derecho de modificar, suspender o descontinuar cualquier aspecto del servicio en cualquier momento sin previo aviso.
+        </p>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">9. Cambios a los Términos</h2>
+        <p class="text-gray-600 leading-relaxed">
+          Podemos actualizar estos Términos y Condiciones ocasionalmente. Te notificaremos de cambios significativos publicando los nuevos términos en esta página y actualizando la fecha de "última actualización". Tu uso continuado del sitio después de dichos cambios constituye tu aceptación de los nuevos términos.
+        </p>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">10. Ley Aplicable</h2>
+        <p class="text-gray-600 leading-relaxed">
+          Estos términos se regirán e interpretarán de acuerdo con las leyes de la República del Paraguay. Cualquier disputa relacionada con estos términos estará sujeta a la jurisdicción exclusiva de los tribunales de Paraguay.
+        </p>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">11. Contacto</h2>
+        <p class="text-gray-600 leading-relaxed">
+          Si tienes preguntas sobre estos Términos y Condiciones, puedes contactarnos a través de nuestro sitio web.
+        </p>
+      </section>
+    </div>
+
+    <!-- Back Button -->
+    <div class="mt-12 text-center">
+      <%= link_to root_path, class: 'inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold' do %>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+          <path fill-rule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clip-rule="evenodd" />
+        </svg>
+        Volver al Inicio
+      <% end %>
+    </div>
+  </div>
+</div>
+
