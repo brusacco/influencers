@@ -76,14 +76,31 @@ module InstagramServices
     # Make HTTP request to Instagram API
     # @param api_url [String] API URL to call
     # @return [HTTParty::Response] Response object
+    # @raise [APIError] if response status is not 200
     def make_request(api_url)
       headers = { 'x-ig-app-id' => InstagramConfig::INSTAGRAM_APP_ID }
       
-      HTTParty.get(
+      response = HTTParty.get(
         api_url,
         headers: headers,
         timeout: InstagramConfig::INSTAGRAM_API_TIMEOUT
       )
+      
+      # Check for HTTP errors
+      unless response.success?
+        case response.code
+        when 404
+          raise APIError, "Profile not found (404) - User may not exist or was deleted"
+        when 429
+          raise APIError, "Rate limit exceeded (429)"
+        when 500..599
+          raise APIError, "Instagram server error (#{response.code})"
+        else
+          raise APIError, "HTTP error #{response.code}"
+        end
+      end
+      
+      response
     end
 
     # Parse JSON response

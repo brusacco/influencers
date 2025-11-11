@@ -8,6 +8,7 @@ namespace :util do
       next if post.data.empty?
       next if post.profile.followers < 40_000
       next unless post.profile.country_string == 'Paraguay'
+      next unless post.profile.enabled # Skip disabled profiles
       next unless post.data['node']['coauthor_producers']
 
       puts "Generating collaborations for #{post.shortcode} - #{post.profile.username}"

@@ -31,8 +31,20 @@ module InstagramServices
     # @param data [Hash] Response data to validate
     # @raise [ParseError] if structure is invalid
     def validate_response_structure!(data)
-      unless data.is_a?(Hash) && data.dig('data', 'user')
-        raise ParseError, 'Invalid response structure: missing user data'
+      unless data.is_a?(Hash)
+        raise ParseError, 'Invalid response structure: not a hash'
+      end
+      
+      # Check if user data exists
+      user_data = data.dig('data', 'user')
+      
+      if user_data.nil?
+        # Check if there's an error message in the response
+        if data['message']&.downcase&.include?('user not found')
+          raise InvalidUsernameError, "User '#{@username}' not found on Instagram (deleted or doesn't exist)"
+        else
+          raise ParseError, "Invalid response structure: missing user data for '#{@username}'"
+        end
       end
     end
   end
