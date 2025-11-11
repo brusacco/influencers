@@ -144,7 +144,7 @@
           <div data-search-target="results" 
                data-action="mousedown->search#preventBlur"
                class="hidden absolute top-full mt-2 w-96 bg-white rounded-xl shadow-xl ring-1 ring-gray-900/5 overflow-hidden z-50">
-            <div class="max-h-96 overflow-y-auto divide-y divide-gray-100">
+            <div class="max-h-96 overflow-y-auto" data-action="scroll->search#handleScroll">
               <!-- Results will be inserted here by JavaScript -->
             </div>
           </div>
@@ -220,7 +220,7 @@
           <div data-search-target="results" 
                data-action="mousedown->search#preventBlur"
                class="hidden absolute top-full mt-2 left-0 right-0 bg-white rounded-xl shadow-xl ring-1 ring-gray-900/5 overflow-hidden z-50">
-            <div class="max-h-64 overflow-y-auto divide-y divide-gray-100">
+            <div class="max-h-64 overflow-y-auto" data-action="scroll->search#handleScroll">
               <!-- Results will be inserted here by JavaScript -->
             </div>
           </div>

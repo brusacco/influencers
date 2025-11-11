@@ -8,21 +8,29 @@ module Api
       skip_before_action :verify_authenticity_token
       skip_before_action :authenticate_api_token!, only: [:search]
 
-      # GET /api/v1/profiles/search?q=query
+      # GET /api/v1/profiles/search?q=query&page=1
       def search
         query = params[:q].to_s.strip
+        page = [params[:page].to_i, 1].max # Default to page 1, minimum 1
+        per_page = 10
+        offset = (page - 1) * per_page
         
         if query.blank?
-          render json: { profiles: [] }, status: :ok
+          render json: { profiles: [], has_more: false }, status: :ok
           return
         end
 
-        # Search by username or full_name, limit to 10 results
+        # Search by username or full_name with pagination
         profiles = Profile.paraguayos
                           .with_attached_avatar
                           .where('username LIKE ? OR full_name LIKE ?', "%#{query}%", "%#{query}%")
                           .order(followers: :desc)
-                          .limit(10)
+                          .limit(per_page + 1) # Get one extra to check if there are more
+                          .offset(offset)
+
+        # Check if there are more results
+        has_more = profiles.size > per_page
+        profiles = profiles.first(per_page) if has_more
 
         results = profiles.map do |profile|
           {
@@ -35,7 +43,7 @@ module Api
           }
         end
 
-        render json: { profiles: results }, status: :ok
+        render json: { profiles: results, has_more: has_more }, status: :ok
       end
 
       # GET /api/v1/profiles/:username

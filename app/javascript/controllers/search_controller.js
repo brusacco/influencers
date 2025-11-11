@@ -8,6 +8,10 @@ export default class extends Controller {
   connect() {
     this.timeout = null
     this.hideTimeout = null
+    this.currentPage = 1
+    this.hasMore = true
+    this.isLoading = false
+    this.currentQuery = ''
   }
 
   disconnect() {
@@ -54,38 +58,80 @@ export default class extends Controller {
     if (query.length === 0) {
       this.resultsTarget.children[0].innerHTML = ''
       this.hideResults()
+      this.currentPage = 1
+      this.hasMore = true
+      this.currentQuery = ''
       return
+    }
+
+    // Reset pagination if query changed
+    if (query !== this.currentQuery) {
+      this.currentPage = 1
+      this.hasMore = true
+      this.currentQuery = query
     }
 
     // Wait 300ms after user stops typing before searching
     this.timeout = setTimeout(() => {
-      this.performSearch(query)
+      this.performSearch(query, true) // true = replace results
     }, 300)
   }
 
-  async performSearch(query) {
-    try {
-      const url = `/api/v1/profiles/search?q=${encodeURIComponent(query)}`
-      const response = await fetch(url)
-      const data = await response.json()
-
-      this.displayResults(data.profiles)
-    } catch (error) {
-      console.error('Search error:', error)
-      this.resultsTarget.children[0].innerHTML = `
-        <div class="px-4 py-6 text-center text-gray-500">
-          <p class="text-sm font-medium text-red-600">Error al buscar</p>
-          <p class="text-xs text-gray-400 mt-1">Por favor, intenta de nuevo</p>
-        </div>
-      `
-      this.showResults()
+  // Handle scroll event to load more results
+  handleScroll(event) {
+    const container = event.target
+    const scrollTop = container.scrollTop
+    const scrollHeight = container.scrollHeight
+    const clientHeight = container.clientHeight
+    
+    // Check if scrolled near bottom (within 50px)
+    if (scrollHeight - scrollTop - clientHeight < 50) {
+      this.loadMore()
     }
   }
 
-  displayResults(profiles) {
+  loadMore() {
+    // Don't load if already loading, no more results, or no query
+    if (this.isLoading || !this.hasMore || !this.currentQuery) {
+      return
+    }
+
+    this.currentPage++
+    this.performSearch(this.currentQuery, false) // false = append results
+  }
+
+  async performSearch(query, replace = true) {
+    if (this.isLoading) return
+    
+    this.isLoading = true
+    
+    try {
+      const url = `/api/v1/profiles/search?q=${encodeURIComponent(query)}&page=${this.currentPage}`
+      const response = await fetch(url)
+      const data = await response.json()
+
+      this.hasMore = data.has_more
+      this.displayResults(data.profiles, replace)
+    } catch (error) {
+      console.error('Search error:', error)
+      if (replace) {
+        this.resultsTarget.children[0].innerHTML = `
+          <div class="px-4 py-6 text-center text-gray-500">
+            <p class="text-sm font-medium text-red-600">Error al buscar</p>
+            <p class="text-xs text-gray-400 mt-1">Por favor, intenta de nuevo</p>
+          </div>
+        `
+      }
+      this.showResults()
+    } finally {
+      this.isLoading = false
+    }
+  }
+
+  displayResults(profiles, replace = true) {
     const containerDiv = this.resultsTarget.children[0]
     
-    if (profiles.length === 0) {
+    if (profiles.length === 0 && replace) {
       containerDiv.innerHTML = `
         <div class="px-4 py-6 text-center text-gray-500">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 mx-auto mb-2 text-gray-400">
@@ -101,7 +147,7 @@ export default class extends Controller {
 
     const resultsHtml = profiles.map(profile => `
       <a href="${profile.profile_url}" 
-         class="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors group">
+         class="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors group border-b border-gray-100 last:border-0">
         <div class="relative flex-shrink-0">
           ${profile.avatar_url 
             ? `<img src="${profile.avatar_url}" 
@@ -129,7 +175,40 @@ export default class extends Controller {
       </a>
     `).join('')
 
-    containerDiv.innerHTML = resultsHtml
+    if (replace) {
+      containerDiv.innerHTML = resultsHtml
+    } else {
+      // Append results
+      containerDiv.insertAdjacentHTML('beforeend', resultsHtml)
+    }
+
+    // Add loading indicator if there are more results
+    if (this.hasMore) {
+      const loadingHtml = `
+        <div class="loading-indicator px-4 py-3 text-center text-gray-500">
+          <div class="inline-flex items-center gap-2">
+            <svg class="animate-spin h-4 w-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span class="text-xs">Scroll para cargar más...</span>
+          </div>
+        </div>
+      `
+      // Remove old loading indicator if exists
+      const oldLoading = containerDiv.querySelector('.loading-indicator')
+      if (oldLoading) {
+        oldLoading.remove()
+      }
+      containerDiv.insertAdjacentHTML('beforeend', loadingHtml)
+    } else {
+      // Remove loading indicator if no more results
+      const loadingIndicator = containerDiv.querySelector('.loading-indicator')
+      if (loadingIndicator) {
+        loadingIndicator.remove()
+      }
+    }
+
     this.showResults()
   }
 
