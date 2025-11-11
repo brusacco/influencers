@@ -30,38 +30,21 @@ namespace :instagram do
           error_count += 1
         end
       else
-        # Profile data fetch failed - check if profile no longer exists
-        error_message = data.error.to_s.downcase
+        # Profile data fetch failed - classify error type
+        error_description = InstagramServices::ErrorClassifier.describe(data.error)
         
-        # Permanent errors - disable profile
-        if error_message.include?('404') || 
-           error_message.include?('not found') || 
-           error_message.include?('user does not exist') ||
-           error_message.include?("doesn't exist") ||
-           error_message.include?('deleted') ||
-           error_message.include?('invalid response structure: missing user data')
-          
+        case error_description[:type]
+        when :permanent
           # Profile doesn't exist on Instagram anymore - disable it
           profile.update!(enabled: false)
           disabled_count += 1
-          puts "  ✗ Profile not found on Instagram - DISABLED"
+          puts "  ✗ #{error_description[:user_message]}"
           puts "     Error: #{data.error}"
           
-        # Temporary errors - don't disable, just log
-        elsif error_message.include?('timeout') ||
-              error_message.include?('network error') ||
-              error_message.include?('connection') ||
-              error_message.include?('rate limit') ||
-              error_message.include?('429') ||
-              (error_message.include?('all') && error_message.include?('attempts failed'))
-          
-          puts "  ⚠ Temporary network/timeout error (not disabling)"
+        when :temporary, :unknown
+          # Temporary/unknown errors - don't disable, just log (be conservative)
+          puts "  ⚠ #{error_description[:user_message]}"
           puts "     Error: #{data.error}"
-          error_count += 1
-          
-        # Unknown errors - log but don't disable (be conservative)
-        else
-          puts "  ⚠ Unknown error (not disabling): #{data.error}"
           error_count += 1
         end
       end

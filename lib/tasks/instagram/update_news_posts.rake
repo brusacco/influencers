@@ -18,11 +18,11 @@ namespace :instagram do
       response = InstagramServices::GetPostsData.call(profile)
       
       unless response.success?
-        error_message = response.error.to_s.downcase
+        error_description = InstagramServices::ErrorClassifier.describe(response.error)
         
-        if error_message.include?('timeout') || error_message.include?('network error') || 
-           error_message.include?('connection') || error_message.include?('attempts failed')
-          puts "  ⚠ Temporary error (retries exhausted): #{response.error}"
+        case error_description[:type]
+        when :temporary
+          puts "  ⚠ #{error_description[:user_message]}: #{response.error}"
         else
           puts "  ✗ Error: #{response.error}"
         end

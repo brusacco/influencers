@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_11_11_122306) do
+ActiveRecord::Schema[7.0].define(version: 2025_11_11_132004) do
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -153,7 +153,12 @@ ActiveRecord::Schema[7.0].define(version: 2025_11_11_122306) do
     t.text "query"
     t.string "uid"
     t.boolean "enabled", default: false, null: false
+    t.index ["country_string", "followers"], name: "index_profiles_on_country_and_followers", comment: "Optimizes queries filtering by country and followers range"
     t.index ["country_string"], name: "index_instagram_profiles_on_country_string"
+    t.index ["enabled", "country_string", "followers"], name: "index_profiles_on_enabled_country_followers", comment: "Optimizes queries for enabled profiles by country ordered by followers"
+    t.index ["enabled", "country_string", "profile_type", "followers"], name: "index_profiles_on_enabled_country_type_followers", comment: "Optimizes queries for enabled profiles by country, type, and followers ordering"
+    t.index ["enabled", "country_string", "profile_type"], name: "index_profiles_on_enabled_country_type", comment: "Optimizes queries for enabled profiles by country and type"
+    t.index ["enabled", "country_string"], name: "index_profiles_on_enabled_and_country", comment: "Optimizes queries for enabled profiles by country"
     t.index ["enabled"], name: "index_profiles_on_enabled"
     t.index ["profile_type"], name: "index_profiles_on_profile_type"
     t.index ["username"], name: "index_instagram_profiles_on_username", unique: true
