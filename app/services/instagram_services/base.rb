@@ -15,11 +15,11 @@ module InstagramServices
 
     private
 
-    # Fetch Instagram profile data via Scrape.do proxy
+    # Fetch Instagram profile data via Scrape.do proxy with retry logic
     # @param username [String] Instagram username
     # @return [Hash] Parsed JSON response
     # @raise [InvalidUsernameError] if username is invalid
-    # @raise [TimeoutError] if request times out
+    # @raise [TimeoutError] if request times out after retries
     # @raise [APIError] if API request fails
     # @raise [ParseError] if JSON parsing fails
     def fetch_instagram_data(username)
@@ -29,17 +29,45 @@ module InstagramServices
       url = build_instagram_url(username)
       api_url = build_scrape_do_url(url)
       
-      response = make_request(api_url)
+      # Retry logic for temporary network errors
+      response = with_retry(username) do
+        make_request(api_url)
+      end
+      
       parse_response(response)
-    rescue HTTParty::Timeout => e
-      log_error("Timeout error for #{username}: #{e.message}")
+    rescue Timeout::Error, Net::OpenTimeout, Net::ReadTimeout => e
+      log_error("Timeout error for #{username}: #{e.class} - #{e.message}")
       raise TimeoutError, "Instagram API timeout: #{e.message}"
-    rescue HTTParty::Error => e
-      log_error("HTTP error for #{username}: #{e.message}")
-      raise APIError, "Instagram API error: #{e.message}"
+    rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH, SocketError => e
+      log_error("Network error for #{username}: #{e.class} - #{e.message}")
+      raise APIError, "Network error: #{e.message}"
     rescue JSON::ParserError => e
       log_error("JSON parse error for #{username}: #{e.message}")
       raise ParseError, "Invalid JSON response: #{e.message}"
+    end
+    
+    # Retry logic for temporary network errors
+    # @param username [String] Username for logging
+    # @param max_retries [Integer] Maximum number of retries
+    # @yield Block to execute with retry logic
+    # @return [Object] Result of the block
+    def with_retry(username, max_retries: 3)
+      attempt = 0
+      
+      begin
+        attempt += 1
+        yield
+      rescue Timeout::Error, Net::OpenTimeout, Net::ReadTimeout, Errno::ECONNREFUSED, Errno::EHOSTUNREACH, SocketError => e
+        if attempt <= max_retries
+          delay = 2 ** attempt # Exponential backoff: 2s, 4s, 8s
+          log_error("Attempt #{attempt}/#{max_retries} failed for #{username}: #{e.class} - Retrying in #{delay}s...")
+          sleep delay
+          retry
+        else
+          log_error("All #{max_retries} attempts failed for #{username}: #{e.class} - #{e.message}")
+          raise # Re-raise the exception after all retries are exhausted
+        end
+      end
     end
 
     # Validate Instagram username format

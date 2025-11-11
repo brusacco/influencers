@@ -33,6 +33,7 @@ namespace :instagram do
         # Profile data fetch failed - check if profile no longer exists
         error_message = data.error.to_s.downcase
         
+        # Permanent errors - disable profile
         if error_message.include?('404') || 
            error_message.include?('not found') || 
            error_message.include?('user does not exist') ||
@@ -45,9 +46,22 @@ namespace :instagram do
           disabled_count += 1
           puts "  ✗ Profile not found on Instagram - DISABLED"
           puts "     Error: #{data.error}"
+          
+        # Temporary errors - don't disable, just log
+        elsif error_message.include?('timeout') ||
+              error_message.include?('network error') ||
+              error_message.include?('connection') ||
+              error_message.include?('rate limit') ||
+              error_message.include?('429') ||
+              (error_message.include?('all') && error_message.include?('attempts failed'))
+          
+          puts "  ⚠ Temporary network/timeout error (not disabling)"
+          puts "     Error: #{data.error}"
+          error_count += 1
+          
+        # Unknown errors - log but don't disable (be conservative)
         else
-          # Other error (timeout, API error, etc.) - don't disable
-          puts "  ⚠ Temporary error (not disabling): #{data.error}"
+          puts "  ⚠ Unknown error (not disabling): #{data.error}"
           error_count += 1
         end
       end
