@@ -16,7 +16,7 @@ class Profile < ApplicationRecord
            dependent: :destroy
   has_many :collaborated,
            lambda {
-             where(profiles: { country_string: 'Paraguay' })
+             where(profiles: { country_string: 'Paraguay', enabled: true })
            },
            through: :collaborated_collaborations,
            source: :collaborated
@@ -28,7 +28,7 @@ class Profile < ApplicationRecord
            dependent: :destroy
   has_many :collaborators,
            lambda {
-             where(profiles: { country_string: 'Paraguay' })
+             where(profiles: { country_string: 'Paraguay', enabled: true })
            },
            through: :collaborator_collaborations,
            source: :collaborator
@@ -260,7 +260,7 @@ class Profile < ApplicationRecord
   # @param limit [Integer] maximum number of profiles to return
   # @return [ActiveRecord::Relation] collection of mentioned profiles
   def mentions_profiles(limit: MENTIONS_LIMIT)
-    self.class.where(username: mentions).limit(limit)
+    self.class.enabled.paraguayos.where(username: mentions).limit(limit)
   end
 
   # Get recent posts
