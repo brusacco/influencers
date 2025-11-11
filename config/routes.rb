@@ -26,6 +26,9 @@ Rails.application.routes.draw do
   # API Routes
   namespace :api do
     namespace :v1 do
+      # GET /api/v1/profiles/search - Buscar perfiles
+      get 'profiles/search', to: 'profiles#search'
+      
       # GET /api/v1/profiles/:username - Retorna datos del perfil
       get 'profiles/:username', to: 'profiles#show'
       
