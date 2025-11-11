@@ -63,6 +63,35 @@
                 @<%=@profile.username%>
               </a>
             </div>
+
+            <!-- Category and Tags Badges -->
+            <div class="flex flex-wrap items-center gap-2">
+              <% if @profile.profile_type.present? %>
+                <%= link_to category_show_path(@profile.profile_type), class: 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs font-semibold hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105' do %>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5">
+                    <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" />
+                  </svg>
+                  <%= @profile.profile_type.capitalize %>
+                <% end %>
+              <% end %>
+
+              <% if @profile.tags.any? %>
+                <% @profile.tags.limit(5).each do |tag| %>
+                  <%= link_to tag_path(tag), class: 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-semibold hover:from-emerald-600 hover:to-teal-600 transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105' do %>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5">
+                      <path fill-rule="evenodd" d="M5.5 3A2.5 2.5 0 0 0 3 5.5v2.879a2.5 2.5 0 0 0 .732 1.767l6.5 6.5a2.5 2.5 0 0 0 3.536 0l2.878-2.878a2.5 2.5 0 0 0 0-3.536l-6.5-6.5A2.5 2.5 0 0 0 8.38 3H5.5ZM6 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
+                    </svg>
+                    #<%= tag.name %>
+                  <% end %>
+                <% end %>
+                
+                <% if @profile.tags.count > 5 %>
+                  <span class="inline-flex items-center px-3 py-1.5 rounded-full bg-gray-100 text-gray-600 text-xs font-semibold">
+                    +<%= @profile.tags.count - 5 %> más
+                  </span>
+                <% end %>
+              <% end %>
+            </div>
           </div>
 
           <!-- Followers Stat Card -->
