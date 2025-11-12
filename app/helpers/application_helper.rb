@@ -96,4 +96,15 @@ module ApplicationHelper
       end
     }.to_json.html_safe
   end
+
+  def top_tags(limit = 5)
+    ActsAsTaggableOn::Tag
+      .joins(:taggings)
+      .joins("INNER JOIN profiles ON profiles.id = taggings.taggable_id AND taggings.taggable_type = 'Profile'")
+      .where(profiles: { country_string: 'Paraguay', enabled: true })
+      .select('tags.*, COUNT(taggings.id) as taggings_count')
+      .group('tags.id')
+      .order('taggings_count DESC')
+      .limit(limit)
+  end
 end
