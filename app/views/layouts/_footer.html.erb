@@ -57,19 +57,28 @@
             </ul>
           </div>
           <div class="mt-10 md:mt-0">
-            <h3 class="text-sm font-semibold leading-6 text-gray-900">Support</h3>
+            <h3 class="text-sm font-semibold leading-6 text-gray-900">Categorias</h3>
             <ul role="list" class="mt-6 space-y-4">
               <li>
-                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Pricing</a>
+                <%= link_to 'Hombre', category_show_path(category_id: 'hombre'), class: 'text-sm leading-6 text-gray-600 hover:text-gray-900' %>
               </li>
               <li>
-                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Documentation</a>
+                <%= link_to 'Mujer', category_show_path(category_id: 'mujer'), class: 'text-sm leading-6 text-gray-600 hover:text-gray-900' %>
               </li>
               <li>
-                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">Guides</a>
+                <%= link_to 'Marca', category_show_path(category_id: 'marca'), class: 'text-sm leading-6 text-gray-600 hover:text-gray-900' %>
               </li>
               <li>
-                <a href="#" class="text-sm leading-6 text-gray-600 hover:text-gray-900">API Status</a>
+                <%= link_to 'Medio', category_show_path(category_id: 'medio'), class: 'text-sm leading-6 text-gray-600 hover:text-gray-900' %>
+              </li>
+              <li>
+                <%= link_to 'Estatal', category_show_path(category_id: 'estatal'), class: 'text-sm leading-6 text-gray-600 hover:text-gray-900' %>
+              </li>
+              <li>
+                <%= link_to 'Memes', category_show_path(category_id: 'memes'), class: 'text-sm leading-6 text-gray-600 hover:text-gray-900' %>
+              </li>
+              <li>
+                <%= link_to 'Programa', category_show_path(category_id: 'programa'), class: 'text-sm leading-6 text-gray-600 hover:text-gray-900' %>
               </li>
             </ul>
           </div>
