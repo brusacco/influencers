@@ -1,0 +1,291 @@
+<!-- Hero Section -->
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-pink-50">
+  <main class="mx-auto container-fluid px-6 sm:px-8 lg:px-12 xl:px-16 2xl:px-24 py-12 lg:py-16">
+    <div class="mx-auto max-w-[1600px]">
+      <!-- Profile Hero -->
+      <div class="lg:grid lg:grid-cols-2 lg:items-center lg:gap-x-16 mb-20">
+        <!-- Image gallery -->
+        <div class="relative group">
+          <div class="absolute -inset-1 bg-gradient-to-r from-pink-600 to-red-600 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
+          <div class="relative aspect-square w-full overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-gray-900/5">
+            <% if @tiktok_profile.avatar_larger.present? %>
+              <%= image_tag @tiktok_profile.avatar_larger, 
+                  class: 'h-full w-full object-cover object-center transform group-hover:scale-105 transition duration-500',
+                  alt: @tiktok_profile.display_username %>
+            <% end %>
+          </div>
+        </div>
+        
+        <!-- Profile info -->
+        <div class="mt-10 lg:mt-0 space-y-8">
+          <!-- Header -->
+          <div class="space-y-4">
+            <div class="flex items-center gap-3">
+              <a href="https://www.tiktok.com/@<%=@tiktok_profile.display_username%>" target="_blank" class="group inline-flex items-center gap-2 hover:opacity-80 transition-opacity">
+                <h1 class="text-4xl lg:text-5xl font-bold tracking-tight text-gray-900">
+                  <%=@tiktok_profile.display_nickname%>
+                </h1>
+                <% if @tiktok_profile.verified %>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#ff0050" class="w-7 h-7 flex-shrink-0">
+                    <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+                  </svg>
+                <% end %>
+              </a>
+              <%if current_admin_user%>
+                <%=link_to edit_admin_tiktok_profile_path(@tiktok_profile), target: '_blank', class: 'inline-flex items-center gap-2 rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 transition-colors' do%>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                    <path d="m5.433 13.917 1.262-3.155A4 4 0 0 1 7.58 9.42l6.92-6.918a2.121 2.121 0 0 1 3 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 0 1-.65-.65Z" />
+                    <path d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0 0 10 3H4.75A2.75 2.75 0 0 0 2 5.75v9.5A2.75 2.75 0 0 0 4.75 18h9.5A2.75 2.75 0 0 0 17 15.25V10a.75.75 0 0 0-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5Z" />
+                  </svg>
+                  Editar
+                <%end%>
+              <%end%>
+            </div>
+            
+            <div class="flex items-center gap-2 text-lg text-gray-600">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.2.19-1.27.41-2.42 1.33-2.98 2.59-.63 1.38-.6 2.99-.24 4.43.62 2.29 2.57 4.03 4.94 4.47 1.75.33 3.64.13 5.24-.72 1.78-.95 2.99-2.7 3.25-4.64.06-.52.08-1.05.07-1.57 0-2.35-.01-4.7.02-7.05.08-1.4.54-2.79 1.35-3.94 1.31-1.92 3.58-3.17 5.91-3.21 1.43-.08 2.86.31 4.08 1.03 2.02 1.19 3.44 3.37 3.65 5.71.02.5.03 1 .01 1.49-.18 1.9-1.12 3.72-2.58 4.96-1.66 1.44-3.98 2.13-6.15 1.72-.02-1.48.04-2.96.04-4.44.99.32 2.15.23 3.2-.19 1.27-.41 2.42-1.33 2.98-2.59.63-1.38.6-2.99.24-4.43-.62-2.29-2.57-4.03-4.94-4.47-1.75-.33-3.64-.13-5.24.72-1.78.95-2.99 2.7-3.25 4.64-.06.52-.08 1.05-.07 1.57 0 2.35.01 4.7-.02 7.05-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.2.19-1.27.41-2.42 1.33-2.98 2.59-.63 1.38-.6 2.99-.24 4.43.62 2.29 2.57 4.03 4.94 4.47 1.75.33 3.64.13 5.24-.72 1.78-.95 2.99-2.7 3.25-4.64.06-.52.08-1.05.07-1.57 0-2.35.01-4.7-.02-7.05z"/>
+              </svg>
+              <a href="https://www.tiktok.com/@<%=@tiktok_profile.display_username%>" target="_blank" class="font-medium hover:text-pink-600 transition-colors">
+                @<%=@tiktok_profile.display_username%>
+              </a>
+            </div>
+
+            <!-- Category Badge -->
+            <div class="flex flex-wrap items-center gap-2">
+              <% if @tiktok_profile.profile_type.present? %>
+                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-pink-500 to-red-600 text-white text-xs font-semibold">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3.5 h-3.5">
+                    <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" />
+                  </svg>
+                  <%= @tiktok_profile.profile_type.capitalize %>
+                </span>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- Followers Stat Card -->
+          <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-pink-600 to-red-600 p-8 shadow-xl">
+            <div class="relative z-10">
+              <p class="text-sm font-medium text-pink-100 uppercase tracking-wider">Audiencia Total</p>
+              <p class="mt-2 text-5xl font-bold text-white">
+                <%= number_to_human(@tiktok_profile.followers, format: '%n%u', units: { thousand: 'K', million: 'M', billion: 'B' }, precision: 2) %>
+              </p>
+              <p class="mt-1 text-lg text-pink-100">Seguidores</p>
+            </div>
+            <div class="absolute top-0 right-0 -mt-4 -mr-4 h-32 w-32 rounded-full bg-white/10 blur-2xl"></div>
+            <div class="absolute bottom-0 left-0 -mb-8 -ml-8 h-40 w-40 rounded-full bg-red-500/20 blur-3xl"></div>
+          </div>
+
+          <!-- Signature Card -->
+          <% if @tiktok_profile.signature.present? %>
+            <div class="rounded-xl bg-white border border-gray-200 p-6 shadow-sm">
+              <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Biografía</h3>
+              <p class="text-base leading-relaxed text-gray-700"><%=@tiktok_profile.signature%></p>
+            </div>
+          <% end %>
+
+          <!-- Stats Cards -->
+          <div class="grid grid-cols-2 gap-4">
+            <!-- Following -->
+            <% if @tiktok_profile.following.present? %>
+              <div class="rounded-xl bg-white border border-gray-200 p-4 shadow-sm">
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Siguiendo</p>
+                <p class="text-2xl font-bold text-gray-900">
+                  <%= number_to_human(@tiktok_profile.following, format: '%n%u', units: { thousand: 'K', million: 'M', billion: 'B' }, precision: 1) %>
+                </p>
+              </div>
+            <% end %>
+
+            <!-- Hearts -->
+            <% if @tiktok_profile.hearts.present? %>
+              <div class="rounded-xl bg-white border border-gray-200 p-4 shadow-sm">
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Likes Totales</p>
+                <p class="text-2xl font-bold text-gray-900">
+                  <%= number_to_human(@tiktok_profile.hearts, format: '%n%u', units: { thousand: 'K', million: 'M', billion: 'B' }, precision: 1) %>
+                </p>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Stats Section - Métricas de Rendimiento -->
+<%if @last_week_posts.any?%>
+  <div class="min-h-screen bg-gradient-to-br from-white via-slate-50 to-gray-100 py-20">
+    <div class="mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 2xl:px-24 max-w-[1800px]">
+      <!-- Section Header -->
+      <div class="mb-12 text-center">
+        <h2 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Métricas de Rendimiento</h2>
+        <p class="mt-4 text-lg leading-relaxed text-gray-600 max-w-3xl mx-auto">
+          Análisis completo de los últimos días
+        </p>
+        <div class="mt-4 flex items-center justify-center gap-2 text-sm text-gray-500">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z" clip-rule="evenodd" />
+          </svg>
+          Likes, comentarios y shares = interacciones | Visualizaciones = métrica separada
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <dl class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 mb-20">
+        <!-- Total Posts -->
+        <div class="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg ring-1 ring-gray-900/5 transition-all hover:shadow-xl hover:scale-105">
+          <div class="absolute top-0 right-0 -mt-4 -mr-4 h-24 w-24 rounded-full bg-pink-100 opacity-20 group-hover:opacity-30 transition-opacity"></div>
+          <dt class="relative text-sm font-semibold text-gray-500 uppercase tracking-wider">Total Videos</dt>
+          <dd class="relative mt-3 flex items-baseline gap-2">
+            <span class="text-5xl font-bold tracking-tight text-gray-900"><%=@total_posts_count%></span>
+          </dd>
+          <div class="mt-4 flex items-center text-sm text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-1">
+              <path fill-rule="evenodd" d="M1 5.25A2.25 2.25 0 0 1 3.25 3h13.5A2.25 2.25 0 0 1 19 5.25v9.5A2.25 2.25 0 0 1 16.75 17H3.25A2.25 2.25 0 0 1 1 14.75v-9.5Zm1.5 5.81v3.69c0 .414.336.75.75.75h13.5a.75.75 0 0 0 .75-.75v-2.69l-2.22-2.219a.75.75 0 0 0-1.06 0l-1.91 1.909.47.47a.75.75 0 1 1-1.06 1.06L6.53 8.091a.75.75 0 0 0-1.06 0l-2.97 2.97ZM12 7a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" clip-rule="evenodd" />
+            </svg>
+            Publicaciones
+          </div>
+        </div>
+
+        <!-- Total Interactions -->
+        <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-red-500 to-pink-600 p-8 shadow-lg transition-all hover:shadow-xl hover:scale-105">
+          <div class="absolute bottom-0 left-0 -mb-8 -ml-8 h-32 w-32 rounded-full bg-white/10 blur-2xl"></div>
+          <dt class="relative text-sm font-semibold text-red-100 uppercase tracking-wider">Total Interacciones</dt>
+          <dd class="relative mt-3 flex items-baseline gap-2">
+            <span class="text-5xl font-bold tracking-tight text-white">
+              <%= number_to_human(@total_interactions_count, format: '%n%u', units: { thousand: 'K', million: 'M', billion: 'B' }, precision: 2) %>
+            </span>
+          </dd>
+          <div class="relative mt-4 flex items-center text-sm text-red-100">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-1">
+              <path d="M1 8.25a1.25 1.25 0 1 1 2.5 0v7.5a1.25 1.25 0 1 1-2.5 0v-7.5ZM11 3V1.7c0-.268.14-.526.395-.607A2 2 0 0 1 14 3c0 .995-.182 1.948-.514 2.826-.204.54.166 1.174.744 1.174h2.52c1.243 0 2.261 1.01 2.146 2.247a23.864 23.864 0 0 1-1.341 5.974C17.153 16.323 16.072 17 14.9 17h-3.192a3 3 0 0 1-1.341-.317l-2.734-1.366A3 3 0 0 0 6.292 15H5V8h.963c.685 0 1.258-.483 1.612-1.068a4.011 4.011 0 0 1 2.166-1.73c.432-.143.853-.386 1.011-.814.16-.432.248-.9.248-1.388Z" />
+            </svg>
+            Likes + Comentarios + Shares
+          </div>
+        </div>
+
+        <!-- Video Views -->
+        <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 p-8 shadow-lg transition-all hover:shadow-xl hover:scale-105">
+          <div class="absolute top-0 right-0 -mt-4 -mr-4 h-32 w-32 rounded-full bg-white/10 blur-2xl"></div>
+          <dt class="relative text-sm font-semibold text-purple-100 uppercase tracking-wider">Visualizaciones</dt>
+          <dd class="relative mt-3 flex items-baseline gap-2">
+            <span class="text-5xl font-bold tracking-tight text-white">
+              <%= number_to_human(@total_play_count, format: '%n%u', units: { thousand: 'K', million: 'M', billion: 'B' }, precision: 2) %>
+            </span>
+          </dd>
+          <div class="relative mt-4 flex items-center text-sm text-purple-100">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-1">
+              <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
+            </svg>
+            Reproducciones
+          </div>
+        </div>
+
+        <!-- Followers -->
+        <div class="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-lg ring-1 ring-gray-900/5 transition-all hover:shadow-xl hover:scale-105">
+          <div class="absolute bottom-0 right-0 -mb-6 -mr-6 h-28 w-28 rounded-full bg-pink-100 opacity-20 group-hover:opacity-30 transition-opacity"></div>
+          <dt class="relative text-sm font-semibold text-gray-500 uppercase tracking-wider">Seguidores</dt>
+          <dd class="relative mt-3 flex items-baseline gap-2">
+            <span class="text-5xl font-bold tracking-tight text-gray-900">
+              <%= number_to_human(@tiktok_profile.followers, format: '%n%u', units: { thousand: 'K', million: 'M', billion: 'B' }, precision: 2) %>
+            </span>
+          </dd>
+          <div class="relative mt-4 flex items-center text-sm text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-1">
+              <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM1.49 15.326a.78.78 0 0 1-.358-.442 3 3 0 0 1 4.308-3.516 6.484 6.484 0 0 0-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 0 1-2.07-.655ZM16.44 15.98a4.97 4.97 0 0 0 2.07-.654.78.78 0 0 0 .357-.442 3 3 0 0 0-4.308-3.517 6.484 6.484 0 0 1 1.907 3.96 2.32 2.32 0 0 1-.026.654ZM18 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM5.304 16.19a.844.844 0 0 1-.277-.71 5 5 0 0 1 9.947 0 .843.843 0 0 1-.277.71A6.975 6.975 0 0 1 10 18a6.974 6.974 0 0 1-4.696-1.81Z" />
+            </svg>
+            Audiencia
+          </div>
+        </div>
+
+        <!-- Estimated Reach -->
+        <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-pink-500 to-red-600 p-8 shadow-lg transition-all hover:shadow-xl hover:scale-105">
+          <div class="absolute top-0 right-0 -mt-6 -mr-6 h-32 w-32 rounded-full bg-white/10 blur-2xl"></div>
+          <dt class="relative text-sm font-semibold text-pink-100 uppercase tracking-wider">Alcance Estimado</dt>
+          <dd class="relative mt-3 flex items-baseline gap-2">
+            <span class="text-5xl font-bold tracking-tight text-white">
+              <%= number_to_human(@estimated_reach, format: '%n%u', units: { thousand: 'K', million: 'M', billion: 'B' }, precision: 2) %>
+            </span>
+          </dd>
+          <div class="relative mt-4 flex items-center justify-between">
+            <div class="flex items-center text-sm text-pink-100">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-1">
+                <path fill-rule="evenodd" d="M10 2c-1.716 0-3.408.106-5.07.31C3.806 2.45 3 3.414 3 4.517V17.25a.75.75 0 0 0 1.075.676L10 15.082l5.925 2.844A.75.75 0 0 0 17 17.25V4.517c0-1.103-.806-2.068-1.93-2.207A41.403 41.403 0 0 0 10 2Z" clip-rule="evenodd" />
+              </svg>
+              Cuentas únicas
+            </div>
+            <span class="text-sm font-semibold text-white/90"><%=@estimated_reach_percentage%>%</span>
+          </div>
+        </div>
+      </dl>
+
+      <!-- Charts Grid -->
+      <div class="space-y-12">
+        <!-- Posts per Day -->
+        <div class="rounded-2xl bg-white p-10 shadow-xl ring-1 ring-gray-900/5">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h2 class="text-3xl font-bold text-gray-900">Posteos por Día</h2>
+              <p class="mt-2 text-sm text-gray-600">Distribución temporal de publicaciones</p>
+            </div>
+            <div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-pink-50 border border-pink-200">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-pink-600">
+                <path fill-rule="evenodd" d="M5.75 2a.75.75 0 0 1 .75.75V4h7V2.75a.75.75 0 0 1 1.5 0V4h.25A2.75 2.75 0 0 1 18 6.75v8.5A2.75 2.75 0 0 1 15.25 18H4.75A2.75 2.75 0 0 1 2 15.25v-8.5A2.75 2.75 0 0 1 4.75 4H5V2.75A.75.75 0 0 1 5.75 2Zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75Z" clip-rule="evenodd" />
+              </svg>
+              <span class="text-sm font-medium text-pink-700">Última semana</span>
+            </div>
+          </div>
+          <div class="bg-gradient-to-br from-pink-50 to-red-50 rounded-xl p-6">
+            <%= column_chart @last_week_posts.group_by_day(:posted_at).count, colors: ['#ec4899'], label: "Posteos", xtitle: "Fecha", ytitle: "Cant. Posteos", thousands: "." %>
+          </div>
+        </div>
+
+        <!-- Interactions per Day -->
+        <div class="rounded-2xl bg-white p-10 shadow-xl ring-1 ring-gray-900/5">
+          <div class="mb-6">
+            <div class="flex items-center justify-between mb-2">
+              <h2 class="text-3xl font-bold text-gray-900">Interacciones por Día</h2>
+              <div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-50 border border-red-200">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-red-600">
+                  <path d="M1 8.25a1.25 1.25 0 1 1 2.5 0v7.5a1.25 1.25 0 1 1-2.5 0v-7.5ZM11 3V1.7c0-.268.14-.526.395-.607A2 2 0 0 1 14 3c0 .995-.182 1.948-.514 2.826-.204.54.166 1.174.744 1.174h2.52c1.243 0 2.261 1.01 2.146 2.247a23.864 23.864 0 0 1-1.341 5.974C17.153 16.323 16.072 17 14.9 17h-3.192a3 3 0 0 1-1.341-.317l-2.734-1.366A3 3 0 0 0 6.292 15H5V8h.963c.685 0 1.258-.483 1.612-1.068a4.011 4.011 0 0 1 2.166-1.73c.432-.143.853-.386 1.011-.814.16-.432.248-.9.248-1.388Z" />
+                </svg>
+                <span class="text-sm font-medium text-red-700">Engagement</span>
+              </div>
+            </div>
+            <p class="text-sm text-gray-600">Likes, comentarios y shares combinados</p>
+          </div>
+          <div class="bg-gradient-to-br from-red-50 to-pink-50 rounded-xl p-6">
+            <%= column_chart @last_week_posts.group_by_day(:posted_at).sum(:total_count), colors: ['#ef4444'], label: "Interacciones", xtitle: "Fecha", ytitle: "Cant. Interacciones", thousands: "." %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<!-- Posts Section -->
+<% if @posts.any? %>
+  <div class="bg-gradient-to-br from-slate-50 via-white to-gray-50 py-20">
+    <div class="mx-auto px-6 sm:px-8 lg:px-12 xl:px-16 2xl:px-24 max-w-[1800px]">
+      <div class="mb-12">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-red-600 shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
+              <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <div>
+            <h2 class="text-4xl font-bold text-gray-900">Videos Recientes</h2>
+            <p class="mt-1 text-sm text-gray-600">Últimas publicaciones del perfil</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="columns-1 gap-8 sm:columns-2 lg:columns-4 2xl:columns-5 space-y-8">
+        <%= render partial: "tiktok_post/post", collection: @posts, cache: true %>
+      </div>
+    </div>
+  </div>
+<% end %>
+

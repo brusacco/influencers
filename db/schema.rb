@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_11_11_132004) do
+ActiveRecord::Schema[7.0].define(version: 2025_11_28_130000) do
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -195,9 +195,74 @@ ActiveRecord::Schema[7.0].define(version: 2025_11_11_132004) do
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
+  create_table "tiktok_posts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.text "data"
+    t.bigint "tiktok_profile_id", null: false
+    t.string "tiktok_post_id"
+    t.text "desc"
+    t.datetime "posted_at"
+    t.integer "likes_count", default: 0
+    t.integer "comments_count", default: 0
+    t.integer "play_count", default: 0
+    t.integer "shares_count", default: 0
+    t.integer "collects_count", default: 0
+    t.integer "total_count", default: 0
+    t.text "video_url"
+    t.text "cover_url"
+    t.text "dynamic_cover_url"
+    t.integer "video_duration"
+    t.string "video_definition"
+    t.string "music_title"
+    t.string "music_author"
+    t.text "music_play_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["posted_at"], name: "index_tiktok_posts_on_posted_at"
+    t.index ["tiktok_post_id"], name: "index_tiktok_posts_on_tiktok_post_id", unique: true
+    t.index ["tiktok_profile_id", "posted_at"], name: "index_tiktok_posts_on_tiktok_profile_id_and_posted_at"
+    t.index ["tiktok_profile_id"], name: "index_tiktok_posts_on_tiktok_profile_id"
+  end
+
+  create_table "tiktok_profiles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "username"
+    t.text "data"
+    t.string "unique_id"
+    t.string "nickname"
+    t.text "signature"
+    t.string "user_id"
+    t.string "sec_uid"
+    t.integer "followers", default: 0
+    t.integer "following", default: 0
+    t.integer "hearts", default: 0
+    t.integer "video_count", default: 0
+    t.integer "digg_count", default: 0
+    t.integer "friend_count", default: 0
+    t.boolean "verified", default: false
+    t.boolean "is_private", default: false
+    t.boolean "is_under_age_18", default: false
+    t.boolean "is_embed_banned", default: false
+    t.boolean "commerce_user", default: false
+    t.boolean "enabled", default: false, null: false
+    t.text "avatar_larger"
+    t.text "avatar_medium"
+    t.text "avatar_thumb"
+    t.string "country_string"
+    t.integer "profile_type"
+    t.text "query"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["country_string"], name: "index_tiktok_profiles_on_country_string"
+    t.index ["enabled", "country_string", "followers"], name: "idx_tiktok_profiles_enabled_country_followers"
+    t.index ["enabled"], name: "index_tiktok_profiles_on_enabled"
+    t.index ["followers"], name: "index_tiktok_profiles_on_followers"
+    t.index ["unique_id"], name: "index_tiktok_profiles_on_unique_id", unique: true
+    t.index ["username"], name: "index_tiktok_profiles_on_username", unique: true
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "instagram_posts", "profiles"
   add_foreign_key "instagram_profile_stats", "profiles"
   add_foreign_key "taggings", "tags"
+  add_foreign_key "tiktok_posts", "tiktok_profiles"
 end

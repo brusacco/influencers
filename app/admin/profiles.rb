@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Profile do
+  menu parent: 'Profiles', label: 'Instagram Profiles'
   permit_params :username,
                 :data,
                 :country,

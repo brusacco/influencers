@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register InstagramPost do
+  menu parent: 'Posts', label: 'Instagram Posts'
   permit_params :data,
                 :profile_id,
                 :shortcode,

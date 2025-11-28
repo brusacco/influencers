@@ -28,6 +28,9 @@ class HomeController < ApplicationController
       # Precompile assets
       system('RAILS_ENV=production rake assets:precompile')
 
+      # Update cron jobs
+      system('whenever -i')
+
       # Restart the Puma server
       # system('touch tmp/restart.txt')
       # Preferred: phased restart via pumactl (requires state_path + control app)

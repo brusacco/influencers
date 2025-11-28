@@ -15,7 +15,7 @@ Rails.application.configure do
 
   # Show full error reports.
   # Set to false to test custom error pages in development
-  config.consider_all_requests_local = false
+  config.consider_all_requests_local = true
 
   # Enable server timing
   config.server_timing = true
