@@ -2,6 +2,7 @@
 
 class TiktokPost < ApplicationRecord
   serialize :data, Hash
+  has_one_attached :cover
   belongs_to :tiktok_profile, touch: true
 
   scope :a_day_ago, -> { where(posted_at: 1.day.ago..) }
@@ -94,6 +95,28 @@ class TiktokPost < ApplicationRecord
     self.data = post_data
 
     save!
+    
+    # Save cover image locally after updating data
+    save_cover
+  end
+
+  # Save cover image locally using ActiveStorage
+  def save_cover
+    return if cover.attached?
+    return if cover_url.blank?
+
+    begin
+      filename = "#{tiktok_post_id}.jpg"
+      cover.attach(io: URI.open(cover_url), filename:)
+    rescue StandardError => e
+      Rails.logger.warn("Failed to save TikTok cover for post #{tiktok_post_id}: #{e.message}") if Rails.logger
+      # Try placeholder if original fails
+      begin
+        cover.attach(io: URI.open('https://placehold.co/500x500/000000/FFFFFF/jpg'), filename: 'placeholder.jpg')
+      rescue StandardError
+        # Silently fail if placeholder also fails
+      end
+    end
   end
 
   # Helper methods

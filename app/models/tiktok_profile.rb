@@ -2,6 +2,7 @@
 
 class TiktokProfile < ApplicationRecord
   serialize :data, Hash
+  has_one_attached :avatar
   has_many :tiktok_posts, dependent: :destroy
 
   enum :profile_type, %i[hombre mujer marca medio estatal memes programa]
@@ -92,6 +93,9 @@ class TiktokProfile < ApplicationRecord
     self.data = api_data
 
     save!
+    
+    # Save avatar locally after updating data
+    save_avatar
   end
 
   def self.ransackable_attributes(auth_object = nil)
@@ -125,6 +129,22 @@ class TiktokProfile < ApplicationRecord
 
   def private_account
     is_private
+  end
+
+  # Save avatar locally using ActiveStorage
+  def save_avatar
+    return if avatar.attached?
+    url = avatar_larger
+    return if url.blank? || username.blank?
+
+    begin
+      response = HTTParty.get(url)
+      data = response.body
+      filename = "#{username || unique_id}.jpg"
+      avatar.attach(io: StringIO.new(data), filename:)
+    rescue StandardError => e
+      Rails.logger.warn("Failed to save TikTok avatar for #{username}: #{e.message}") if Rails.logger
+    end
   end
 
   # Update profile from TikTok API

@@ -1,4 +1,4 @@
-<%if tiktok_profile.avatar_larger.present?%>
+<%if tiktok_profile.avatar.attached? || tiktok_profile.avatar_larger.present?%>
   <div class="group relative">
     <!-- Card Container -->
     <div class="relative overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-gray-900/5 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2">
@@ -6,12 +6,21 @@
       <!-- Image Container with Overlay -->
       <div class="relative aspect-square w-full overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
         <%=link_to tiktok_profile_path(tiktok_profile), class: 'block h-full w-full' do%>
-                <%= image_tag(tiktok_profile.avatar_larger, 
-                  class: 'h-full w-full object-cover object-center transition-all duration-700 group-hover:scale-110 group-hover:brightness-110',
-                  loading: 'lazy',
-                  decoding: 'async',
-                  alt: "#{tiktok_profile.display_nickname} - Creador TikTok en Paraguay"
-                ) %>
+                <% if tiktok_profile.avatar.attached? %>
+                  <%= image_tag(direct_blob_url(tiktok_profile.avatar),
+                      class: 'h-full w-full object-cover object-center transition-all duration-700 group-hover:scale-110 group-hover:brightness-110',
+                      loading: 'lazy',
+                      decoding: 'async',
+                      alt: "#{tiktok_profile.display_nickname} - Creador TikTok en Paraguay"
+                  ) %>
+                <% elsif tiktok_profile.avatar_larger.present? %>
+                  <%= image_tag(tiktok_profile.avatar_larger,
+                      class: 'h-full w-full object-cover object-center transition-all duration-700 group-hover:scale-110 group-hover:brightness-110',
+                      loading: 'lazy',
+                      decoding: 'async',
+                      alt: "#{tiktok_profile.display_nickname} - Creador TikTok en Paraguay"
+                  ) %>
+                <% end %>
           
           <!-- Gradient Overlay for better text visibility -->
           <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>

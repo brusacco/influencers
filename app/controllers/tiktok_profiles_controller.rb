@@ -53,8 +53,6 @@ class TiktokProfilesController < ApplicationController
     [weighted_reach, max_reach].min.round
   end
 
-  private
-
   def set_tiktok_profile
     @tiktok_profile = TiktokProfile.enabled.find(params[:id])
   end

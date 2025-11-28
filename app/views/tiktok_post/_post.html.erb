@@ -9,7 +9,7 @@
 <% permalink = "https://www.tiktok.com/@#{post.tiktok_profile.display_username}/video/#{post.tiktok_post_id}" %>
 <% compact_units = { thousand: 'K', million: 'M', billion: 'B' } %>
 
-<%if post.cover_url.present?%>
+<%if post.cover.attached? || post.cover_url.present?%>
   <div class="group relative break-inside-avoid mb-8">
     <!-- Card Container -->
     <div class="relative overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-gray-900/5 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2">
@@ -27,12 +27,21 @@
       <!-- Cover Image Container - Dynamic Height -->
       <div class="relative w-full overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
         <%= link_to permalink, target: "_blank", rel: "noopener", class: 'block w-full' do %>
-                <%= image_tag(post.cover_url, 
-                  class: 'w-full h-auto object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110',
-                  loading: 'lazy',
-                  decoding: 'async',
-                  alt: "Video de #{post.tiktok_profile.display_username} - #{post.desc&.truncate(100) || 'TikTok'}"
-                ) %>
+                <% if post.cover.attached? %>
+                  <%= image_tag(direct_blob_url(post.cover),
+                      class: 'w-full h-auto object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110',
+                      loading: 'lazy',
+                      decoding: 'async',
+                      alt: "Video de #{post.tiktok_profile.display_username} - #{post.desc&.truncate(100) || 'TikTok'}"
+                  ) %>
+                <% elsif post.cover_url.present? %>
+                  <%= image_tag(post.cover_url,
+                      class: 'w-full h-auto object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110',
+                      loading: 'lazy',
+                      decoding: 'async',
+                      alt: "Video de #{post.tiktok_profile.display_username} - #{post.desc&.truncate(100) || 'TikTok'}"
+                  ) %>
+                <% end %>
           
           <!-- Gradient Overlay -->
           <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
