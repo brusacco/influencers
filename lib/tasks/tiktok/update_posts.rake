@@ -9,7 +9,7 @@ namespace :tiktok do
     puts "Starting posts update for #{profiles_count} tracked TikTok profiles..."
     puts "=" * 70
 
-    results = Parallel.map_with_index(profiles, in_processes: 10) do |profile, index|
+    results = Parallel.map_with_index(profiles, in_processes: 5) do |profile, index|
       profile_num = index + 1
       puts "[#{Time.current.strftime('%H:%M:%S')}] [#{profile_num}/#{profiles_count}] #{profile.display_username} - #{profile.followers} followers"
 
