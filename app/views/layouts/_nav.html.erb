@@ -229,7 +229,7 @@
 </nav>
 
 <!-- Breadcrumbs (Context Navigation) -->
-<% show_breadcrumbs = @category || @tag || @profile || current_page?(profiles_path) || current_page?(tags_path) %>
+<% show_breadcrumbs = @category || @tag || @profile || @tiktok_profile || current_page?(profiles_path) || current_page?(tags_path) || current_page?(tiktok_profiles_path) %>
 <% if show_breadcrumbs %>
   <nav class="bg-gray-50 border-b border-gray-200" aria-label="Breadcrumb">
     <div class="mx-auto max-w-[1800px] px-6 sm:px-8 lg:px-12 xl:px-16 2xl:px-24">
@@ -251,6 +251,14 @@
             </svg>
             <span class="ml-2 font-medium text-gray-700">Influencers</span>
           </li>
+        <% elsif current_page?(tiktok_profiles_path) %>
+          <!-- TikTok Profiles Breadcrumb -->
+          <li class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-gray-300">
+              <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+            </svg>
+            <span class="ml-2 font-medium text-gray-700">TikTok Profiles</span>
+          </li>
         <% elsif current_page?(tags_path) %>
           <!-- Tags Breadcrumb -->
           <li class="flex items-center">
@@ -258,6 +266,16 @@
               <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
             </svg>
             <span class="ml-2 font-medium text-gray-700">Tags</span>
+          </li>
+        <% elsif @tiktok_profile %>
+          <!-- TikTok Profiles link for detail pages -->
+          <li class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-gray-300">
+              <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+            </svg>
+            <%= link_to tiktok_profiles_path, class: 'ml-2 font-medium text-gray-500 hover:text-pink-600 transition-colors' do %>
+              TikTok Profiles
+            <% end %>
           </li>
         <% else %>
           <!-- Other pages with profiles link -->
@@ -305,6 +323,15 @@
               <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
             </svg>
             <span class="ml-2 font-medium text-gray-700">@<%= @profile.username %></span>
+          </li>
+        <% end %>
+        
+        <% if @tiktok_profile %>
+          <li class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-gray-300">
+              <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+            </svg>
+            <span class="ml-2 font-medium text-gray-700"><%= @tiktok_profile.display_nickname %></span>
           </li>
         <% end %>
       </ol>

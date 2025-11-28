@@ -1,3 +1,13 @@
+<% content_for :structured_data do %>
+  <script type="application/ld+json">
+    <%= breadcrumb_schema([
+      { name: 'Home', url: root_url },
+      { name: 'TikTok Profiles', url: tiktok_profiles_url },
+      { name: @tiktok_profile.display_nickname, url: tiktok_profile_url(@tiktok_profile) }
+    ]) %>
+  </script>
+<% end %>
+
 <!-- Hero Section -->
 <div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-pink-50">
   <main class="mx-auto container-fluid px-6 sm:px-8 lg:px-12 xl:px-16 2xl:px-24 py-12 lg:py-16">
