@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   root 'home#index'
   post 'deploy', to: 'home#deploy'
 
+  # Serve blob files directly from filesystem (for development and production)
+  get '/blob_files/:dir1/:dir2/:key', to: 'blob_files#show', constraints: { key: /[^\/]+/ }
+
   resources :profiles, only: %i[index show]
   resources :tiktok_profiles, only: %i[index show]
   resources :tags, only: %i[index show]
