@@ -23,10 +23,15 @@ class TiktokProfilesController < ApplicationController
       @total_comments_count = @last_week_posts.sum(:comments_count)
       @total_shares_count = @last_week_posts.sum(:shares_count)
       
-      # Calculate estimated reach (similar to Instagram)
-      @estimated_reach = calculate_estimated_reach
-      @estimated_reach_percentage = @tiktok_profile.followers > 0 ? 
-        (@estimated_reach.to_f / @tiktok_profile.followers * 100).round(2) : 0.0
+      # Calculate estimated reach using model method
+      @estimated_reach = @tiktok_profile.calculate_estimated_reach(
+        total_interactions: @total_interactions_count,
+        total_posts: @total_posts_count
+      )
+      @estimated_reach_percentage = @tiktok_profile.calculate_estimated_reach_percentage(
+        total_interactions: @total_interactions_count,
+        total_posts: @total_posts_count
+      )
     end
 
     # Conditional GETs for caching
@@ -34,24 +39,6 @@ class TiktokProfilesController < ApplicationController
   end
 
   private
-
-  def calculate_estimated_reach
-    return 0 if @tiktok_profile.followers.zero? || @total_posts_count.zero?
-
-    # Método 1: Basado en followers (15% engagement promedio)
-    follower_based_reach = @tiktok_profile.followers * 0.15
-
-    # Método 2: Basado en interacciones (asumiendo 10% de interacciones = reach)
-    interaction_based_reach = @total_interactions_count * 10
-
-    # Promedio ponderado (60% followers, 40% interactions)
-    weighted_reach = (follower_based_reach * 0.6) + (interaction_based_reach * 0.4)
-
-    # Cap máximo: nunca más del 50% de followers
-    max_reach = @tiktok_profile.followers * 0.5
-
-    [weighted_reach, max_reach].min.round
-  end
 
   def set_tiktok_profile
     @tiktok_profile = TiktokProfile.enabled.find(params[:id])

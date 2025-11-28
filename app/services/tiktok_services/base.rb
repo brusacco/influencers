@@ -148,6 +148,29 @@ module TiktokServices
     rescue StandardError
       default
     end
+
+    # Safely convert value to integer
+    # @param value [Object] Value to convert
+    # @return [Integer] Integer value or 0
+    def safe_integer(value)
+      return 0 if value.nil?
+      Integer(value)
+    rescue ArgumentError, TypeError
+      0
+    end
+
+    # Parse Unix timestamp to Time object
+    # @param timestamp [String, Integer] Unix timestamp
+    # @return [Time, nil] Parsed time object or nil if timestamp is nil
+    # @raise [ArgumentError] if timestamp is invalid
+    def parse_timestamp(timestamp)
+      return nil if timestamp.nil?
+
+      Time.zone.at(Integer(timestamp))
+    rescue ArgumentError, TypeError => e
+      log_error("Invalid timestamp: #{timestamp} - #{e.message}")
+      raise ArgumentError, "Invalid timestamp: #{e.message}"
+    end
   end
 end
 

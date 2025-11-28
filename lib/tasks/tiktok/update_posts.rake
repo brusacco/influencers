@@ -16,8 +16,22 @@ namespace :tiktok do
       response = TiktokServices::GetPostsData.call(profile)
 
       unless response.success?
-        puts "  ✗ Error: #{response.error}"
-        next { success: false, posts_updated: 0, posts_created: 0, errors: 1 }
+        # Classify error type
+        error_description = TiktokServices::ErrorClassifier.describe(response.error)
+        
+        case error_description[:type]
+        when :permanent
+          # Profile doesn't exist on TikTok anymore - disable it
+          profile.update!(enabled: false)
+          puts "  ✗ #{error_description[:user_message]}"
+          puts "     Error: #{response.error}"
+          next { success: false, posts_updated: 0, posts_created: 0, errors: 1, disabled: true }
+        when :temporary, :unknown
+          # Temporary/unknown errors - don't disable, just log
+          puts "  ⚠ #{error_description[:user_message]}"
+          puts "     Error: #{response.error}"
+          next { success: false, posts_updated: 0, posts_created: 0, errors: 1 }
+        end
       end
 
       posts_updated = 0
@@ -32,9 +46,19 @@ namespace :tiktok do
         was_new = post.new_record?
 
         begin
-          post.update_from_api_data(post_data)
-          posts_updated += 1
-          posts_created += 1 if was_new
+          # Use UpdatePostData service to transform raw data
+          update_result = TiktokServices::UpdatePostData.call(post_data)
+          
+          if update_result.success?
+            # Update model with transformed attributes
+            post.update!(update_result.data)
+            post.save_cover
+            posts_updated += 1
+            posts_created += 1 if was_new
+          else
+            puts "  ✗ Failed to transform post #{post_id}: #{update_result.error}"
+            post_errors += 1
+          end
         rescue StandardError => e
           puts "  ✗ Exception on post #{post_id}: #{e.message}"
           post_errors += 1
@@ -51,8 +75,9 @@ namespace :tiktok do
     # Aggregate results
     results.compact!
     processed_profiles = results.count
-    total_posts = results.sum { |r| r[:posts_updated] }
-    total_errors = results.sum { |r| r[:errors] }
+    total_posts = results.sum { |r| r[:posts_updated] || 0 }
+    total_errors = results.sum { |r| r[:errors] || 0 }
+    disabled_profiles = results.count { |r| r[:disabled] == true }
 
     puts ""
     puts "=" * 70
@@ -60,6 +85,7 @@ namespace :tiktok do
     puts "=" * 70
     puts "Profiles processed: #{processed_profiles}/#{profiles_count}"
     puts "✓ Total posts updated: #{total_posts}"
+    puts "✗ Profiles disabled (not found): #{disabled_profiles}" if disabled_profiles > 0
     puts "⚠ Errors encountered: #{total_errors}"
     puts "=" * 70
   end

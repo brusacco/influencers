@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class TiktokPost < ApplicationRecord
+  include JsonDataSetter
+  include ImageDownloader
+
   serialize :data, Hash
   has_one_attached :cover
   belongs_to :tiktok_profile, touch: true
@@ -10,30 +13,6 @@ class TiktokPost < ApplicationRecord
   scope :a_month_ago, -> { where(posted_at: 1.month.ago..) }
 
   validates :tiktok_post_id, uniqueness: true
-
-  # Custom setter for data field to handle both Hash and JSON string inputs
-  def data=(value)
-    case value
-    when Hash
-      super(value)
-    when String
-      # Handle empty strings or whitespace-only strings
-      if value.blank? || value.strip.empty?
-        super({})
-      else
-        # Parse JSON string
-        parsed = JSON.parse(value.strip)
-        super(parsed.is_a?(Hash) ? parsed : {})
-      end
-    else
-      # Handle nil or any other type - default to empty hash
-      super({})
-    end
-  rescue JSON::ParserError => e
-    # If JSON parsing fails, log and default to empty hash
-    Rails.logger.warn("Failed to parse data JSON: #{e.message}") if Rails.logger
-    super({})
-  end
 
   def self.ransackable_associations(_auth_object = nil)
     %w[tiktok_profile]
@@ -61,40 +40,15 @@ class TiktokPost < ApplicationRecord
   end
 
   # Extract data from API response and populate database fields
+  # Uses UpdatePostData service to transform raw data
   # @param post_data [Hash] Post data from itemList array
   def update_from_api_data(post_data)
-    stats = post_data['stats'] || {}
-    video = post_data['video'] || {}
-    music = post_data['music'] || {}
+    # Use UpdatePostData service to transform raw data
+    result = TiktokServices::UpdatePostData.call(post_data)
+    return unless result.success?
 
-    self.tiktok_post_id = post_data['id']
-    self.desc = post_data['desc']
-    self.posted_at = Time.at(post_data['createTime']) if post_data['createTime']
-
-    # Stats
-    self.likes_count = stats['diggCount'] || 0
-    self.comments_count = stats['commentCount'] || 0
-    self.play_count = stats['playCount'] || 0
-    self.shares_count = stats['shareCount'] || 0
-    self.collects_count = stats['collectCount'] || 0
-    self.total_count = likes_count + comments_count + shares_count + collects_count
-
-    # Video info
-    self.video_url = video['playAddr']
-    self.cover_url = video['cover']
-    self.dynamic_cover_url = video['dynamicCover']
-    self.video_duration = video['duration']
-    self.video_definition = video['definition'] || video['ratio']
-
-    # Music info
-    self.music_title = music['title']
-    self.music_author = music['authorName']
-    self.music_play_url = music['playUrl']
-
-    # Store full data
-    self.data = post_data
-
-    save!
+    # Update model with transformed attributes
+    update!(result.data)
     
     # Save cover image locally after updating data
     save_cover
@@ -103,20 +57,15 @@ class TiktokPost < ApplicationRecord
   # Save cover image locally using ActiveStorage
   def save_cover
     return if cover.attached?
-    return if cover_url.blank?
+    return if cover_url.blank? || tiktok_post_id.blank?
 
-    begin
-      filename = "#{tiktok_post_id}.jpg"
-      cover.attach(io: URI.open(cover_url), filename:)
-    rescue StandardError => e
-      Rails.logger.warn("Failed to save TikTok cover for post #{tiktok_post_id}: #{e.message}") if Rails.logger
-      # Try placeholder if original fails
-      begin
-        cover.attach(io: URI.open('https://placehold.co/500x500/000000/FFFFFF/jpg'), filename: 'placeholder.jpg')
-      rescue StandardError
-        # Silently fail if placeholder also fails
-      end
-    end
+    filename = "#{tiktok_post_id}.jpg"
+    download_and_attach_image(
+      cover_url,
+      :cover,
+      filename,
+      placeholder_url: 'https://placehold.co/500x500/000000/FFFFFF/jpg'
+    )
   end
 
   # Helper methods

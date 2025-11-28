@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class TiktokProfile < ApplicationRecord
+  include JsonDataSetter
+  include ImageDownloader
+  include ReachCalculator
+
   serialize :data, Hash
   has_one_attached :avatar
   has_many :tiktok_posts, dependent: :destroy
@@ -30,69 +34,18 @@ class TiktokProfile < ApplicationRecord
   scope :marcas, -> { enabled.paraguayos.where(profile_type: :marca) }
   scope :medios, -> { enabled.paraguayos.where(profile_type: :medio) }
 
-  # Custom setter for data field to handle both Hash and JSON string inputs
-  # This matches how Profile model handles data, but adds support for JSON strings from forms
-  def data=(value)
-    case value
-    when Hash
-      super(value)
-    when String
-      # Handle empty strings or whitespace-only strings
-      if value.blank? || value.strip.empty?
-        super({})
-      else
-        # Parse JSON string
-        parsed = JSON.parse(value.strip)
-        super(parsed.is_a?(Hash) ? parsed : {})
-      end
-    else
-      # Handle nil or any other type - default to empty hash
-      super({})
-    end
-  rescue JSON::ParserError => e
-    # If JSON parsing fails, log and default to empty hash
-    Rails.logger.warn("Failed to parse data JSON: #{e.message}") if Rails.logger
-    super({})
-  end
 
   # Extract data from hash and populate database fields
-  # This method should be called after fetching data from API
+  # Uses UpdateProfileData service to transform raw data
+  # This method is kept for backward compatibility but now uses the service layer
+  # @param api_data [Hash] Raw API response data
   def update_from_api_data(api_data)
-    user_info = api_data.dig('userInfo') || {}
-    user = user_info.dig('user') || {}
-    stats = user_info.dig('stats') || {}
+    # Use UpdateProfileData service to transform raw data
+    result = TiktokServices::UpdateProfileData.call(api_data)
+    return unless result.success?
 
-    self.username = user['uniqueId'] || username
-    self.unique_id = user['uniqueId']
-    self.nickname = user['nickname']
-    self.signature = user['signature']
-    self.user_id = user['id']
-    self.sec_uid = user['secUid']
-
-    # Stats
-    self.followers = stats['followerCount'] || 0
-    self.following = stats['followingCount'] || 0
-    self.hearts = stats['heartCount'] || stats['heart'] || 0
-    self.video_count = stats['videoCount'] || 0
-    self.digg_count = stats['diggCount'] || 0
-    self.friend_count = stats['friendCount'] || 0
-
-    # Status flags
-    self.verified = user['verified'] || false
-    self.is_private = user['privateAccount'] || false
-    self.is_under_age_18 = user['isUnderAge18'] || false
-    self.is_embed_banned = user['isEmbedBanned'] || false
-    self.commerce_user = user.dig('commerceUserInfo', 'commerceUser') || false
-
-    # Avatar URLs
-    self.avatar_larger = user['avatarLarger']
-    self.avatar_medium = user['avatarMedium']
-    self.avatar_thumb = user['avatarThumb']
-
-    # Store full data
-    self.data = api_data
-
-    save!
+    # Update model with transformed attributes
+    update!(result.data)
     
     # Save avatar locally after updating data
     save_avatar
@@ -134,27 +87,34 @@ class TiktokProfile < ApplicationRecord
   # Save avatar locally using ActiveStorage
   def save_avatar
     return if avatar.attached?
-    url = avatar_larger
-    return if url.blank? || username.blank?
+    return if avatar_larger.blank? || username.blank?
 
-    begin
-      response = HTTParty.get(url)
-      data = response.body
-      filename = "#{username || unique_id}.jpg"
-      avatar.attach(io: StringIO.new(data), filename:)
-    rescue StandardError => e
-      Rails.logger.warn("Failed to save TikTok avatar for #{username}: #{e.message}") if Rails.logger
-    end
+    filename = "#{username || unique_id}.jpg"
+    download_and_attach_image(
+      avatar_larger,
+      :avatar,
+      filename,
+      placeholder_url: nil
+    )
   end
 
   # Update profile from TikTok API
   def update_profile
     return if username.blank?
 
+    # Step 1: Get raw data from API
     result = TiktokServices::GetProfileData.call(username: username)
     return unless result.success?
 
-    update_from_api_data(result.data)
+    # Step 2: Transform raw data to profile attributes
+    update_result = TiktokServices::UpdateProfileData.call(result.data)
+    return unless update_result.success?
+
+    # Step 3: Update model with transformed attributes
+    update!(update_result.data)
+    
+    # Step 4: Save avatar locally
+    save_avatar
   end
 
   # Fetch and save posts from TikTok API
