@@ -22,4 +22,5 @@ end
 
 every 1.day, at: '00:00' do
   rake 'instagram:create_daily_stats'
+  rake 'tiktok:update_posts'
 end
