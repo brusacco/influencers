@@ -110,8 +110,8 @@ ActiveAdmin.register TiktokProfile do
     selectable_column
     column :id
     column 'Avatar' do |profile|
-      if profile.avatar_thumb.present?
-        link_to image_tag(profile.avatar_thumb, size: 100),
+      if profile.avatar.attached?
+        link_to image_tag(direct_blob_url(profile.avatar), size: 100),
                 "https://www.tiktok.com/@#{profile.display_username}",
                 target: '_blank',
                 rel: 'noopener'
