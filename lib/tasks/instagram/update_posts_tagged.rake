@@ -13,7 +13,7 @@ namespace :instagram do
     puts "Starting posts update for #{profiles_count} tagged tracked profiles..."
     puts '=' * 70
 
-    Parallel.each(scope.order(followers: :desc), in_processes: 10) do |profile|
+    Parallel.each(scope.order(followers: :desc), in_processes: 2) do |profile|
       processed_profiles += 1
       puts "[#{Time.current.strftime('%H:%M:%S')}] [#{processed_profiles}/#{profiles_count}] #{profile.username} - #{profile.followers} followers"
 
