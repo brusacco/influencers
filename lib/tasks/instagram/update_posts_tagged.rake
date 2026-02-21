@@ -3,7 +3,7 @@
 namespace :instagram do
   desc 'Posts crawler for tagged profiles only'
   task update_posts_tagged: :environment do
-    scope = Profile.joins(:taggings).where(taggings: { context: 'tags' }).distinct
+    scope = Profile.tagged_with('mascotas')
 
     profiles_count = scope.count
     processed_profiles = 0
