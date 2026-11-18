@@ -5,7 +5,7 @@ description: The recurring Whenever jobs that refresh profiles, posts, and stats
 tags: [scheduling, ingestion]
 generated:
   by: copilot/claude-haiku-5.5
-  at: 2026-11-18T06:30:00Z
+  at: 2026-11-18T06:45:00Z
 sources:
   - id: schedule
     title: Whenever schedule
@@ -43,7 +43,7 @@ sources:
 
 `config/schedule.rb` is the source of truth for these jobs.[^schedule]
 
-- Every 3 hours: `instagram:update_news_posts`, which reads `medios` profiles.[^schedule][^instagram-update-news-posts]
+- Every 3 hours: `instagram:update_news_posts`, which delegates to the sequential Scrape.do GraphQL news updater for enabled Paraguayan `medio` profiles.[^schedule][^instagram-update-news-posts]
 - Every 6 hours: `instagram:update_posts`, which uses Scrape.do API GraphQL for `tracked` profiles.[^schedule][^instagram-update-posts]
 - Every 12 hours: `instagram:update_profiles_stats`, which reads enabled Paraguayan profiles.[^schedule][^instagram-update-profiles-stats]
 - Every 24 hours: `instagram:update_profiles`, `util:collaborations`, and `util:add_mentions_profiles`. The profile refresh uses Scrape.do API GraphQL for enabled Paraguayan profiles.[^schedule][^instagram-update-profiles]
@@ -56,8 +56,8 @@ fallback. It uses a direct, unauthenticated Chrome session by default and reads
 the visible post batch with one internal GraphQL query from that session. It can
 optionally route the same browser through Scrape.do for comparison. Set
 `INSTAGRAM_FERRUM_PROFILE_LIMIT` to a positive number for a bounded smoke test.[^instagram-update-posts-ferrum]
-`instagram:update_news_posts_scrape_do_graphql` is an unscheduled, sequential
-Scrape.do GraphQL alternative for enabled Paraguayan `medio` profiles. Pass
+`instagram:update_news_posts_scrape_do_graphql` remains as the direct technical
+entry point behind the scheduled `instagram:update_news_posts` task. Pass
 `CHECK_INACTIVE=1` to additionally verify disabled media profiles: the task
 enables each one as it begins processing, then disables it if Instagram does
 not expose the public post-grid query. Set
