@@ -28,7 +28,7 @@ sources:
 
 - `ScrapeDoGraphqlPostsFetcher.call(username)` first retrieves the public profile page through Scrape.do and extracts `PolarisProfilePostsLoggedOutTabGridUIContentQuery` plus its current document ID and variables.[^scrape-do-graphql-posts-fetcher]
 - It sends the corresponding form-encoded POST to Instagram's `/api/graphql/` endpoint through Scrape.do, including the app and friendly-name headers required by the public query.[^scrape-do-graphql-posts-fetcher]
-- Scrape.do Super mode is omitted by default to control provider cost. `INSTAGRAM_SCRAPE_DO_SUPER=true` opt-in enables it as a provider fallback.[^scrape-do-graphql-posts-fetcher]
+- Scrape.do Super and rendering modes are disabled for all Instagram collectors to control provider cost; there is no environment-variable override.[^scrape-do-graphql-posts-fetcher]
 - The current response exposes media primary keys (`pk`) but can omit shortcodes. The fetcher converts those primary keys with Instagram's URL-safe base-64 alphabet before returning up to the configured post limit.[^scrape-do-graphql-posts-fetcher]
 - `instagram:probe_posts_scrape_do_graphql[username]` only prints the extracted shortcodes. It does not create or update records and is deliberately unscheduled while the provider behavior is being evaluated.[^scrape-do-graphql-posts-probe]
 - `instagram:import_posts_scrape_do_graphql[username]` persists one fetched grid through `ScrapeDoGraphqlPostUpserter`, which delegates to the partial-update behavior of `FerrumPostUpserter`. It stores the raw node under `data['ferrum']` and does not erase fields absent from the grid response.[^scrape-do-graphql-posts-import]

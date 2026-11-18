@@ -58,7 +58,6 @@ INSTAGRAM_FERRUM_TIMEOUT=60
 INSTAGRAM_FERRUM_USE_PROXY=true
 SCRAPE_DO_PROXY_HOST=pm.scrape.do
 SCRAPE_DO_PROXY_PORT=8080
-SCRAPE_DO_PROXY_PARAMS=render=false&super=true&customHeaders=true
 ```
 
 ### Obtener Token de Scrape.do
@@ -73,9 +72,10 @@ SCRAPE_DO_PROXY_PARAMS=render=false&super=true&customHeaders=true
 en modo secuencial y, por defecto, accede directamente a las páginas públicas
 de Instagram. `INSTAGRAM_FERRUM_USE_PROXY=true` permite probar el mismo flujo a
 través de Scrape.do Proxy Mode. El modo proxy usa `pm.scrape.do:8080`, el token
-como usuario y los parámetros como contraseña; `customHeaders=true` hace que
-Instagram reciba los encabezados del navegador. Ninguno de los modos usa una
-sesión autenticada de Instagram.
+como usuario y parámetros fijos de modo ordinario como contraseña;
+`customHeaders=true` hace que Instagram reciba los encabezados del navegador.
+Super y renderizado están deshabilitados. Ninguno de los modos usa una sesión
+autenticada de Instagram.
 
 Ejecutar manualmente:
 

@@ -27,9 +27,8 @@ Instagram collection uses Scrape.do's API and Instagram's public GraphQL
 queries. The application host does not make the profile-grid requests directly
 to Instagram.
 
-The public GraphQL collectors omit Scrape.do Super mode by default. Set
-`INSTAGRAM_SCRAPE_DO_SUPER=true` only as a provider fallback if the ordinary
-route stops exposing a required public query.
+All Scrape.do Instagram collectors use ordinary requests. Super and rendering
+modes are intentionally disabled to keep provider cost predictable.
 
 Use `bundle exec rake` in development. In production, prepend
 `RAILS_ENV=production` (or use the environment configured by the process

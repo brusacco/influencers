@@ -19,11 +19,6 @@ module InstagramConfig
 
   # Scrape.do API base URL
   SCRAPE_DO_API_URL = 'http://api.scrape.do'
-  # Super mode is materially more expensive and is not required by the public
-  # GraphQL profile, grid, or post-detail queries. Set to true only as a
-  # provider fallback.
-  SCRAPE_DO_SUPER = ENV.fetch('INSTAGRAM_SCRAPE_DO_SUPER', 'false') == 'true'
-
   # Keep browser collection deliberately conservative. Instagram can change
   # its public web surface without notice, so these values are configurable.
   FERRUM_POST_LIMIT = ENV.fetch('INSTAGRAM_FERRUM_POST_LIMIT', '12').to_i
@@ -32,7 +27,9 @@ module InstagramConfig
   FERRUM_USE_PROXY = ENV.fetch('INSTAGRAM_FERRUM_USE_PROXY', 'false') == 'true'
   SCRAPE_DO_PROXY_HOST = ENV.fetch('SCRAPE_DO_PROXY_HOST', 'pm.scrape.do')
   SCRAPE_DO_PROXY_PORT = ENV.fetch('SCRAPE_DO_PROXY_PORT', '8080').to_i
-  SCRAPE_DO_PROXY_PARAMS = ENV.fetch('SCRAPE_DO_PROXY_PARAMS', 'render=false&super=true&customHeaders=true')
+  # Even the optional Ferrum proxy route stays in Scrape.do's ordinary mode.
+  # Super and rendering must not be enabled by environment configuration.
+  SCRAPE_DO_PROXY_PARAMS = 'render=false&customHeaders=true'
 
   # Rate limiting (requests per minute)
   RATE_LIMIT_PER_MINUTE = ENV.fetch('INSTAGRAM_RATE_LIMIT', '30').to_i
@@ -54,9 +51,7 @@ module InstagramConfig
   end
 
   def self.scrape_do_api_query(target_url)
-    { token: SCRAPE_DO_TOKEN, url: target_url }.tap do |query|
-      query[:super] = true if SCRAPE_DO_SUPER
-    end
+    { token: SCRAPE_DO_TOKEN, url: target_url }
   end
 
 end

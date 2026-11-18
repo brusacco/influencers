@@ -2,6 +2,7 @@
 
 ## 2026-11-18
 
+- **Change**: All Instagram Scrape.do requests now enforce ordinary mode. Super and rendering cannot be enabled through environment configuration, including the optional Ferrum proxy route.
 - **Change**: Detail queries that Instagram does not expose are cached in Redis by shortcode for 30 days, deferring backfill retries without changing `instagram_posts`; transient provider errors are not cached.
 - **Fix**: Post-detail enrichment now constructs canonical `/p/:shortcode/` or `/reel/:shortcode/` URLs from the product type rather than following historical username-prefixed post URLs, which can expose a mobile landing query without a publication date.
 - **Change**: Scrape.do profile and post batch rakes now accept `INSTAGRAM_SCRAPE_DO_CONCURRENCY` (1 through 10) and default to five workers. The recurring schedule now staggers all jobs to avoid top-of-hour collector collisions, and task-specific locks prevent duplicate overlapping runs.
