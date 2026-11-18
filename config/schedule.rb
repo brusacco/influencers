@@ -2,7 +2,7 @@
 
 set :environment, 'production'
 
-every '5 0,4,8,12,16,20 * * *' do
+every '5 0,3,6,9,12,15,18,21 * * *' do
   rake 'instagram:update_news_posts'
 end
 
@@ -14,7 +14,7 @@ every '0 4,16 * * *' do
   rake 'instagram:update_profiles_stats'
 end
 
-every '30 0 * * *' do
+every '30 21 * * *' do
   rake 'instagram:update_profiles'
 end
 

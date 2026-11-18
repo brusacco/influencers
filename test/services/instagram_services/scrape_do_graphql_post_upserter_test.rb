@@ -5,7 +5,7 @@ require 'test_helper'
 class ScrapeDoGraphqlPostUpserterTest < ActiveSupport::TestCase
   test 'maps a grid node without replacing fields absent from the response' do
     profile = profiles(:one)
-    timestamp_result = OpenStruct.new(success?: true, data: Time.zone.at(1_735_689_600))
+    timestamp_result = OpenStruct.new(success?: true, data: { posted_at: Time.zone.at(1_735_689_600), comments_count: 12, likes_count: 34, metadata: { 'coauthor_producers' => [{ 'username' => 'coauthor' }] } })
 
     InstagramServices::ScrapeDoGraphqlPostTimestampFetcher.stub(:call, timestamp_result) do
       result = InstagramServices::ScrapeDoGraphqlPostUpserter.call(
@@ -24,6 +24,9 @@ class ScrapeDoGraphqlPostUpserterTest < ActiveSupport::TestCase
       assert_equal 'Grid caption', post.caption
       assert_equal '123', post.data.dig('ferrum', 'pk')
       assert_equal Time.zone.at(1_735_689_600), post.posted_at
+      assert_equal 12, post.comments_count
+      assert_equal 46, post.total_count
+      assert_equal 'coauthor', post.data.dig('node', 'coauthor_producers', 0, 'username')
     end
   end
 

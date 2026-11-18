@@ -39,9 +39,13 @@ namespace :instagram do
             next
           end
 
-          post.update!(posted_at: result.data)
+          details = result.data
+          attributes = details.slice(:posted_at, :comments_count, :likes_count)
+          attributes[:total_count] = attributes.fetch(:likes_count, post.likes_count).to_i + attributes.fetch(:comments_count, post.comments_count).to_i
+          post.data = (post.data || {}).merge('node' => details.fetch(:metadata, {}))
+          post.update!(attributes)
           counters_lock.synchronize { updated += 1 }
-          puts "  + Updated #{result.data.iso8601}"
+          puts "  + Updated #{details[:posted_at].iso8601} (#{attributes[:comments_count]} comments)"
           sleep InstagramConfig::FERRUM_PAUSE_SECONDS if InstagramConfig::FERRUM_PAUSE_SECONDS.positive?
         end
       end

@@ -1,6 +1,7 @@
 <% likes_count = post.likes_count.to_i %>
+<% comments_count = post.comments_count.to_i %>
 <% video_view_count = post.video_view_count.to_i %>
-<% engagement_rate = post.profile.followers > 0 ? ((likes_count.to_f / post.profile.followers) * 100).round(2) : 0 %>
+<% engagement_rate = post.profile.followers > 0 ? (((likes_count + comments_count).to_f / post.profile.followers) * 100).round(2) : 0 %>
 <% posted_on_text = post.posted_at.present? ? l(post.posted_at, format: :long) : nil %>
 <% posted_on_iso = post.posted_at&.iso8601 %>
 <% permalink = post.url.presence || (post.shortcode.present? ? "https://www.instagram.com/p/#{post.shortcode}" : nil) %>
@@ -90,6 +91,15 @@
                     <span class="text-xs font-medium text-purple-100">views</span>
                   </div>
                 <% end %>
+
+                <!-- Comments -->
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-sky-500 to-blue-600 shadow-xl">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-white">
+                    <path fill-rule="evenodd" d="M2 10a8 8 0 1 1 14.32 4.906l1.387 2.773A.75.75 0 0 1 17.036 19H10A8 8 0 0 1 2 10Zm8-6.5a6.5 6.5 0 0 0 0 13h5.787l-1.031-2.063a.75.75 0 0 1 .078-.79A6.5 6.5 0 0 0 10 3.5Z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="text-sm font-bold text-white"><%= number_to_human(comments_count, format: '%n%u', units: compact_units, precision: 1) %></span>
+                  <span class="text-xs font-medium text-sky-100">comments</span>
+                </div>
               </div>
               
               <!-- CTA Button -->
@@ -106,6 +116,7 @@
                 </div>
               </div>
             </div>
+
           </div>
         <% end %>
       </div>
@@ -137,6 +148,19 @@
                   <%= number_to_human(likes_count, format: '%n%u', units: compact_units, precision: 1) %>
                 </span>
                 <span class="text-[10px] text-gray-500 leading-none mt-0.5">likes</span>
+              </div>
+            </div>
+
+            <!-- Comments -->
+            <div class="flex items-center gap-1.5">
+              <div class="flex items-center justify-center w-8 h-8 rounded-lg bg-sky-50 text-sky-600">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                  <path fill-rule="evenodd" d="M2 10a8 8 0 1 1 14.32 4.906l1.387 2.773A.75.75 0 0 1 17.036 19H10A8 8 0 0 1 2 10Zm8-6.5a6.5 6.5 0 0 0 0 13h5.787l-1.031-2.063a.75.75 0 0 1 .078-.79A6.5 6.5 0 0 0 10 3.5Z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-xs font-bold text-gray-900 leading-none"><%= number_to_human(comments_count, format: '%n%u', units: compact_units, precision: 1) %></span>
+                <span class="text-[10px] text-gray-500 leading-none mt-0.5">comments</span>
               </div>
             </div>
             

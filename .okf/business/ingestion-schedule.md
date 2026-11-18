@@ -5,7 +5,7 @@ description: The recurring Whenever jobs that refresh profiles, posts, and stats
 tags: [scheduling, ingestion]
 generated:
   by: copilot/claude-haiku-5.5
-  at: 2026-11-18T09:45:00Z
+  at: 2026-11-18T10:30:00Z
 sources:
   - id: schedule
     title: Whenever schedule
@@ -43,10 +43,10 @@ sources:
 
 `config/schedule.rb` is the source of truth for these jobs.[^schedule]
 
-- Every 4 hours at minute 05: `instagram:update_news_posts`, which delegates to the Scrape.do GraphQL news updater for enabled Paraguayan `medio` profiles.[^schedule][^instagram-update-news-posts]
+- Every 3 hours at minute 05: `instagram:update_news_posts`, which delegates to the Scrape.do GraphQL news updater for enabled Paraguayan `medio` profiles.[^schedule][^instagram-update-news-posts]
 - Every 8 hours at 01:00, 09:00, and 17:00: `instagram:update_posts`, which uses Scrape.do API GraphQL for non-`medio` `tracked` profiles. News profiles are exclusively refreshed by `instagram:update_news_posts`.[^schedule][^instagram-update-posts]
 - Every 12 hours at 04:00 and 16:00: `instagram:update_profiles_stats`, which reads enabled Paraguayan profiles.[^schedule][^instagram-update-profiles-stats]
-- Daily: `instagram:update_profiles` at 00:30; `instagram:create_daily_stats` at 02:00; `tiktok:update_posts` at 02:20; `util:collaborations` at 05:00; and `util:add_mentions_profiles` at 05:30. The profile refresh uses Scrape.do API GraphQL for enabled Paraguayan profiles and defaults to five workers.[^schedule][^instagram-update-profiles][^instagram-create-daily-stats][^tiktok-update-posts]
+- Daily: `instagram:update_profiles` at 21:30; `instagram:create_daily_stats` at 02:00; `tiktok:update_posts` at 02:20; `util:collaborations` at 05:00; and `util:add_mentions_profiles` at 05:30. The profile refresh uses Scrape.do API GraphQL for enabled Paraguayan profiles and defaults to five workers.[^schedule][^instagram-update-profiles][^instagram-create-daily-stats][^tiktok-update-posts]
 
 # Not scheduled
 

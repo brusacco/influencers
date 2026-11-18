@@ -52,13 +52,16 @@ module InstagramServices
     def populate_missing_publication_date(post)
       return if post.posted_at.present?
 
-      timestamp = ScrapeDoGraphqlPostTimestampFetcher.call(post)
-      unless timestamp.success?
-        Rails.logger.warn("[ScrapeDoGraphqlPostUpserter] #{post.shortcode}: publication date unavailable - #{timestamp.error}")
+      details = ScrapeDoGraphqlPostTimestampFetcher.call(post)
+      unless details.success?
+        Rails.logger.warn("[ScrapeDoGraphqlPostUpserter] #{post.shortcode}: post detail unavailable - #{details.error}")
         return
       end
 
-      post.update!(posted_at: timestamp.data)
+      attributes = details.data.slice(:posted_at, :comments_count, :likes_count)
+      attributes[:total_count] = attributes.fetch(:likes_count, post.likes_count).to_i + attributes.fetch(:comments_count, post.comments_count).to_i
+      post.data = (post.data || {}).merge('node' => details.data.fetch(:metadata, {}))
+      post.update!(attributes)
     end
   end
 end

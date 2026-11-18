@@ -22,5 +22,5 @@ sources:
 
 - `ScrapeDoGraphqlPostUpserter.call(profile, node)` maps a grid node's shortcode, public URL, media type, product type, caption, and visible likes to partial post attributes.[^scrape-do-graphql-post-upserter]
 - It delegates persistence to [Ferrum post upserter](ferrum-post-upserter.md), preserving values that the profile-grid query does not expose and storing compact diagnostic metadata at `data['ferrum']`.[^scrape-do-graphql-post-upserter][^ferrum-post-upserter]
-- If the persisted post lacks `posted_at`, it invokes the [post timestamp fetcher](scrape-do-graphql-post-timestamp-fetcher.md) to retrieve and store the exact `taken_at` time. Posts that already have a date skip this extra request.[^scrape-do-graphql-post-upserter][^scrape-do-graphql-post-timestamp-fetcher]
+- If the persisted post lacks `posted_at`, it invokes the [post timestamp fetcher](scrape-do-graphql-post-timestamp-fetcher.md) to retrieve and store the exact `taken_at` time, comment count, visible likes, and corresponding total. Its compact detail metadata is stored under `data['node']`, preserving the historical coauthor shape consumed by collaborations. Posts that already have a date skip this extra request.[^scrape-do-graphql-post-upserter][^scrape-do-graphql-post-timestamp-fetcher]
 - It is used by both scheduled post collectors and the manual GraphQL import tasks.

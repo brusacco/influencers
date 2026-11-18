@@ -35,7 +35,7 @@ manager).
 
 | Task | Schedule | Profiles selected |
 | --- | --- | --- |
-| `instagram:update_news_posts` | Every 4 hours | Enabled Paraguayan profiles with `profile_type: medio` |
+| `instagram:update_news_posts` | Every 3 hours | Enabled Paraguayan profiles with `profile_type: medio` |
 | `instagram:update_posts` | Every 8 hours | Enabled Paraguayan profiles with 10,000+ followers, excluding `medio` |
 | `instagram:update_profiles` | Every 24 hours | Enabled Paraguayan profiles |
 
@@ -128,7 +128,9 @@ value for a conservative smoke test or when investigating provider errors.
 Each task also takes a non-blocking lock; if an earlier run of the same rake is
 still active, the later invocation exits without sending duplicate requests.
 When either post collector finds a post without `posted_at`, it automatically
-uses the public detail query to store its exact publication time. Posts that
+uses the public detail query to store its exact publication time and comment
+count. It also keeps compatible, compact detail metadata for the author,
+coauthors, tagged users, location, dimensions, and post flags. Posts that
 already have a date skip that extra request and only refresh grid data.
 
 ### Single-profile and diagnostic tasks
