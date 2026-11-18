@@ -5,9 +5,9 @@ namespace :instagram do
   task update_posts: :environment do
     check_inactive = ENV['CHECK_INACTIVE'] == '1'
     profiles = if check_inactive
-                 Profile.paraguayos.micro.order(followers: :desc)
+                 Profile.paraguayos.micro.where.not(profile_type: :medio)
                else
-                 Profile.tracked.order(followers: :desc)
+                 Profile.tracked.where.not(profile_type: :medio)
                end
     profiles = profiles.reorder(followers: :desc, id: :asc)
     profile_limit = ENV['INSTAGRAM_SCRAPE_DO_PROFILE_LIMIT'].presence

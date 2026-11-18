@@ -2,6 +2,7 @@
 
 ## 2026-11-18
 
+- **Change**: `instagram:update_posts` now excludes `medio` profiles, leaving their crawl exclusively to `instagram:update_news_posts`.
 - **Fix**: Profile avatar downloads now prefer the freshly updated GraphQL URL and reject non-image and failed upstream responses, preventing expired URL error messages from being attached and publicly served as avatars.
 - **Change**: `instagram:update_profiles` now refreshes enabled Paraguayan profiles through Scrape.do's public GraphQL profile-root query, preserving fields not returned by that query.
 - **Change**: `instagram:update_news_posts` now delegates to the Scrape.do GraphQL media updater, preserving the scheduled rake name while replacing the retired profile endpoint.
