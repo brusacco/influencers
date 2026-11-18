@@ -23,31 +23,31 @@ class ProfilesController < ApplicationController
     # Use model methods for related profiles and data
     @profiles = @profile.related_profiles
     @mentions = @profile.mentions_profiles
+    @last_fifteen_days_posts = @profile.instagram_posts.last_15_days
     @posts = @profile.recent_posts
-    @last_week_posts = @profile.instagram_posts.a_week_ago
     @collabs = @profile.recent_collaborations
 
     # Historical data for charts
     @followers_history = @profile.instagram_profile_stats.order(:date).pluck(:date, :followers_count)
-    
+
     # Calculate daily follower changes (growth/loss)
     if @followers_history.present?
       @followers_gains = []
       @followers_losses = []
-      
+
       @followers_history.each_with_index do |(date, count), index|
-        if index > 0
-          previous_count = @followers_history[index - 1][1]
-          change = count - previous_count
-          
-          # Separate positive and negative changes for different colors
-          if change >= 0
-            @followers_gains << [date, change]
-            @followers_losses << [date, 0]
-          else
-            @followers_gains << [date, 0]
-            @followers_losses << [date, change]
-          end
+        next unless index > 0
+
+        previous_count = @followers_history[index - 1][1]
+        change = count - previous_count
+
+        # Separate positive and negative changes for different colors
+        if change >= 0
+          @followers_gains << [date, change]
+          @followers_losses << [date, 0]
+        else
+          @followers_gains << [date, 0]
+          @followers_losses << [date, change]
         end
       end
     end

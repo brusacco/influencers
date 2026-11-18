@@ -2,7 +2,9 @@
 
 ## Overview
 
-La aplicación se integra con Instagram a través de la API pública de Instagram usando Scrape.do como proxy para evitar limitaciones de CORS y rate limiting.
+Los servicios heredados usan la API web de Instagram mediante Scrape.do. El
+recolector manual `instagram:update_posts_ferrum` usa directamente la superficie
+pública del navegador, porque Scrape.do no entrega todos sus datos.
 
 ## Arquitectura
 
@@ -46,6 +48,17 @@ INSTAGRAM_RATE_LIMIT=30
 
 # Logging (opcional, default: false)
 LOG_INSTAGRAM_API_CALLS=true
+
+# Recolector público directo con Ferrum
+INSTAGRAM_FERRUM_POST_LIMIT=12
+INSTAGRAM_FERRUM_PAUSE_SECONDS=2
+INSTAGRAM_FERRUM_TIMEOUT=60
+
+# Opcional: ejecutar Ferrum por Scrape.do Proxy Mode
+INSTAGRAM_FERRUM_USE_PROXY=true
+SCRAPE_DO_PROXY_HOST=pm.scrape.do
+SCRAPE_DO_PROXY_PORT=8080
+SCRAPE_DO_PROXY_PARAMS=render=false&super=true&customHeaders=true
 ```
 
 ### Obtener Token de Scrape.do
@@ -53,6 +66,28 @@ LOG_INSTAGRAM_API_CALLS=true
 1. Registrarse en https://scrape.do
 2. Obtener token de la dashboard
 3. Agregar a `.env` como `SCRAPE_DO_TOKEN`
+
+### Recolección con Ferrum
+
+`instagram:update_posts_ferrum` usa un navegador Chrome controlado por Ferrum
+en modo secuencial y, por defecto, accede directamente a las páginas públicas
+de Instagram. `INSTAGRAM_FERRUM_USE_PROXY=true` permite probar el mismo flujo a
+través de Scrape.do Proxy Mode. El modo proxy usa `pm.scrape.do:8080`, el token
+como usuario y los parámetros como contraseña; `customHeaders=true` hace que
+Instagram reciba los encabezados del navegador. Ninguno de los modos usa una
+sesión autenticada de Instagram.
+
+Ejecutar manualmente:
+
+```bash
+bin/rails instagram:update_posts_ferrum
+```
+
+El recolector hace una navegación al perfil y una consulta GraphQL desde esa
+misma sesión para leer hasta 12 posts visibles (configurable). Guarda shortcode,
+caption, tipo, URL de imagen y likes cuando Instagram los expone. Esta consulta
+no incluye comentarios ni fecha de publicación, por lo que conserva los valores
+existentes de esos campos. No descarga imágenes, para limitar el tráfico adicional.
 
 ## Servicios Disponibles
 

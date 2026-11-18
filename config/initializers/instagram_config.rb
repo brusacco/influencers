@@ -20,6 +20,16 @@ module InstagramConfig
   # Scrape.do API base URL
   SCRAPE_DO_API_URL = 'http://api.scrape.do'
 
+  # Keep browser collection deliberately conservative. Instagram can change
+  # its public web surface without notice, so these values are configurable.
+  FERRUM_POST_LIMIT = ENV.fetch('INSTAGRAM_FERRUM_POST_LIMIT', '12').to_i
+  FERRUM_PAUSE_SECONDS = ENV.fetch('INSTAGRAM_FERRUM_PAUSE_SECONDS', '2').to_f
+  FERRUM_TIMEOUT = ENV.fetch('INSTAGRAM_FERRUM_TIMEOUT', '60').to_i
+  FERRUM_USE_PROXY = ENV.fetch('INSTAGRAM_FERRUM_USE_PROXY', 'false') == 'true'
+  SCRAPE_DO_PROXY_HOST = ENV.fetch('SCRAPE_DO_PROXY_HOST', 'pm.scrape.do')
+  SCRAPE_DO_PROXY_PORT = ENV.fetch('SCRAPE_DO_PROXY_PORT', '8080').to_i
+  SCRAPE_DO_PROXY_PARAMS = ENV.fetch('SCRAPE_DO_PROXY_PARAMS', 'render=false&super=true&customHeaders=true')
+
   # Rate limiting (requests per minute)
   RATE_LIMIT_PER_MINUTE = ENV.fetch('INSTAGRAM_RATE_LIMIT', '30').to_i
 
@@ -29,5 +39,15 @@ module InstagramConfig
 
   # Log API calls (useful for debugging)
   LOG_API_CALLS = ENV.fetch('LOG_INSTAGRAM_API_CALLS', 'false') == 'true'
+
+  def self.ferrum_proxy
+    {
+      host: SCRAPE_DO_PROXY_HOST,
+      port: SCRAPE_DO_PROXY_PORT,
+      user: SCRAPE_DO_TOKEN,
+      password: SCRAPE_DO_PROXY_PARAMS
+    }
+  end
+
 end
 

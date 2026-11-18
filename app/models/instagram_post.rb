@@ -8,6 +8,7 @@ class InstagramPost < ApplicationRecord
 
   scope :a_day_ago, -> { where(posted_at: 1.day.ago..) }
   scope :a_week_ago, -> { where(posted_at: 1.week.ago..) }
+  scope :last_15_days, -> { where(posted_at: 15.days.ago..) }
   scope :a_month_ago, -> { where(posted_at: 1.month.ago..) }
 
   def self.ransackable_associations(_auth_object = nil)
