@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 namespace :instagram do
-  desc 'Update and enable media profile posts through Scrape.do API GraphQL (optional INSTAGRAM_SCRAPE_DO_PROFILE_LIMIT)'
+  desc 'Update media profile posts through Scrape.do API GraphQL (optional CHECK_INACTIVE=1 and INSTAGRAM_SCRAPE_DO_PROFILE_LIMIT)'
   task update_news_posts_scrape_do_graphql: :environment do
-    profiles = Profile.paraguayos.where(profile_type: :medio).order(followers: :desc)
+    check_inactive = ENV['CHECK_INACTIVE'] == '1'
+    profiles = Profile.paraguayos.where(profile_type: :medio)
+    profiles = profiles.enabled unless check_inactive
+    profiles = profiles.order(followers: :desc)
     profile_limit = ENV['INSTAGRAM_SCRAPE_DO_PROFILE_LIMIT'].presence
     if profile_limit
       profile_limit = Integer(profile_limit, 10)
@@ -24,15 +27,19 @@ namespace :instagram do
       processed_profiles += 1
       puts "[#{processed_profiles}/#{profiles_count}] @#{profile.username}"
 
-      unless profile.enabled?
+      if check_inactive && !profile.enabled?
         profile.update!(enabled: true)
         enabled_profiles += 1
-        puts '  + Enabled profile'
+        puts '  + Enabled inactive profile for verification'
       end
 
       fetched = InstagramServices::ScrapeDoGraphqlPostsFetcher.call(profile.username)
       unless fetched.success?
         puts "  x Fetch failed: #{fetched.error}"
+        if check_inactive && fetched.error == 'Instagram did not expose the profile posts GraphQL query'
+          profile.update!(enabled: false)
+          puts '  - Disabled profile: public post grid is unavailable'
+        end
         errors += 1
         next
       end

@@ -10,6 +10,9 @@
 - **Addition**: Added `instagram:update_posts_scrape_do_graphql[username]`, an explicit-profile alias suitable for a controlled production test of the Scrape.do GraphQL import path.
 - **Addition**: Added `instagram:update_news_posts_scrape_do_graphql`, an unscheduled Paraguayan `medio` batch updater with an optional bounded-run limit for production validation.
 - **Change**: The Scrape.do news updater now includes disabled Paraguayan `medio` profiles and enables each one as it begins processing, to recover media accounts disabled by the legacy rake.
+- **Change**: The Scrape.do news updater disables a profile again when Instagram omits its public post-grid query; transient fetch failures do not change profile state.
+- **Change**: Both Scrape.do batch updaters now process active profiles by default. `CHECK_INACTIVE=1` expands either task to verify inactive profiles and only retains reactivation when their public post grid is available.
+- **Change**: `instagram:update_posts` now refreshes `Profile.tracked` through Scrape.do API GraphQL instead of the direct-browser fallback; its every-six-hours schedule is unchanged.
 - **Change**: `instagram:update_posts` now delegates to the working direct-browser GraphQL collector because the prior Scrape.do call to Instagram's retired profile endpoint returns 404 for valid profiles. The collector has a bounded smoke-test option through `INSTAGRAM_FERRUM_PROFILE_LIMIT`.
 
 ## 2026-11-10
