@@ -5,7 +5,7 @@ description: Experimental, non-persisting collector that obtains an Instagram pr
 tags: [ingestion, services, experimental]
 generated:
   by: process:codex
-  at: 2026-11-18T07:15:00Z
+  at: 2026-11-18T07:30:00Z
 sources:
   - id: scrape-do-graphql-posts-fetcher
     title: InstagramServices::ScrapeDoGraphqlPostsFetcher
@@ -32,8 +32,8 @@ sources:
 - `instagram:probe_posts_scrape_do_graphql[username]` only prints the extracted shortcodes. It does not create or update records and is deliberately unscheduled while the provider behavior is being evaluated.[^scrape-do-graphql-posts-probe]
 - `instagram:import_posts_scrape_do_graphql[username]` persists one fetched grid through `ScrapeDoGraphqlPostUpserter`, which delegates to the partial-update behavior of `FerrumPostUpserter`. It stores the raw node under `data['ferrum']` and does not erase fields absent from the grid response.[^scrape-do-graphql-posts-import]
 - `instagram:update_posts_scrape_do_graphql[username]` is the production-facing alias for one explicit profile import. It refuses to run without a username and is not scheduled.[^scrape-do-graphql-posts-update]
-- `instagram:update_news_posts` is the scheduled public entry point for the news updater and delegates to `instagram:update_news_posts_scrape_do_graphql`. It normally selects enabled Paraguayan `medio` profiles. `CHECK_INACTIVE=1` also selects disabled ones, enables each as it begins verification, and disables it again when Instagram omits the public post-grid query. Other fetch failures leave the enabled state unchanged. The task is sequential and supports `INSTAGRAM_SCRAPE_DO_PROFILE_LIMIT` for a bounded production smoke test.[^scrape-do-graphql-news-update]
-- `instagram:update_posts` is the scheduled general updater. It excludes `medio` profiles so the news task is their only crawler, and processes the remaining selected profiles sequentially from most to fewest followers (with ID as a stable tie-breaker) through Scrape.do API GraphQL. It normally selects non-`medio` `Profile.tracked`; with `CHECK_INACTIVE=1`, it additionally verifies disabled non-`medio` Paraguayan profiles with at least 10,000 followers using the same enable/disable rule. It supports `INSTAGRAM_SCRAPE_DO_PROFILE_LIMIT` for a bounded run.[^scrape-do-graphql-posts-fetcher]
+- `instagram:update_news_posts` is the scheduled public entry point for the news updater and delegates to `instagram:update_news_posts_scrape_do_graphql`. It normally selects enabled Paraguayan `medio` profiles. `CHECK_INACTIVE=1` also selects disabled ones, enables each as it begins verification, and disables it again when Instagram omits the public post-grid query. Other fetch failures leave the enabled state unchanged. It defaults to one worker and supports `INSTAGRAM_SCRAPE_DO_PROFILE_LIMIT` plus `INSTAGRAM_SCRAPE_DO_CONCURRENCY` (1 through 10) for bounded production runs.[^scrape-do-graphql-news-update]
+- `instagram:update_posts` is the scheduled general updater. It excludes `medio` profiles so the news task is their only crawler, and processes the remaining selected profiles through Scrape.do API GraphQL, prioritized from most to fewest followers (with ID as a stable tie-breaker). It defaults to one worker, preserving sequential execution; `INSTAGRAM_SCRAPE_DO_CONCURRENCY` can opt into 2 through 10 workers. It normally selects non-`medio` `Profile.tracked`; with `CHECK_INACTIVE=1`, it additionally verifies disabled non-`medio` Paraguayan profiles with at least 10,000 followers using the same enable/disable rule. It supports `INSTAGRAM_SCRAPE_DO_PROFILE_LIMIT` for a bounded run.[^scrape-do-graphql-posts-fetcher]
 
 # Operational status
 
