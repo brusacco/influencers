@@ -5,7 +5,7 @@ description: The recurring Whenever jobs that refresh profiles, posts, and stats
 tags: [scheduling, ingestion]
 generated:
   by: copilot/claude-haiku-5.5
-  at: 2026-11-18T05:45:00Z
+  at: 2026-11-18T06:30:00Z
 sources:
   - id: schedule
     title: Whenever schedule
@@ -46,7 +46,7 @@ sources:
 - Every 3 hours: `instagram:update_news_posts`, which reads `medios` profiles.[^schedule][^instagram-update-news-posts]
 - Every 6 hours: `instagram:update_posts`, which uses Scrape.do API GraphQL for `tracked` profiles.[^schedule][^instagram-update-posts]
 - Every 12 hours: `instagram:update_profiles_stats`, which reads enabled Paraguayan profiles.[^schedule][^instagram-update-profiles-stats]
-- Every 24 hours: `instagram:update_profiles`, `util:collaborations`, and `util:add_mentions_profiles`.[^schedule][^instagram-update-profiles]
+- Every 24 hours: `instagram:update_profiles`, `util:collaborations`, and `util:add_mentions_profiles`. The profile refresh uses Scrape.do API GraphQL for enabled Paraguayan profiles.[^schedule][^instagram-update-profiles]
 - Daily at 00:00: `instagram:create_daily_stats`, which records follower counts for `tracked` profiles, and `tiktok:update_posts`.[^schedule][^instagram-create-daily-stats][^tiktok-update-posts]
 
 # Not scheduled
@@ -69,4 +69,4 @@ unscheduled.[^tiktok-crawler]
 
 # Load notes
 
-The profile refresh runs 10 processes and sleeps one second after each successful update.[^instagram-update-profiles] Post refresh for `tracked` profiles is sequential and waits `FERRUM_PAUSE_SECONDS` between profiles, reducing concurrent requests but increasing the end-to-end completion time.[^instagram-update-posts] Changes to this schedule change provider quota use and data freshness, so explain them before editing.
+The profile refresh is sequential and waits `FERRUM_PAUSE_SECONDS` between profiles, reducing concurrent requests but increasing the end-to-end completion time.[^instagram-update-profiles] Post refresh for `tracked` profiles follows the same sequential pause.[^instagram-update-posts] Changes to this schedule change provider quota use and data freshness, so explain them before editing.

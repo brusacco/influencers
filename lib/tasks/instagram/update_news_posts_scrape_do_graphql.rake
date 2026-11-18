@@ -6,7 +6,7 @@ namespace :instagram do
     check_inactive = ENV['CHECK_INACTIVE'] == '1'
     profiles = Profile.paraguayos.where(profile_type: :medio)
     profiles = profiles.enabled unless check_inactive
-    profiles = profiles.order(followers: :desc)
+    profiles = profiles.order(followers: :desc, id: :asc)
     profile_limit = ENV['INSTAGRAM_SCRAPE_DO_PROFILE_LIMIT'].presence
     if profile_limit
       profile_limit = Integer(profile_limit, 10)
@@ -23,7 +23,7 @@ namespace :instagram do
 
     puts "Starting Scrape.do GraphQL update for #{profiles_count} media profiles..."
 
-    profiles.find_each do |profile|
+    profiles.each do |profile|
       processed_profiles += 1
       puts "[#{processed_profiles}/#{profiles_count}] @#{profile.username}"
 

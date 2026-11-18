@@ -2,6 +2,8 @@
 
 ## 2026-11-18
 
+- **Change**: `instagram:update_profiles` now refreshes enabled Paraguayan profiles through Scrape.do's public GraphQL profile-root query, preserving fields not returned by that query.
+- **Fix**: Scrape.do batch updaters now honor descending follower order. They previously used `find_each`, which ignores relation ordering and batches by primary key.
 - **Change**: Instagram GraphQL imports now retain only compact post metadata instead of the full nested payload, preventing large carousel responses from exceeding the `instagram_posts.data` `TEXT` column limit.
 - **Change**: Public Instagram post cards no longer display comment counts; their per-card rate is now based on visible likes because the current GraphQL grid does not provide reliable comments.
 - **Change**: Public Instagram post cards now render posts that lack an attached image, using the retained GraphQL image URL or a placeholder as a final fallback.

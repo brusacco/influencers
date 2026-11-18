@@ -1,76 +1,55 @@
 # frozen_string_literal: true
 
 namespace :instagram do
-  desc 'Update profiles'
+  desc 'Update enabled Paraguayan profiles through Scrape.do API GraphQL (optional INSTAGRAM_SCRAPE_DO_PROFILE_LIMIT)'
   task update_profiles: :environment do
-    profiles = Profile.enabled.paraguayos.order(followers: :desc).to_a
-    total_count = profiles.count
-    
-    puts "Starting profile update for #{total_count} profiles..."
-    puts "=" * 70
-    
-    # Use Parallel.map to collect results from each process
-    results = Parallel.map(profiles, in_processes: 10) do |profile|
-      next { status: :skipped } if profile.data.nil?
+    profiles = Profile.enabled.paraguayos.order(followers: :desc, id: :asc)
+    profile_limit = ENV['INSTAGRAM_SCRAPE_DO_PROFILE_LIMIT'].presence
+    if profile_limit
+      profile_limit = Integer(profile_limit, 10)
+      raise ArgumentError, 'INSTAGRAM_SCRAPE_DO_PROFILE_LIMIT must be positive' unless profile_limit.positive?
 
-      puts "[#{Time.current.strftime('%H:%M:%S')}] Updating profile: #{profile.username}"
+      profiles = profiles.limit(profile_limit)
+    end
+
+    total_count = profiles.count
+    processed_profiles = 0
+    updated_profiles = 0
+    avatar_errors = 0
+    errors = 0
+
+    puts "Starting Scrape.do GraphQL profile update for #{total_count} profiles..."
+
+    profiles.each do |profile|
+      processed_profiles += 1
+      puts "[#{processed_profiles}/#{total_count}] @#{profile.username}"
+
+      fetched = InstagramServices::ScrapeDoGraphqlProfileFetcher.call(profile.username)
+      unless fetched.success?
+        puts "  x Fetch failed: #{fetched.error}"
+        errors += 1
+        next
+      end
+
+      persisted = InstagramServices::ScrapeDoGraphqlProfileUpserter.call(profile, fetched.data)
+      unless persisted.success?
+        puts "  x Update failed: #{persisted.error}"
+        errors += 1
+        next
+      end
 
       begin
-        data = InstagramServices::GetProfileData.call(profile.username)
-        
-        if data.success?
-          response = InstagramServices::UpdateProfileData.call(data.data)
-          if response.success?
-            profile.update!(response.data)
-            profile.save_avatar
-            puts "  ✓ Updated successfully"
-            sleep 1
-            { status: :updated }
-          else
-            puts "  ✗ Update failed: #{response.error}"
-            { status: :error, type: :update_failed, message: response.error }
-          end
-        else
-          # Profile data fetch failed - classify error type
-          error_description = InstagramServices::ErrorClassifier.describe(data.error)
-          
-          case error_description[:type]
-          when :permanent
-            # Profile doesn't exist on Instagram anymore - disable it
-            profile.update!(enabled: false)
-            puts "  ✗ #{error_description[:user_message]}"
-            puts "     Error: #{data.error}"
-            { status: :disabled, message: data.error }
-            
-          when :temporary, :unknown
-            # Temporary/unknown errors - don't disable, just log (be conservative)
-            puts "  ⚠ #{error_description[:user_message]}"
-            puts "     Error: #{data.error}"
-            { status: :error, type: error_description[:type], message: data.error }
-          end
-        end
+        profile.save_avatar if profile.profile_pic_url.present?
       rescue StandardError => e
-        puts "  ✗ Exception: #{e.message}"
-        { status: :error, type: :exception, message: e.message }
+        avatar_errors += 1
+        puts "  ! Avatar update failed: #{e.message}"
       end
+
+      updated_profiles += 1
+      puts "  + Updated #{profile.followers} followers"
+      sleep InstagramConfig::FERRUM_PAUSE_SECONDS if InstagramConfig::FERRUM_PAUSE_SECONDS.positive?
     end
-    
-    # Count results from all processes
-    updated_count = results.count { |r| r[:status] == :updated }
-    disabled_count = results.count { |r| r[:status] == :disabled }
-    error_count = results.count { |r| r[:status] == :error }
-    skipped_count = results.count { |r| r[:status] == :skipped }
-    
-    # Summary
-    puts ""
-    puts "=" * 70
-    puts "UPDATE SUMMARY"
-    puts "=" * 70
-    puts "Total profiles: #{total_count}"
-    puts "✓ Successfully updated: #{updated_count}"
-    puts "✗ Disabled (not found): #{disabled_count}"
-    puts "⚠ Errors (temporary):  #{error_count}"
-    puts "⊘ Skipped (no data):   #{skipped_count}" if skipped_count > 0
-    puts "=" * 70
+
+    puts "Scrape.do GraphQL profile update complete: #{processed_profiles}/#{total_count} profiles, #{updated_profiles} updated, #{avatar_errors} avatar errors, #{errors} errors"
   end
 end

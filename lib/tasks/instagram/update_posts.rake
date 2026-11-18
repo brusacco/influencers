@@ -9,6 +9,7 @@ namespace :instagram do
                else
                  Profile.tracked.order(followers: :desc)
                end
+    profiles = profiles.reorder(followers: :desc, id: :asc)
     profile_limit = ENV['INSTAGRAM_SCRAPE_DO_PROFILE_LIMIT'].presence
     if profile_limit
       profile_limit = Integer(profile_limit, 10)
@@ -25,7 +26,7 @@ namespace :instagram do
 
     puts "Starting Scrape.do GraphQL update for #{profiles_count} tracked profiles..."
 
-    profiles.find_each do |profile|
+    profiles.each do |profile|
       processed_profiles += 1
       puts "[#{processed_profiles}/#{profiles_count}] @#{profile.username}"
 
