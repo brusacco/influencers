@@ -1,10 +1,18 @@
 # frozen_string_literal: true
 
 require 'parallel'
+require_relative 'scrape_do_task_lock'
 
 namespace :instagram do
   desc 'Update enabled Paraguayan profiles through Scrape.do API GraphQL (optional INSTAGRAM_SCRAPE_DO_PROFILE_LIMIT and INSTAGRAM_SCRAPE_DO_CONCURRENCY)'
   task update_profiles: :environment do
+    lock = InstagramScrapeDoTaskLock.acquire('instagram-update-profiles')
+    unless lock
+      puts 'Skipping Scrape.do GraphQL profile update: another run is still active'
+      next
+    end
+
+    begin
     profiles = Profile.enabled.paraguayos.order(followers: :desc, id: :asc)
     profile_limit = ENV['INSTAGRAM_SCRAPE_DO_PROFILE_LIMIT'].presence
     if profile_limit
@@ -13,7 +21,7 @@ namespace :instagram do
 
       profiles = profiles.limit(profile_limit)
     end
-    concurrency = Integer(ENV.fetch('INSTAGRAM_SCRAPE_DO_CONCURRENCY', '1'), 10)
+    concurrency = Integer(ENV.fetch('INSTAGRAM_SCRAPE_DO_CONCURRENCY', '5'), 10)
     raise ArgumentError, 'INSTAGRAM_SCRAPE_DO_CONCURRENCY must be between 1 and 10' unless concurrency.between?(1, 10)
 
     total_count = profiles.count
@@ -66,5 +74,9 @@ namespace :instagram do
     end
 
     puts "Scrape.do GraphQL profile update complete: #{total_count}/#{total_count} profiles, #{updated_profiles} updated, #{avatar_errors} avatar errors, #{errors} errors"
+    ensure
+      lock.flock(File::LOCK_UN)
+      lock.close
+    end
   end
 end

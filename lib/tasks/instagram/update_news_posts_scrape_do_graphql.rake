@@ -1,10 +1,18 @@
 # frozen_string_literal: true
 
 require 'parallel'
+require_relative 'scrape_do_task_lock'
 
 namespace :instagram do
   desc 'Update media profile posts through Scrape.do API GraphQL (optional CHECK_INACTIVE=1, INSTAGRAM_SCRAPE_DO_PROFILE_LIMIT, and INSTAGRAM_SCRAPE_DO_CONCURRENCY)'
   task update_news_posts_scrape_do_graphql: :environment do
+    lock = InstagramScrapeDoTaskLock.acquire('instagram-update-news-posts')
+    unless lock
+      puts 'Skipping Scrape.do GraphQL news update: another run is still active'
+      next
+    end
+
+    begin
     check_inactive = ENV['CHECK_INACTIVE'] == '1'
     profiles = Profile.paraguayos.where(profile_type: :medio)
     profiles = profiles.enabled unless check_inactive
@@ -16,7 +24,7 @@ namespace :instagram do
 
       profiles = profiles.limit(profile_limit)
     end
-    concurrency = Integer(ENV.fetch('INSTAGRAM_SCRAPE_DO_CONCURRENCY', '1'), 10)
+    concurrency = Integer(ENV.fetch('INSTAGRAM_SCRAPE_DO_CONCURRENCY', '5'), 10)
     raise ArgumentError, 'INSTAGRAM_SCRAPE_DO_CONCURRENCY must be between 1 and 10' unless concurrency.between?(1, 10)
 
     profiles_count = profiles.count
@@ -75,5 +83,9 @@ namespace :instagram do
     end
 
     puts "Scrape.do GraphQL update complete: #{profiles_count}/#{profiles_count} media profiles, #{enabled_profiles} enabled, #{imported_posts} posts, #{errors} errors"
+    ensure
+      lock.flock(File::LOCK_UN)
+      lock.close
+    end
   end
 end

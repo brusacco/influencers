@@ -5,7 +5,7 @@ description: Instagram account record with normalized metrics, categorization, c
 tags: [metrics, ingestion, tagging]
 generated:
   by: copilot/claude-haiku-5.5
-  at: 2026-11-18T07:45:00Z
+  at: 2026-11-18T08:00:00Z
 sources:
   - id: profile-model
     title: Profile model
@@ -36,7 +36,7 @@ Key columns: `username`, `followers`, `following`, `enabled`, `country_string`, 
 
 # Lifecycle
 
-- `after_create` calls the legacy remote fetch through `InstagramServices::GetProfileData` and `UpdateProfileData`, then saves the avatar. The scheduled `instagram:update_profiles` task instead uses the Scrape.do GraphQL profile services. It defaults to one worker and can use 2 through 10 with `INSTAGRAM_SCRAPE_DO_CONCURRENCY`. Bulk creation therefore still triggers external requests.
+- `after_create` calls the legacy remote fetch through `InstagramServices::GetProfileData` and `UpdateProfileData`, then saves the avatar. The scheduled `instagram:update_profiles` task instead uses the Scrape.do GraphQL profile services. It defaults to five workers and can use 1 through 10 with `INSTAGRAM_SCRAPE_DO_CONCURRENCY`. Bulk creation therefore still triggers external requests.
 - `save_avatar` tries the freshly updated GraphQL avatar URL before the legacy HD URL and attaches only successful image responses. It rejects error documents or non-image responses, preventing expired upstream URL messages from being stored and served as profile pictures.
 - `update_profile_stats` sums the last week of posts into the `total_*` counters and recalculates `engagement_rate`.
 - Posts `touch` their profile, so changing posts also changes profile freshness.

@@ -11,6 +11,7 @@ Services in `InstagramServices` that fetch profiles and posts from the Scrape.do
 - [Scrape.do GraphQL post upserter](scrape-do-graphql-post-upserter.md) - Safely persists one API-only profile-grid node
 - [Scrape.do GraphQL profile fetcher](scrape-do-graphql-profile-fetcher.md) - Retrieves the public profile root through the API-only flow
 - [Scrape.do GraphQL profile upserter](scrape-do-graphql-profile-upserter.md) - Safely applies fields exposed by that root query
+- [Scrape.do task lock](scrape-do-task-lock.md) - Prevents overlapping runs of each Scrape.do batch task
 - [Update profile data](update-profile-data.md) - Maps a raw payload to profile attributes
 - [Update post data](update-post-data.md) - Maps a post edge to post attributes
 - [Get related profiles](get-related-profiles.md) - Extracts related usernames
