@@ -127,6 +127,9 @@ The application defaults to five workers for each Scrape.do task. Set a lower
 value for a conservative smoke test or when investigating provider errors.
 Each task also takes a non-blocking lock; if an earlier run of the same rake is
 still active, the later invocation exits without sending duplicate requests.
+When either post collector finds a post without `posted_at`, it automatically
+uses the public detail query to store its exact publication time. Posts that
+already have a date skip that extra request and only refresh grid data.
 
 ### Single-profile and diagnostic tasks
 

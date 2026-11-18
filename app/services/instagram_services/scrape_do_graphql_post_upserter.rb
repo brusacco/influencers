@@ -17,7 +17,11 @@ module InstagramServices
 
     def call
       validate!
-      FerrumPostUpserter.call(@profile, attributes)
+      result = FerrumPostUpserter.call(@profile, attributes)
+      return result unless result.success?
+
+      populate_missing_publication_date(result.data)
+      result
     rescue StandardError => e
       Rails.logger.error("[ScrapeDoGraphqlPostUpserter] @#{@profile&.username}: #{e.class} - #{e.message}")
       handle_error(e.message)
@@ -43,6 +47,18 @@ module InstagramServices
         likes_count:,
         metadata: @node
       }.compact
+    end
+
+    def populate_missing_publication_date(post)
+      return if post.posted_at.present?
+
+      timestamp = ScrapeDoGraphqlPostTimestampFetcher.call(post)
+      unless timestamp.success?
+        Rails.logger.warn("[ScrapeDoGraphqlPostUpserter] #{post.shortcode}: publication date unavailable - #{timestamp.error}")
+        return
+      end
+
+      post.update!(posted_at: timestamp.data)
     end
   end
 end
