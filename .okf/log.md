@@ -2,6 +2,7 @@
 
 ## 2026-11-18
 
+- **Change**: Instagram GraphQL imports now retain only compact post metadata instead of the full nested payload, preventing large carousel responses from exceeding the `instagram_posts.data` `TEXT` column limit.
 - **Change**: Public Instagram post cards no longer display comment counts; their per-card rate is now based on visible likes because the current GraphQL grid does not provide reliable comments.
 - **Change**: Public Instagram post cards now render posts that lack an attached image, using the retained GraphQL image URL or a placeholder as a final fallback.
 - **Change**: Public Instagram profile metrics and charts now use the last 15 days of posts. The “Posteos Recientes” gallery continues to show the latest `RECENT_POSTS_LIMIT` posts regardless of publication date.

@@ -4,6 +4,19 @@ module InstagramServices
   # Persists Ferrum data without replacing existing values with incomplete
   # public-page metadata.
   class FerrumPostUpserter < ApplicationService
+    METADATA_KEYS = %w[
+      __typename
+      id
+      pk
+      code
+      media_type
+      product_type
+      seo_canonical_url
+      display_uri
+      like_count
+      like_and_view_counts_disabled
+    ].freeze
+
     def initialize(profile, attributes)
       @profile = profile
       @attributes = attributes
@@ -14,7 +27,7 @@ module InstagramServices
 
       post = @profile.instagram_posts.find_or_initialize_by(shortcode: @attributes.fetch(:shortcode))
       post.assign_attributes(persisted_attributes)
-      post.data = (post.data || {}).merge('ferrum' => @attributes.fetch(:metadata, {}))
+      post.data = (post.data || {}).merge('ferrum' => compact_metadata)
       post.save!
 
       handle_success(post)
@@ -41,6 +54,10 @@ module InstagramServices
         :comments_count,
         :total_count
       ).compact
+    end
+
+    def compact_metadata
+      @attributes.fetch(:metadata, {}).slice(*METADATA_KEYS)
     end
   end
 end

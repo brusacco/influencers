@@ -5,7 +5,7 @@ description: Maps one Scrape.do GraphQL grid node to a safe partial Instagram po
 tags: [ingestion, services, experimental]
 generated:
   by: process:codex
-  at: 2026-11-18T03:45:00Z
+  at: 2026-11-18T06:00:00Z
 sources:
   - id: scrape-do-graphql-post-upserter
     title: InstagramServices::ScrapeDoGraphqlPostUpserter
@@ -18,5 +18,5 @@ sources:
 # Behavior
 
 - `ScrapeDoGraphqlPostUpserter.call(profile, node)` maps a grid node's shortcode, public URL, media type, product type, caption, and visible likes to partial post attributes.[^scrape-do-graphql-post-upserter]
-- It delegates persistence to [Ferrum post upserter](ferrum-post-upserter.md), preserving values that the profile-grid query does not expose and storing the raw node at `data['ferrum']`.[^scrape-do-graphql-post-upserter][^ferrum-post-upserter]
+- It delegates persistence to [Ferrum post upserter](ferrum-post-upserter.md), preserving values that the profile-grid query does not expose and storing compact diagnostic metadata at `data['ferrum']`.[^scrape-do-graphql-post-upserter][^ferrum-post-upserter]
 - It is used only by the manual `instagram:import_posts_scrape_do_graphql[username]` task while the API-only collection flow remains under evaluation.

@@ -19,7 +19,11 @@ class FerrumPostUpserterTest < ActiveSupport::TestCase
       media: 'GraphImage',
       caption: 'Updated from GraphQL',
       likes_count: 42,
-      metadata: { 'code' => post.shortcode }
+      metadata: {
+        'code' => post.shortcode,
+        'pk' => '123',
+        'carousel_media' => Array.new(20) { { 'image_versions2' => { 'candidates' => Array.new(10, 'large-image-url') } } }
+      }
     )
 
     assert_predicate result, :success?
@@ -29,5 +33,7 @@ class FerrumPostUpserterTest < ActiveSupport::TestCase
     assert_equal Time.zone.parse('2026-11-01 12:00:00'), post.posted_at
     assert_equal 'legacy', post.data['source']
     assert_equal post.shortcode, post.data.dig('ferrum', 'code')
+    assert_equal '123', post.data.dig('ferrum', 'pk')
+    assert_nil post.data.dig('ferrum', 'carousel_media')
   end
 end
