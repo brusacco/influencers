@@ -25,8 +25,9 @@ through Scrape.do to retrieve `taken_at` for the requested shortcode.[^scrape-do
 The regular GraphQL post upserter invokes this service automatically for a new
 or existing post whose `posted_at` is null. `instagram:update_missing_posted_at`
 is the manual backfill task for dates that remain missing; it selects only posts
-where `posted_at` is null and supports `INSTAGRAM_SCRAPE_DO_POST_LIMIT` plus
-`INSTAGRAM_SCRAPE_DO_CONCURRENCY`.[^scrape-do-graphql-post-timestamp-fetcher][^instagram-update-missing-posted-at]
+where `posted_at` is null, prioritizes descending IDs, and caps each run at
+1,000 posts. `INSTAGRAM_SCRAPE_DO_POST_LIMIT` can select a smaller batch and
+`INSTAGRAM_SCRAPE_DO_CONCURRENCY` controls workers.[^scrape-do-graphql-post-timestamp-fetcher][^instagram-update-missing-posted-at]
 
 The task is intentionally unscheduled because each post needs two provider
 requests. It has its own non-blocking lock, so overlapping invocations do not

@@ -168,8 +168,10 @@ INSTAGRAM_SCRAPE_DO_POST_LIMIT=10 \
   bundle exec rake instagram:update_missing_posted_at
 ```
 
-The task is not scheduled, processes only `posted_at IS NULL`, and uses its own
-non-blocking lock to avoid duplicate backfill runs.
+The task is not scheduled. It processes only `posted_at IS NULL`, prioritizes
+the newest records by descending ID, and caps every execution at 1,000 posts.
+Use `INSTAGRAM_SCRAPE_DO_POST_LIMIT` to choose a smaller batch. It also uses
+its own non-blocking lock to avoid duplicate backfill runs.
 
 ## Verification
 

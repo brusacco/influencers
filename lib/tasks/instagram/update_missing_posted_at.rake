@@ -4,7 +4,7 @@ require 'parallel'
 require_relative 'scrape_do_task_lock'
 
 namespace :instagram do
-  desc 'Populate missing Instagram post publication dates through Scrape.do GraphQL (optional INSTAGRAM_SCRAPE_DO_POST_LIMIT and INSTAGRAM_SCRAPE_DO_CONCURRENCY)'
+  desc 'Populate up to 1,000 newest missing Instagram post publication dates through Scrape.do GraphQL (optional INSTAGRAM_SCRAPE_DO_POST_LIMIT and INSTAGRAM_SCRAPE_DO_CONCURRENCY)'
   task update_missing_posted_at: :environment do
     lock = InstagramScrapeDoTaskLock.acquire('instagram-update-missing-posted-at')
     unless lock
@@ -13,14 +13,10 @@ namespace :instagram do
     end
 
     begin
-      posts = InstagramPost.where(posted_at: nil).order(:id)
-      post_limit = ENV['INSTAGRAM_SCRAPE_DO_POST_LIMIT'].presence
-      if post_limit
-        post_limit = Integer(post_limit, 10)
-        raise ArgumentError, 'INSTAGRAM_SCRAPE_DO_POST_LIMIT must be positive' unless post_limit.positive?
+      post_limit = Integer(ENV.fetch('INSTAGRAM_SCRAPE_DO_POST_LIMIT', '1000'), 10)
+      raise ArgumentError, 'INSTAGRAM_SCRAPE_DO_POST_LIMIT must be between 1 and 1000' unless post_limit.between?(1, 1000)
 
-        posts = posts.limit(post_limit)
-      end
+      posts = InstagramPost.where(posted_at: nil).order(id: :desc).limit(post_limit)
       concurrency = Integer(ENV.fetch('INSTAGRAM_SCRAPE_DO_CONCURRENCY', '5'), 10)
       raise ArgumentError, 'INSTAGRAM_SCRAPE_DO_CONCURRENCY must be between 1 and 10' unless concurrency.between?(1, 10)
 

@@ -9,6 +9,7 @@
 - **Deprecation**: The retained `InstagramServices::Base#fetch_instagram_data` and `UpdatePostData` edge transformer no longer have active callers; new Instagram ingestion must use the dedicated Scrape.do GraphQL services.
 - **Addition**: Added `instagram:update_missing_posted_at`, a manual Scrape.do GraphQL detail-query backfill that sets exact publication dates only for posts whose `posted_at` is null.
 - **Change**: The scheduled Scrape.do post upserter now retrieves and stores an exact publication date for any fetched post whose `posted_at` is missing; posts with an existing date skip the detail query.
+- **Change**: `instagram:update_missing_posted_at` now prioritizes null-date posts by descending ID and has a hard 1,000-post cap per run.
 - **Change**: `instagram:update_posts` now excludes `medio` profiles, leaving their crawl exclusively to `instagram:update_news_posts`.
 - **Fix**: Profile avatar downloads now prefer the freshly updated GraphQL URL and reject non-image and failed upstream responses, preventing expired URL error messages from being attached and publicly served as avatars.
 - **Change**: `instagram:update_profiles` now refreshes enabled Paraguayan profiles through Scrape.do's public GraphQL profile-root query, preserving fields not returned by that query.
