@@ -5,7 +5,7 @@ description: Transforms one Instagram timeline edge into post attributes.
 tags: [ingestion, services]
 generated:
   by: copilot/claude-haiku-5.5
-  at: 2026-11-10T13:00:00Z
+  at: 2026-11-18T09:30:00Z
 sources:
   - id: instagram-update-post-data
     title: InstagramServices::UpdatePostData
@@ -21,3 +21,7 @@ sources:
 - Keeps the full edge in `data` for archiving, as required by AGENTS.md.[^instagram-update-post-data]
 
 The result is written to the [Instagram post](/instagram/post.md) model.
+
+**Deprecation**: No active rake calls this transformer. New ingestion uses
+`ScrapeDoGraphqlPostUpserter`, which accepts the current public GraphQL node and
+retains only compact metadata.

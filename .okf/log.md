@@ -4,6 +4,10 @@
 
 - **Change**: Scrape.do profile and post batch rakes now accept `INSTAGRAM_SCRAPE_DO_CONCURRENCY` (1 through 10) and default to five workers. The recurring schedule now staggers all jobs to avoid top-of-hour collector collisions, and task-specific locks prevent duplicate overlapping runs.
 - **Change**: Instagram news post collection now runs every four hours and general post collection every eight hours, preserving their staggered schedule.
+- **Change**: `InstagramServices::GetProfileData` now adapts the Scrape.do public GraphQL profile response to its legacy `data.user` contract, removing its dependency on the retired web-profile endpoint.
+- **Change**: `InstagramServices::GetPostsData` and its manual brand, tagged, and single-profile rakes now use the Scrape.do GraphQL post grid and upserter instead of the retired web-profile endpoint and edge payload.
+- **Deprecation**: The retained `InstagramServices::Base#fetch_instagram_data` and `UpdatePostData` edge transformer no longer have active callers; new Instagram ingestion must use the dedicated Scrape.do GraphQL services.
+- **Addition**: Added `instagram:update_missing_posted_at`, a manual Scrape.do GraphQL detail-query backfill that sets exact publication dates only for posts whose `posted_at` is null.
 - **Change**: `instagram:update_posts` now excludes `medio` profiles, leaving their crawl exclusively to `instagram:update_news_posts`.
 - **Fix**: Profile avatar downloads now prefer the freshly updated GraphQL URL and reject non-image and failed upstream responses, preventing expired URL error messages from being attached and publicly served as avatars.
 - **Change**: `instagram:update_profiles` now refreshes enabled Paraguayan profiles through Scrape.do's public GraphQL profile-root query, preserving fields not returned by that query.

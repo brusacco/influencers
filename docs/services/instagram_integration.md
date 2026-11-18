@@ -93,7 +93,10 @@ existentes de esos campos. No descarga imágenes, para limitar el tráfico adici
 
 ### InstagramServices::GetProfileData
 
-Obtiene datos crudos de un perfil de Instagram.
+Obtiene un perfil público a través de Scrape.do y la consulta GraphQL pública de
+Instagram. Devuelve un adaptador compatible con el formato histórico
+`data.user`, por lo que los consumidores existentes pueden seguir usando
+`UpdateProfileData`.
 
 **Uso**:
 ```ruby
@@ -110,14 +113,12 @@ end
 
 **Retorna**:
 - `success?` (Boolean): Si la operación fue exitosa
-- `data` (Hash): Respuesta cruda de la API
+- `data` (Hash): Adaptador compatible con la respuesta histórica de la API
 - `error` (String): Mensaje de error si falló
 
 **Errores Posibles**:
-- `InvalidUsernameError`: Username inválido o vacío
-- `APIError`: Error de la API (404, 429, 500, etc.)
-- `TimeoutError`: Timeout en el request
-- `ParseError`: Error al parsear JSON
+- Username inválido o vacío
+- Error al obtener o interpretar la consulta pública GraphQL
 
 **Ejemplo de Respuesta Exitosa**:
 ```ruby
@@ -129,7 +130,7 @@ end
       "full_name" => "Full Name",
       "biography" => "Bio text",
       "edge_followed_by" => { "count" => 10000 },
-      # ... más campos
+      # ... campos compatibles adicionales
     }
   }
 }
@@ -167,14 +168,15 @@ end
 
 ### InstagramServices::GetPostsData
 
-Obtiene posts y videos (reels) de un perfil.
+Obtiene el grid público de posts y reels de un perfil mediante Scrape.do y
+GraphQL público.
 
 **Uso**:
 ```ruby
 profile = Profile.find_by(username: 'username')
 result = InstagramServices::GetPostsData.call(profile)
 if result.success?
-  posts = result.data  # Array de edges
+  posts = result.data  # Array de nodos GraphQL
 end
 ```
 
@@ -183,14 +185,18 @@ end
 
 **Retorna**:
 - `success?` (Boolean)
-- `data` (Array): Array de edges (posts + videos combinados)
+- `data` (Array): Array de nodos GraphQL (posts y reels)
 - `error` (String): Mensaje de error
 
-**Nota**: Combina posts regulares (`edge_owner_to_timeline_media`) y videos/reels (`edge_felix_video_timeline`)
+**Nota**: Ya no usa los campos heredados `edge_owner_to_timeline_media` ni
+`edge_felix_video_timeline`.
 
 ### InstagramServices::UpdatePostData
 
-Transforma un edge de post en atributos para el modelo InstagramPost.
+Transforma un edge legado de post en atributos para el modelo InstagramPost.
+
+**Estado**: legado. Los rakes actuales usan
+`ScrapeDoGraphqlPostUpserter` con nodos GraphQL.
 
 **Uso**:
 ```ruby
@@ -254,19 +260,9 @@ posts_data = InstagramServices::GetPostsData.call(profile)
 next unless posts_data.success?
 
 # 2. Procesar cada post
-posts_data.data.each do |edge|
-  shortcode = edge['node']['shortcode']
-  
-  # Transformar datos
-  post_data = InstagramServices::UpdatePostData.call(edge, cursor: true)
-  next unless post_data.success?
-  
-  # Crear/actualizar post
-  post = profile.instagram_posts.find_or_create_by!(shortcode: shortcode)
-  post.update!(post_data.data)
-  
-  # Guardar imagen
-  post.save_image(edge['node']['display_url'])
+posts_data.data.each do |node|
+  result = InstagramServices::ScrapeDoGraphqlPostUpserter.call(profile, node)
+  next unless result.success?
 end
 ```
 

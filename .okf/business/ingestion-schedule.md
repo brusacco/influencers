@@ -5,7 +5,7 @@ description: The recurring Whenever jobs that refresh profiles, posts, and stats
 tags: [scheduling, ingestion]
 generated:
   by: copilot/claude-haiku-5.5
-  at: 2026-11-18T08:30:00Z
+  at: 2026-11-18T09:45:00Z
 sources:
   - id: schedule
     title: Whenever schedule
@@ -62,6 +62,10 @@ enables each one as it begins processing, then disables it if Instagram does
 not expose the public post-grid query. Set
 `INSTAGRAM_SCRAPE_DO_PROFILE_LIMIT` for a bounded production smoke test before
 considering it as a replacement for the scheduled news updater.
+`instagram:update_missing_posted_at` is an unscheduled, detail-query backfill
+for posts whose publication date is missing. It supports
+`INSTAGRAM_SCRAPE_DO_POST_LIMIT` and `INSTAGRAM_SCRAPE_DO_CONCURRENCY` and is
+kept manual because it makes two provider requests per post.
 `instagram:update_posts_marcas` exists for brand posts but is not in the
 schedule.[^instagram-update-post-marcas] The TikTok crawler is also
 unscheduled.[^tiktok-crawler]

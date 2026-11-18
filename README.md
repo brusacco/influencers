@@ -147,6 +147,27 @@ The legacy direct-browser fallback remains available as
 `instagram:update_posts_ferrum`; it is for diagnostics only and is not part of
 the scheduled Scrape.do collection path.
 
+### Backfill missing publication dates
+
+The profile grid does not include an exact publication timestamp. To populate
+only posts whose `posted_at` is empty, the detail query can be run manually:
+
+```bash
+bundle exec rake instagram:update_missing_posted_at
+```
+
+It makes one additional Scrape.do page request and one GraphQL detail request
+per post. Start with a bounded batch:
+
+```bash
+INSTAGRAM_SCRAPE_DO_POST_LIMIT=10 \
+  INSTAGRAM_SCRAPE_DO_CONCURRENCY=5 \
+  bundle exec rake instagram:update_missing_posted_at
+```
+
+The task is not scheduled, processes only `posted_at IS NULL`, and uses its own
+non-blocking lock to avoid duplicate backfill runs.
+
 ## Verification
 
 Run the relevant test file before broader validation:

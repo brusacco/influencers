@@ -32,23 +32,14 @@ namespace :instagram do
       end
 
       posts_updated = 0
-      response.data.each do |edge|
-        shortcode = edge['node']['shortcode']
+      response.data.each do |node|
+        shortcode = node['code']
 
-        post_response = InstagramServices::UpdatePostData.call(edge, cursor: true)
+        post_response = InstagramServices::ScrapeDoGraphqlPostUpserter.call(profile, node)
 
         unless post_response.success?
           puts "  ✗ Failed to update post #{shortcode}: #{post_response.error}"
           next
-        end
-
-        post = profile.instagram_posts.find_or_create_by!(shortcode:)
-        post.update!(post_response.data)
-
-        begin
-          post.save_image(edge['node']['display_url'])
-        rescue StandardError => e
-          puts "  ⚠ Image save failed for #{shortcode}: #{e.message}"
         end
 
         posts_updated += 1

@@ -36,21 +36,12 @@ namespace :instagram do
       response = InstagramServices::GetPostsData.call(profile)
       next unless response.success?
 
-      response.data.each_with_index do |edge, i|
-        shortcode = edge['node']['shortcode']
+      response.data.each_with_index do |node, i|
+        shortcode = node['code']
         puts "#{shortcode} - #{profile.username} - #{profile.followers} - (#{i + 1} / #{response.data.size})"
 
-        post_response = InstagramServices::UpdatePostData.call(edge, cursor: true)
+        post_response = InstagramServices::ScrapeDoGraphqlPostUpserter.call(profile, node)
         next unless post_response.success?
-
-        post = profile.instagram_posts.find_or_create_by!(shortcode:)
-        post.update!(post_response.data)
-
-        begin
-          post.save_image(edge['node']['display_url'])
-        rescue StandardError => e
-          puts e.message
-        end
         profile.touch # rubocop:disable Rails/SkipsModelValidations
         puts '---------------------------------------'
       rescue StandardError => e
