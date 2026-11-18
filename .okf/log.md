@@ -11,6 +11,7 @@
 - **Change**: The scheduled Scrape.do post upserter now retrieves and stores an exact publication date for any fetched post whose `posted_at` is missing; posts with an existing date skip the detail query.
 - **Change**: Post detail enrichment now stores `comment_count` and visible likes along with the publication date, and public Instagram cards display comments again.
 - **Change**: Post detail enrichment now retains compact, legacy-compatible `data['node']` metadata for coauthors, tagged users, author, location, and safe post fields without retaining large carousel payloads.
+- **Change**: Scrape.do public GraphQL collectors now omit costly Super mode by default after successful ordinary-route tests of profile, post-grid, and post-detail queries; `INSTAGRAM_SCRAPE_DO_SUPER=true` remains an opt-in fallback.
 - **Change**: `instagram:update_missing_posted_at` now prioritizes null-date posts by descending ID and has a hard 1,000-post cap per run.
 - **Change**: News post collection now runs every three hours and profile refresh runs daily at 21:30, preserving staggered cron times.
 - **Change**: `instagram:update_posts` now excludes `medio` profiles, leaving their crawl exclusively to `instagram:update_news_posts`.

@@ -19,6 +19,10 @@ module InstagramConfig
 
   # Scrape.do API base URL
   SCRAPE_DO_API_URL = 'http://api.scrape.do'
+  # Super mode is materially more expensive and is not required by the public
+  # GraphQL profile, grid, or post-detail queries. Set to true only as a
+  # provider fallback.
+  SCRAPE_DO_SUPER = ENV.fetch('INSTAGRAM_SCRAPE_DO_SUPER', 'false') == 'true'
 
   # Keep browser collection deliberately conservative. Instagram can change
   # its public web surface without notice, so these values are configurable.
@@ -47,6 +51,12 @@ module InstagramConfig
       user: SCRAPE_DO_TOKEN,
       password: SCRAPE_DO_PROXY_PARAMS
     }
+  end
+
+  def self.scrape_do_api_query(target_url)
+    { token: SCRAPE_DO_TOKEN, url: target_url }.tap do |query|
+      query[:super] = true if SCRAPE_DO_SUPER
+    end
   end
 
 end

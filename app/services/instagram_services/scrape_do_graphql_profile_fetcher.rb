@@ -56,7 +56,7 @@ module InstagramServices
     end
 
     def scrape_do_query(target_url)
-      { token: InstagramConfig::SCRAPE_DO_TOKEN, super: true, url: target_url }
+      InstagramConfig.scrape_do_api_query(target_url)
     end
 
     def timeout
