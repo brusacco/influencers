@@ -7,6 +7,7 @@ module InstagramServices
   class ScrapeDoGraphqlPostTimestampFetcher < ApplicationService
     POST_QUERY_NAME = 'PolarisLoggedOutDesktopWWWPostRootContentQuery'
     QUERY_ATTEMPTS = 3
+    REEL_PRODUCT_TYPES = %w[clips reel reels].freeze
     DETAIL_METADATA_KEYS = %w[
       __typename
       id
@@ -56,7 +57,8 @@ module InstagramServices
     end
 
     def post_url
-      @post.url.presence || "https://www.instagram.com/p/#{@post.shortcode}/"
+      path = REEL_PRODUCT_TYPES.include?(@post.product_type.to_s.downcase) ? 'reel' : 'p'
+      "https://www.instagram.com/#{path}/#{@post.shortcode}/"
     end
 
     def graphql_url

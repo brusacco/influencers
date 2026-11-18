@@ -5,7 +5,7 @@ description: Retrieves publication time, comments, and visible likes for one pub
 tags: [ingestion, services, graphql]
 generated:
   by: process:codex
-  at: 2026-11-18T09:45:00Z
+  at: 2026-11-18T10:30:00Z
 sources:
   - id: scrape-do-graphql-post-timestamp-fetcher
     title: InstagramServices::ScrapeDoGraphqlPostTimestampFetcher
@@ -18,13 +18,18 @@ sources:
 # Behavior
 
 The profile-grid GraphQL response omits the exact publication timestamp. This
-service retrieves the public post page through Scrape.do, extracts
+service retrieves the canonical public post page through Scrape.do, extracts
 `PolarisLoggedOutDesktopWWWPostRootContentQuery`, and sends that detail query
 through Scrape.do to retrieve `taken_at`, `comment_count`, and visible
 `like_count` for the requested shortcode. It also retains compact compatible
 metadata for the author, coauthors, user tags, location, caption metadata,
 dimensions, and visibility flags; it intentionally excludes carousel media and
 other large nested structures.[^scrape-do-graphql-post-timestamp-fetcher]
+
+It deliberately constructs `/p/:shortcode/` for feed and carousel media and
+`/reel/:shortcode/` for `clips`, `reel`, or `reels` product types instead of
+reusing the stored URL. Historical URLs that include the profile username can
+expose a different mobile or landing query and omit the detail timestamp.[^scrape-do-graphql-post-timestamp-fetcher]
 
 The regular GraphQL post upserter invokes this service automatically for a new
 or existing post whose `posted_at` is null. `instagram:update_missing_posted_at`

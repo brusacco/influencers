@@ -2,6 +2,7 @@
 
 ## 2026-11-18
 
+- **Fix**: Post-detail enrichment now constructs canonical `/p/:shortcode/` or `/reel/:shortcode/` URLs from the product type rather than following historical username-prefixed post URLs, which can expose a mobile landing query without a publication date.
 - **Change**: Scrape.do profile and post batch rakes now accept `INSTAGRAM_SCRAPE_DO_CONCURRENCY` (1 through 10) and default to five workers. The recurring schedule now staggers all jobs to avoid top-of-hour collector collisions, and task-specific locks prevent duplicate overlapping runs.
 - **Change**: Instagram news post collection now runs every four hours and general post collection every eight hours, preserving their staggered schedule.
 - **Change**: `InstagramServices::GetProfileData` now adapts the Scrape.do public GraphQL profile response to its legacy `data.user` contract, removing its dependency on the retired web-profile endpoint.
