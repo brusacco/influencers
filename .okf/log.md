@@ -8,7 +8,8 @@
 - **Addition**: Added the experimental [Scrape.do GraphQL posts fetcher](services/instagram/scrape-do-graphql-posts-fetcher.md) and non-persisting probe rake. It retrieves the profile grid via Scrape.do API GET plus POST, keeping both calls off the application host's direct Instagram IP.
 - **Addition**: Added the manual Scrape.do GraphQL import path and [post upserter](services/instagram/scrape-do-graphql-post-upserter.md). The first import for `bancofamiliar` processed 12 grid posts: 8 were new and 4 were updated without overwriting unavailable grid fields.
 - **Addition**: Added `instagram:update_posts_scrape_do_graphql[username]`, an explicit-profile alias suitable for a controlled production test of the Scrape.do GraphQL import path.
-- **Addition**: Added `instagram:update_news_posts_scrape_do_graphql`, an unscheduled `Profile.medios` batch updater with an optional bounded-run limit for production validation.
+- **Addition**: Added `instagram:update_news_posts_scrape_do_graphql`, an unscheduled Paraguayan `medio` batch updater with an optional bounded-run limit for production validation.
+- **Change**: The Scrape.do news updater now includes disabled Paraguayan `medio` profiles and enables each one as it begins processing, to recover media accounts disabled by the legacy rake.
 - **Change**: `instagram:update_posts` now delegates to the working direct-browser GraphQL collector because the prior Scrape.do call to Instagram's retired profile endpoint returns 404 for valid profiles. The collector has a bounded smoke-test option through `INSTAGRAM_FERRUM_PROFILE_LIMIT`.
 
 ## 2026-11-10

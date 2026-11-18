@@ -5,7 +5,7 @@ description: The recurring Whenever jobs that refresh profiles, posts, and stats
 tags: [scheduling, ingestion]
 generated:
   by: copilot/claude-haiku-5.5
-  at: 2026-11-18T04:45:00Z
+  at: 2026-11-18T05:00:00Z
 sources:
   - id: schedule
     title: Whenever schedule
@@ -58,7 +58,8 @@ one internal GraphQL query from that session. It can optionally route the same
 browser through Scrape.do for comparison. Set `INSTAGRAM_FERRUM_PROFILE_LIMIT`
 to a positive number for a bounded smoke test.[^instagram-update-posts-ferrum]
 `instagram:update_news_posts_scrape_do_graphql` is an unscheduled, sequential
-Scrape.do GraphQL alternative for the `medios` scope. Set
+Scrape.do GraphQL alternative for Paraguayan `medio` profiles, including ones
+currently disabled. It enables each profile as it begins processing. Set
 `INSTAGRAM_SCRAPE_DO_PROFILE_LIMIT` for a bounded production smoke test before
 considering it as a replacement for the scheduled news updater.
 `instagram:update_posts_marcas` exists for brand posts but is not in the
