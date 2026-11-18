@@ -8,6 +8,9 @@ module InstagramServices
     POST_QUERY_NAME = 'PolarisLoggedOutDesktopWWWPostRootContentQuery'
     QUERY_ATTEMPTS = 3
     REEL_PRODUCT_TYPES = %w[clips reel reels].freeze
+    PUBLIC_DETAIL_UNAVAILABLE_CACHE_PREFIX = 'instagram:public-detail-unavailable:v1'.freeze
+    PUBLIC_DETAIL_UNAVAILABLE_CACHE_TTL = 30.days
+    POST_DETAIL_QUERY_UNAVAILABLE_ERROR = 'Instagram did not expose the post detail GraphQL query'
     DETAIL_METADATA_KEYS = %w[
       __typename
       id
@@ -38,6 +41,7 @@ module InstagramServices
 
     def call
       validate!
+      return handle_error(cached_unavailable_error) if public_detail_unavailable?
 
       query = fetch_post_query
       payload = scrape_do_post(graphql_url, graphql_form(query), graphql_headers(query))
@@ -46,6 +50,7 @@ module InstagramServices
       handle_error('Scrape.do post detail GraphQL response was not JSON')
     rescue StandardError => e
       Rails.logger.error("[ScrapeDoGraphqlPostTimestampFetcher] #{@post&.shortcode}: #{e.class} - #{e.message}")
+      cache_public_detail_unavailable! if e.message == POST_DETAIL_QUERY_UNAVAILABLE_ERROR
       handle_error(e.message)
     end
 
@@ -59,6 +64,22 @@ module InstagramServices
     def post_url
       path = REEL_PRODUCT_TYPES.include?(@post.product_type.to_s.downcase) ? 'reel' : 'p'
       "https://www.instagram.com/#{path}/#{@post.shortcode}/"
+    end
+
+    def public_detail_unavailable?
+      Rails.cache.exist?(public_detail_unavailable_cache_key)
+    end
+
+    def cache_public_detail_unavailable!
+      Rails.cache.write(public_detail_unavailable_cache_key, true, expires_in: PUBLIC_DETAIL_UNAVAILABLE_CACHE_TTL)
+    end
+
+    def public_detail_unavailable_cache_key
+      "#{PUBLIC_DETAIL_UNAVAILABLE_CACHE_PREFIX}:#{@post.shortcode}"
+    end
+
+    def cached_unavailable_error
+      'Instagram public post detail is unavailable; retry deferred for up to 30 days'
     end
 
     def graphql_url
@@ -100,7 +121,7 @@ module InstagramServices
     def post_query(html)
       query_id, variables_json, query_name = html.scan(/"queryID":"(\d+)","variables":(\{[^{}]*\}),"queryName":"([^"]+)"/)
                                                 .find { |_, _, name| name == POST_QUERY_NAME }
-      raise 'Instagram did not expose the post detail GraphQL query' if query_id.blank?
+      raise POST_DETAIL_QUERY_UNAVAILABLE_ERROR if query_id.blank?
 
       { query_id:, query_name:, variables: JSON.parse(variables_json) }
     end
@@ -112,7 +133,7 @@ module InstagramServices
         begin
           return post_query(scrape_do_get(post_url))
         rescue RuntimeError => e
-          raise unless e.message == 'Instagram did not expose the post detail GraphQL query'
+          raise unless e.message == POST_DETAIL_QUERY_UNAVAILABLE_ERROR
 
           error = e
         end

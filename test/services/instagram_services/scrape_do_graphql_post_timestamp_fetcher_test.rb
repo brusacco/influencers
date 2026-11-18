@@ -17,6 +17,20 @@ class ScrapeDoGraphqlPostTimestampFetcherTest < ActiveSupport::TestCase
                  InstagramServices::ScrapeDoGraphqlPostTimestampFetcher.new(post).send(:post_url)
   end
 
+  test 'caches an unavailable public detail query for 30 days' do
+    post = OpenStruct.new(shortcode: 'abc123', product_type: 'feed', url: nil)
+    fetcher = InstagramServices::ScrapeDoGraphqlPostTimestampFetcher.new(post)
+    cache = ActiveSupport::Cache::MemoryStore.new
+
+    Rails.stub(:cache, cache) do
+      refute fetcher.send(:public_detail_unavailable?)
+      fetcher.send(:cache_public_detail_unavailable!)
+
+      assert fetcher.send(:public_detail_unavailable?)
+      assert_equal true, cache.read(fetcher.send(:public_detail_unavailable_cache_key))
+    end
+  end
+
   test 'extracts the publication timestamp for the requested shortcode' do
     post = OpenStruct.new(shortcode: 'abc123', product_type: nil, url: nil)
     fetcher = InstagramServices::ScrapeDoGraphqlPostTimestampFetcher.new(post)
