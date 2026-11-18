@@ -143,15 +143,23 @@ class Profile < ApplicationRecord
   end
 
   def save_avatar
-    # next if avatar.attached?
+    # The GraphQL profile URL is refreshed on every update; legacy HD URLs can
+    # remain in the database after their Instagram signature has expired.
+    [profile_pic_url, profile_pic_url_hd].compact_blank.uniq.each do |url|
+      response = HTTParty.get(url, follow_redirects: true)
+      content_type = response.headers['content-type'].to_s
+      next unless response.success? && content_type.start_with?('image/')
 
-    url = profile_pic_url_hd || profile_pic_url
-    response = HTTParty.get(url)
-    data = response.body
-    filename = "#{username}.jpg"
-    avatar.attach(io: StringIO.new(data), filename:)
+      filename = "#{username}.jpg"
+      avatar.attach(io: StringIO.new(response.body), filename:, content_type:)
+      return true
+    end
+
+    Rails.logger.warn("[Profile#save_avatar] @#{username}: no valid avatar image response")
+    false
   rescue StandardError => e
-    puts e.message
+    Rails.logger.warn("[Profile#save_avatar] @#{username}: #{e.class} - #{e.message}")
+    false
   end
 
   def update_profile_stats

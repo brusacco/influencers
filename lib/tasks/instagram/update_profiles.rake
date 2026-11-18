@@ -39,7 +39,10 @@ namespace :instagram do
       end
 
       begin
-        profile.save_avatar if profile.profile_pic_url.present?
+        if profile.profile_pic_url.present? && !profile.save_avatar
+          avatar_errors += 1
+          puts '  ! Avatar update failed'
+        end
       rescue StandardError => e
         avatar_errors += 1
         puts "  ! Avatar update failed: #{e.message}"
