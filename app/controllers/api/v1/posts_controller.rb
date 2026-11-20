@@ -36,9 +36,9 @@ module Api
         posts = posts.where(profiles: { profile_type: }) if profile_type.present?
 
         render json: {
-                 query: query,
+                 query:,
                  profile_type: profile_type.presence,
-                 limit: limit,
+                 limit:,
                  total_posts: posts.count,
                  posts: Instagram::Serializers::PostSerializer.collection(posts, include_profile: true)
                },

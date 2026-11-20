@@ -88,11 +88,7 @@ module Api
       end
 
       test 'search accepts an optional profile type' do
-        get '/api/v1/posts/search', params: {
-          q: 'campaña',
-          profile_type: 'mujer',
-          token: 'test-api-token'
-        }
+        get '/api/v1/posts/search', params: { q: 'campaña', profile_type: 'mujer', token: 'test-api-token' }
 
         assert_response :success
         assert_equal 0, response.parsed_body['total_posts']
