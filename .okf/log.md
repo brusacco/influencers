@@ -2,9 +2,11 @@
 
 ## 2026-11-20
 
+- **Change**: Limited `GET /api/v1/posts/search` to Instagram posts from the last 24 hours so production searches do not scan the full post history.
+- **Fix**: Completed the API v1 index so it lists the collection, search, and per-profile Instagram post endpoints represented by the posts controller.
 - **Addition**: Added `GET /api/v1/posts` to list Instagram posts from the last 24 hours. The optional `profile_type` query parameter supports `hombre`, `mujer`, `marca`, `medio`, `estatal`, `memes`, and `programa`; unknown values return 422. Collection results include the associated profile and are ordered by `posted_at` descending.
 - **Fix**: Instagram post API serialization now uses the same image priority as public cards: attached Active Storage image, `data.ferrum.display_uri`, then the public placeholder URL.
-- **Addition**: Added `GET /api/v1/posts/search?q=keyword&limit=24` to search Instagram post captions across all posts, newest first. It supports optional `profile_type` filtering and caps result limits at 100.
+- **Addition**: Added `GET /api/v1/posts/search?q=keyword&limit=24` to search Instagram post captions from the last 24 hours, newest first. It supports optional `profile_type` filtering and caps result limits at 100.
 
 ## 2026-11-18
 

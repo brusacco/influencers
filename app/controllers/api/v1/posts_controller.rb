@@ -22,12 +22,13 @@ module Api
           return
         end
 
-        limit = params[:limit].to_i
-        limit = 24 if limit <= 0
+        limit_param = params[:limit].to_s.strip
+        limit = limit_param.match?(/\A[1-9]\d*\z/) ? Integer(limit_param, 10) : 24
         limit = [limit, 100].min
 
         pattern = "%#{ActiveRecord::Base.sanitize_sql_like(query)}%"
-        posts = InstagramPost.joins(:profile)
+        posts = InstagramPost.a_day_ago
+                             .joins(:profile)
                              .includes(:profile)
                              .where('instagram_posts.caption LIKE ?', pattern)
                              .order(posted_at: :desc)

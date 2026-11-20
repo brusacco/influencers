@@ -182,7 +182,7 @@ curl "http://localhost:3000/api/v1/posts?profile_type=marca&token=YOUR_API_TOKEN
 - `profile_type` (query, opcional): Filtra por `hombre`, `mujer`, `marca`, `medio`, `estatal`, `memes` o `programa`.
 - `token` (query o header, requerido): Token de autenticación.
 
-Los resultados son publicaciones más recientes primero según `posted_at`. Esta búsqueda no está limitada a las últimas 24 horas; devuelve los últimos resultados que coincidan con la palabra clave.
+Los resultados son publicaciones más recientes primero según `posted_at`. Esta búsqueda está limitada a las publicaciones de las últimas 24 horas y devuelve los últimos resultados que coincidan con la palabra clave.
 
 **Ejemplo de Request:**
 

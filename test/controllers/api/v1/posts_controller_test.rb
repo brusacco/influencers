@@ -75,7 +75,7 @@ module Api
         assert_equal %w[recent-brand recent-person], body['posts'].pluck('shortcode')
       end
 
-      test 'searches post captions across all profiles' do
+      test 'searches post captions across all profiles within the last 24 hours' do
         get '/api/v1/posts/search', params: { q: 'campaña', token: 'test-api-token', limit: 24 }
 
         assert_response :success
@@ -83,8 +83,8 @@ module Api
 
         assert_equal 'campaña', body['query']
         assert_equal 24, body['limit']
-        assert_equal 2, body['total_posts']
-        assert_equal %w[recent-brand old-brand], body['posts'].pluck('shortcode')
+        assert_equal 1, body['total_posts']
+        assert_equal %w[recent-brand], body['posts'].pluck('shortcode')
       end
 
       test 'search accepts an optional profile type' do
