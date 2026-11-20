@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   post 'deploy', to: 'home#deploy'
 
   # Serve blob files directly from filesystem (for development and production)
-  get '/blob_files/:dir1/:dir2/:key', to: 'blob_files#show', constraints: { key: /[^\/]+/ }
+  get '/blob_files/:dir1/:dir2/:key', to: 'blob_files#show', constraints: { key: %r{[^/]+} }
 
   resources :profiles, only: %i[index show]
   resources :tiktok_profiles, only: %i[index show]
@@ -42,10 +42,10 @@ Rails.application.routes.draw do
 
       # GET /api/v1/profiles/search - Buscar perfiles
       get 'profiles/search', to: 'profiles#search'
-      
+
       # GET /api/v1/profiles/:username - Retorna datos del perfil
       get 'profiles/:username', to: 'profiles#show'
-      
+
       # GET /api/v1/profiles/:username/posts - Retorna los últimos 100 posteos del perfil
       get 'profiles/:username/posts', to: 'posts#index'
     end

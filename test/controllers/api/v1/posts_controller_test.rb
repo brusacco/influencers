@@ -11,26 +11,22 @@ module Api
         @brand = profiles(:one)
         @person = profiles(:two)
 
-        @brand.update_columns(enabled: true, country_string: 'Paraguay', profile_type: Profile.profile_types.fetch('marca'))
-        @person.update_columns(enabled: true, country_string: 'Paraguay', profile_type: Profile.profile_types.fetch('mujer'))
+        @brand.update_columns(
+          enabled: true,
+          country_string: 'Paraguay',
+          profile_type: Profile.profile_types.fetch('marca')
+        )
+        @person.update_columns(
+          enabled: true,
+          country_string: 'Paraguay',
+          profile_type: Profile.profile_types.fetch('mujer')
+        )
 
         InstagramPost.where(profile: [@brand, @person]).delete_all
 
-        @recent_brand_post = InstagramPost.create!(
-          profile: @brand,
-          shortcode: 'recent-brand',
-          posted_at: 2.hours.ago
-        )
-        InstagramPost.create!(
-          profile: @brand,
-          shortcode: 'old-brand',
-          posted_at: 25.hours.ago
-        )
-        InstagramPost.create!(
-          profile: @person,
-          shortcode: 'recent-person',
-          posted_at: 3.hours.ago
-        )
+        @recent_brand_post = InstagramPost.create!(profile: @brand, shortcode: 'recent-brand', posted_at: 2.hours.ago)
+        InstagramPost.create!(profile: @brand, shortcode: 'old-brand', posted_at: 25.hours.ago)
+        InstagramPost.create!(profile: @person, shortcode: 'recent-person', posted_at: 3.hours.ago)
       end
 
       teardown do

@@ -27,6 +27,7 @@ app/serializers/
 **Autenticación:** Requerida (ver [API_AUTHENTICATION.md](API_AUTHENTICATION.md))
 
 **Parámetros:**
+
 - `username` (path, requerido): Username del perfil de Instagram
 - `token` (query o header, requerido): Token de autenticación
 
@@ -105,6 +106,7 @@ curl -H "Authorization: Bearer YOUR_API_TOKEN" \
 **Autenticación:** Requerida (ver [API_AUTHENTICATION.md](API_AUTHENTICATION.md))
 
 **Parámetros:**
+
 - `profile_type` (query, opcional): Filtra por el tipo de perfil. Valores: `hombre`, `mujer`, `marca`, `medio`, `estatal`, `memes`, `programa`
 - `token` (query o header, requerido): Token de autenticación
 
@@ -151,7 +153,15 @@ curl "http://localhost:3000/api/v1/posts?profile_type=marca&token=YOUR_API_TOKEN
 // 422 Unprocessable Entity - Tipo de perfil invalido
 {
   "error": "Invalid profile_type",
-  "valid_profile_types": ["hombre", "mujer", "marca", "medio", "estatal", "memes", "programa"]
+  "valid_profile_types": [
+    "hombre",
+    "mujer",
+    "marca",
+    "medio",
+    "estatal",
+    "memes",
+    "programa"
+  ]
 }
 ```
 
@@ -164,6 +174,7 @@ curl "http://localhost:3000/api/v1/posts?profile_type=marca&token=YOUR_API_TOKEN
 **Autenticación:** Requerida (ver [API_AUTHENTICATION.md](API_AUTHENTICATION.md))
 
 **Parámetros:**
+
 - `username` (path, requerido): Username del perfil de Instagram
 - `token` (query o header, requerido): Token de autenticación
 
@@ -224,11 +235,13 @@ curl -H "Authorization: Bearer YOUR_API_TOKEN" \
 ```
 
 **Tipos de Media:**
+
 - `GraphImage`: Imagen
 - `GraphVideo`: Video
 - `GraphSidecar`: Carrusel (múltiples imágenes/videos)
 
 **Tipos de Producto:**
+
 - `feed`: Post regular del feed
 - `reels`: Reel
 - `igtv`: IGTV
@@ -291,6 +304,7 @@ Todos los endpoints requieren autenticación mediante token. Ver [API_AUTHENTICA
 **Métodos de autenticación soportados:**
 
 1. **Query Parameter** (recomendado para pruebas):
+
    ```
    ?token=YOUR_API_TOKEN
    ```
@@ -317,6 +331,7 @@ Actualmente los posts están limitados a 100 resultados. Paginación estará dis
 ## Versionamiento
 
 La API utiliza versionamiento en la URL:
+
 - Versión actual: `/api/v1/`
 - Futuras versiones: `/api/v2/`, `/api/v3/`, etc.
 
@@ -334,4 +349,3 @@ La API utiliza versionamiento en la URL:
 ## Soporte
 
 Para reportar issues o solicitar features, contacta al equipo de desarrollo.
-
