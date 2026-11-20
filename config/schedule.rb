@@ -7,7 +7,7 @@ every '5 0,3,6,9,12,15,18,21 * * *' do
 end
 
 every '0 1,9,17 * * *' do
-  rake 'instagram:update_posts'
+  # rake 'instagram:update_posts'
 end
 
 every '0 4,16 * * *' do
@@ -15,7 +15,7 @@ every '0 4,16 * * *' do
 end
 
 every '30 21 * * *' do
-  rake 'instagram:update_profiles'
+  # rake 'instagram:update_profiles'
 end
 
 every '0 5 * * *' do
