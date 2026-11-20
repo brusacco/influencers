@@ -169,7 +169,73 @@ curl "http://localhost:3000/api/v1/posts?profile_type=marca&token=YOUR_API_TOKEN
 
 ---
 
-### 3. Obtener Posts de un Perfil
+### 3. Buscar Posts por Palabra Clave
+
+**URL:** `GET /api/v1/posts/search`
+
+**Autenticación:** Requerida (ver [API_AUTHENTICATION.md](API_AUTHENTICATION.md))
+
+**Parámetros:**
+
+- `q` (query, requerido): Texto buscado dentro de `instagram_posts.caption`.
+- `limit` (query, opcional): Cantidad máxima de publicaciones recientes. Default: `24`; máximo: `100`.
+- `profile_type` (query, opcional): Filtra por `hombre`, `mujer`, `marca`, `medio`, `estatal`, `memes` o `programa`.
+- `token` (query o header, requerido): Token de autenticación.
+
+Los resultados son publicaciones más recientes primero según `posted_at`. Esta búsqueda no está limitada a las últimas 24 horas; devuelve los últimos resultados que coincidan con la palabra clave.
+
+**Ejemplo de Request:**
+
+```bash
+curl -H "Authorization: Bearer YOUR_API_TOKEN" \
+  "http://localhost:3000/api/v1/posts/search?q=campaign&limit=24"
+
+curl "http://localhost:3000/api/v1/posts/search?q=campaign&limit=24&profile_type=marca&token=YOUR_API_TOKEN"
+```
+
+**Ejemplo de Respuesta Exitosa (200):**
+
+```json
+{
+  "query": "campaign",
+  "profile_type": "marca",
+  "limit": 24,
+  "total_posts": 1,
+  "posts": [
+    {
+      "id": 1,
+      "shortcode": "recent-brand",
+      "caption": "Nueva campaign de verano",
+      "posted_at": "2026-11-20T10:00:00Z",
+      "post_image_url": "https://cdn.example.com/post.jpg",
+      "profile": {
+        "id": 1,
+        "username": "marca_example",
+        "full_name": "Marca Example"
+      }
+    }
+  ]
+}
+```
+
+**Respuestas de Error:**
+
+```json
+// 400 Bad Request - Falta la palabra clave
+{
+  "error": "Query parameter q is required"
+}
+
+// 422 Unprocessable Entity - Tipo de perfil invalido
+{
+  "error": "Invalid profile_type",
+  "valid_profile_types": ["hombre", "mujer", "marca", "medio", "estatal", "memes", "programa"]
+}
+```
+
+---
+
+### 4. Obtener Posts de un Perfil
 
 **URL:** `GET /api/v1/profiles/:username/posts`
 

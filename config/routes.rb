@@ -37,6 +37,9 @@ Rails.application.routes.draw do
   # API Routes
   namespace :api do
     namespace :v1 do
+      # GET /api/v1/posts/search?q=keyword&limit=24
+      get 'posts/search', to: 'posts#search'
+
       # GET /api/v1/posts - Posts publicados en las últimas 24 horas
       get 'posts', to: 'posts#collection'
 

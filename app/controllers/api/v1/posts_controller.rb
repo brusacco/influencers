@@ -7,6 +7,44 @@ module Api
 
       skip_before_action :verify_authenticity_token
 
+      # GET /api/v1/posts/search?q=keyword&limit=24&profile_type=marca
+      def search
+        query = params[:q].to_s.strip
+        if query.blank?
+          render json: { error: 'Query parameter q is required' }, status: :bad_request
+          return
+        end
+
+        profile_type = params[:profile_type].to_s.strip
+        if profile_type.present? && !Profile.profile_types.key?(profile_type)
+          render json: { error: 'Invalid profile_type', valid_profile_types: Profile.profile_types.keys },
+                 status: :unprocessable_entity
+          return
+        end
+
+        limit = params[:limit].to_i
+        limit = 24 if limit <= 0
+        limit = [limit, 100].min
+
+        pattern = "%#{ActiveRecord::Base.sanitize_sql_like(query)}%"
+        posts = InstagramPost.joins(:profile)
+                             .includes(:profile)
+                             .where('instagram_posts.caption LIKE ?', pattern)
+                             .order(posted_at: :desc)
+                             .limit(limit)
+
+        posts = posts.where(profiles: { profile_type: }) if profile_type.present?
+
+        render json: {
+                 query: query,
+                 profile_type: profile_type.presence,
+                 limit: limit,
+                 total_posts: posts.count,
+                 posts: Instagram::Serializers::PostSerializer.collection(posts, include_profile: true)
+               },
+               status: :ok
+      end
+
       # GET /api/v1/posts?profile_type=marca
       def collection
         profile_type = params[:profile_type].to_s.strip

@@ -42,6 +42,7 @@ La API requiere un token de autenticación que puede ser enviado de dos formas:
 ```bash
 GET /api/v1/posts?token=YOUR_API_TOKEN
 GET /api/v1/posts?profile_type=marca&token=YOUR_API_TOKEN
+GET /api/v1/posts/search?q=campaign&limit=24&token=YOUR_API_TOKEN
 GET /api/v1/profiles/:username?token=YOUR_API_TOKEN
 GET /api/v1/profiles/:username/posts?token=YOUR_API_TOKEN
 ```

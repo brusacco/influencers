@@ -28,9 +28,15 @@ module Api
           profile: @brand,
           shortcode: 'recent-brand',
           posted_at: 2.hours.ago,
+          caption: 'Nueva campaña de verano',
           data: { 'ferrum' => { 'display_uri' => 'https://cdn.example.com/post.jpg' } }
         )
-        InstagramPost.create!(profile: @brand, shortcode: 'old-brand', posted_at: 25.hours.ago)
+        InstagramPost.create!(
+          profile: @brand,
+          shortcode: 'old-brand',
+          caption: 'Campaña antigua',
+          posted_at: 25.hours.ago
+        )
         InstagramPost.create!(profile: @person, shortcode: 'recent-person', posted_at: 3.hours.ago)
       end
 
@@ -67,6 +73,43 @@ module Api
         assert_nil body['profile_type']
         assert_equal 2, body['total_posts']
         assert_equal %w[recent-brand recent-person], body['posts'].pluck('shortcode')
+      end
+
+      test 'searches post captions across all profiles' do
+        get '/api/v1/posts/search', params: { q: 'campaña', token: 'test-api-token', limit: 24 }
+
+        assert_response :success
+        body = response.parsed_body
+
+        assert_equal 'campaña', body['query']
+        assert_equal 24, body['limit']
+        assert_equal 2, body['total_posts']
+        assert_equal %w[recent-brand old-brand], body['posts'].pluck('shortcode')
+      end
+
+      test 'search accepts an optional profile type' do
+        get '/api/v1/posts/search', params: {
+          q: 'campaña',
+          profile_type: 'mujer',
+          token: 'test-api-token'
+        }
+
+        assert_response :success
+        assert_equal 0, response.parsed_body['total_posts']
+      end
+
+      test 'requires a search query' do
+        get '/api/v1/posts/search', params: { token: 'test-api-token' }
+
+        assert_response :bad_request
+        assert_equal 'Query parameter q is required', response.parsed_body['error']
+      end
+
+      test 'rejects an unknown profile type in search' do
+        get '/api/v1/posts/search', params: { q: 'campaña', profile_type: 'unknown', token: 'test-api-token' }
+
+        assert_response :unprocessable_entity
+        assert_includes response.parsed_body['valid_profile_types'], 'marca'
       end
 
       test 'rejects an unknown profile type' do
