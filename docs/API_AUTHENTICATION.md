@@ -40,6 +40,8 @@ La API requiere un token de autenticación que puede ser enviado de dos formas:
 #### Opción 1: Query Parameter (recomendado para pruebas)
 
 ```bash
+GET /api/v1/posts?token=YOUR_API_TOKEN
+GET /api/v1/posts?profile_type=marca&token=YOUR_API_TOKEN
 GET /api/v1/profiles/:username?token=YOUR_API_TOKEN
 GET /api/v1/profiles/:username/posts?token=YOUR_API_TOKEN
 ```

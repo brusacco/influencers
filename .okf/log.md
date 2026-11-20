@@ -1,5 +1,9 @@
 # Update Log
 
+## 2026-11-20
+
+- **Addition**: Added `GET /api/v1/posts` to list Instagram posts from the last 24 hours. The optional `profile_type` query parameter supports `hombre`, `mujer`, `marca`, `medio`, `estatal`, `memes`, and `programa`; unknown values return 422. Collection results include the associated profile and are ordered by `posted_at` descending.
+
 ## 2026-11-18
 
 - **Change**: All Instagram Scrape.do requests now enforce ordinary mode. Super and rendering cannot be enabled through environment configuration, including the optional Ferrum proxy route.

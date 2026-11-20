@@ -98,7 +98,66 @@ curl -H "Authorization: Bearer YOUR_API_TOKEN" \
 
 ---
 
-### 2. Obtener Posts de un Perfil
+### 2. Obtener Posts Recientes Filtrados por Tipo de Perfil
+
+**URL:** `GET /api/v1/posts`
+
+**Autenticación:** Requerida (ver [API_AUTHENTICATION.md](API_AUTHENTICATION.md))
+
+**Parámetros:**
+- `profile_type` (query, opcional): Filtra por el tipo de perfil. Valores: `hombre`, `mujer`, `marca`, `medio`, `estatal`, `memes`, `programa`
+- `token` (query o header, requerido): Token de autenticación
+
+**Corte temporal:** Retorna publicaciones cuyo `posted_at` esté dentro de las últimas 24 horas, incluyendo perfiles sin restricción de estado o país.
+
+**Ejemplo de Request:**
+
+```bash
+# Todos los tipos
+curl -H "Authorization: Bearer YOUR_API_TOKEN" \
+  "http://localhost:3000/api/v1/posts"
+
+# Solo marcas
+curl "http://localhost:3000/api/v1/posts?profile_type=marca&token=YOUR_API_TOKEN"
+```
+
+**Ejemplo de Respuesta Exitosa (200):**
+
+```json
+{
+  "since": "2026-11-19T12:00:00Z",
+  "profile_type": "marca",
+  "total_posts": 1,
+  "posts": [
+    {
+      "id": 1,
+      "shortcode": "recent-brand",
+      "profile_id": 1,
+      "posted_at": "2026-11-20T10:00:00Z",
+      "profile": {
+        "id": 1,
+        "username": "marca_example",
+        "full_name": "Marca Example",
+        "profile_pic_url": "https://..."
+      }
+    }
+  ]
+}
+```
+
+**Respuestas de Error:**
+
+```json
+// 422 Unprocessable Entity - Tipo de perfil invalido
+{
+  "error": "Invalid profile_type",
+  "valid_profile_types": ["hombre", "mujer", "marca", "medio", "estatal", "memes", "programa"]
+}
+```
+
+---
+
+### 3. Obtener Posts de un Perfil
 
 **URL:** `GET /api/v1/profiles/:username/posts`
 
