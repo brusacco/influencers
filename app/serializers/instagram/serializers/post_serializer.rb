@@ -23,7 +23,7 @@ module Instagram
           comments_count: post.comments_count,
           video_view_count: post.video_view_count,
           total_count: post.total_count,
-          post_image_url: post_image_url,
+          post_image_url:,
           profile_id: post.profile_id,
           created_at: post.created_at,
           updated_at: post.updated_at
@@ -55,7 +55,7 @@ module Instagram
       def post_image_url
         if post.image.attached?
           blob = post.image
-          return nil unless blob&.key
+          return unless blob&.key
 
           if Rails.env.production?
             prefix = '/blob_files'
@@ -72,4 +72,3 @@ module Instagram
     end
   end
 end
-
