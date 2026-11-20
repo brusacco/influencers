@@ -3,6 +3,7 @@
 ## 2026-11-20
 
 - **Addition**: Added `GET /api/v1/posts` to list Instagram posts from the last 24 hours. The optional `profile_type` query parameter supports `hombre`, `mujer`, `marca`, `medio`, `estatal`, `memes`, and `programa`; unknown values return 422. Collection results include the associated profile and are ordered by `posted_at` descending.
+- **Fix**: Instagram post API serialization now uses the same image priority as public cards: attached Active Storage image, `data.ferrum.display_uri`, then the public placeholder URL.
 
 ## 2026-11-18
 

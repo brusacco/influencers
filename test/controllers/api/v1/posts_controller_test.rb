@@ -24,7 +24,12 @@ module Api
 
         InstagramPost.where(profile: [@brand, @person]).delete_all
 
-        @recent_brand_post = InstagramPost.create!(profile: @brand, shortcode: 'recent-brand', posted_at: 2.hours.ago)
+        @recent_brand_post = InstagramPost.create!(
+          profile: @brand,
+          shortcode: 'recent-brand',
+          posted_at: 2.hours.ago,
+          data: { 'ferrum' => { 'display_uri' => 'https://cdn.example.com/post.jpg' } }
+        )
         InstagramPost.create!(profile: @brand, shortcode: 'old-brand', posted_at: 25.hours.ago)
         InstagramPost.create!(profile: @person, shortcode: 'recent-person', posted_at: 3.hours.ago)
       end
@@ -50,6 +55,7 @@ module Api
         assert_equal ['recent-brand'], body['posts'].pluck('shortcode')
         assert_equal @brand.id, body['posts'].first['profile']['id']
         assert_equal @brand.username, body['posts'].first['profile']['username']
+        assert_equal 'https://cdn.example.com/post.jpg', body['posts'].first['post_image_url']
       end
 
       test 'lists all recent posts when profile type is omitted' do

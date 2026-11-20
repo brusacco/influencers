@@ -112,6 +112,8 @@ curl -H "Authorization: Bearer YOUR_API_TOKEN" \
 
 **Corte temporal:** Retorna publicaciones cuyo `posted_at` esté dentro de las últimas 24 horas, incluyendo perfiles sin restricción de estado o país.
 
+**Imagen:** `post_image_url` usa primero la imagen adjunta de Active Storage. Si no existe, usa `data.ferrum.display_uri` y, como último recurso, el mismo placeholder usado por las tarjetas públicas.
+
 **Ejemplo de Request:**
 
 ```bash

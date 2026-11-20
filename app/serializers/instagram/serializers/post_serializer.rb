@@ -53,18 +53,20 @@ module Instagram
       private
 
       def post_image_url
-        return nil unless post.image.attached?
+        if post.image.attached?
+          blob = post.image
+          return nil unless blob&.key
 
-        blob = post.image
-        return nil unless blob&.key
-
-        if Rails.env.production?
-          prefix = '/blob_files'
-          key = blob.key
-          "https://www.influencers.com.py#{prefix}/#{key[0..1]}/#{key[2..3]}/#{key}"
+          if Rails.env.production?
+            prefix = '/blob_files'
+            key = blob.key
+            "https://www.influencers.com.py#{prefix}/#{key[0..1]}/#{key[2..3]}/#{key}"
+          else
+            url_for(blob)
+          end
         else
-          # fallback to normal Rails route in dev
-          url_for(blob)
+          post.data&.dig('ferrum', 'display_uri').presence ||
+            'https://placehold.co/640x640/e5e7eb/6b7280?text=Sin+imagen'
         end
       end
     end
